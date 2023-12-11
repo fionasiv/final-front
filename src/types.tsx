@@ -5,3 +5,9 @@ export type PageRoute = {
   name: string;
   Component: ReactNode;
 };
+
+export type ShobClass = {
+  name: string;
+  availableSeats: number;
+  totalSeats: number;
+};
