@@ -5,28 +5,25 @@ import * as S from "./Navbar.style";
 import { useContext } from "react";
 import { ThemeContext } from "../App";
 import { List, ListItem, Drawer } from "@mui/material";
-import Classes from "../views/Classes";
-import Students from "../views/Students";
-import Create from "../views/Create";
-import { BrowserRouter, Routes, Route, Link as RouterLink,} from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
+import {routes} from "../App"
 
 export default function Navbar(props: any) {
   const theme = useContext(ThemeContext);
+  const navigate = useNavigate();
   const [isOpen, setIsOpen] = React.useState(false);
-
-  const routes = [
-    { path: "/", name: "Classes", Component: Classes },
-    { path: "/students", name: "Students", Component: Students },
-    { path: "/create", name: "Create", Component: Create },
-  ];
 
   const toggleDrawer = () => {
     setIsOpen((prevIsOpen) => !prevIsOpen);
   };
 
+  const handleNavigate = (path: string) => {
+    navigate(path);
+  }
+
   const listItems = routes.map((route) => (
     <ListItem key={route.name}>
-      <S.ListButton>
+      <S.ListButton onClick={() => handleNavigate(route.path)}>
         <S.ListText primary={route.name} />
       </S.ListButton>
     </ListItem>
