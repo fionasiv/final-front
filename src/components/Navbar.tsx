@@ -1,15 +1,15 @@
 import * as React from "react";
+import * as S from "./Navbar.style";
+import { useNavigate } from "react-router-dom";
+import { List, ListItem, Drawer } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
-import * as S from "./Navbar.style";
-import { useContext } from "react";
 import { ThemeContext } from "../App";
-import { List, ListItem, Drawer } from "@mui/material";
-import { Navigate, useNavigate } from "react-router-dom";
-import {routes} from "../App"
+import {routes} from "../consts"
+import { PageRoute } from "../types";
 
 export default function Navbar(props: any) {
-  const theme = useContext(ThemeContext);
+  const theme = React.useContext(ThemeContext);
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = React.useState(false);
 
@@ -21,7 +21,7 @@ export default function Navbar(props: any) {
     navigate(path);
   }
 
-  const listItems = routes.map((route) => (
+  const listItems = routes.map((route: PageRoute) => (
     <ListItem key={route.name}>
       <S.ListButton onClick={() => handleNavigate(route.path)}>
         <S.ListText primary={route.name} />
