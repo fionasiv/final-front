@@ -17,3 +17,5 @@ export const classes: ShobClass[] = [
   { name: "גפן", availableSeats: 1, totalSeats: 1 },
   { name: "ארזים", availableSeats: 0, totalSeats: 22 },
 ];
+
+export const students = [ "איימי ווינהאוס", "דוד שימי" ]

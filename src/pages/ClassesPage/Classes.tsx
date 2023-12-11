@@ -1,6 +1,6 @@
 import * as S from "./Classes.style";
 import Class from "../../components/Class/Class";
-import { classes } from "../../consts";
+import { classes, students } from "../../consts";
 import { ShobClass } from "../../types";
 
 export default function Classes() {
@@ -9,6 +9,7 @@ export default function Classes() {
       name={shobClass.name}
       avilableSeats={shobClass.availableSeats}
       totalSeats={shobClass.totalSeats}
+      students={students}
     />
   ));
   return <S.ClassesList>{shobClasses}</S.ClassesList>;
