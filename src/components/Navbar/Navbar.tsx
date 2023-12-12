@@ -1,32 +1,30 @@
 import * as React from "react";
+import * as S from "./Navbar.style";
+import { useNavigate } from "react-router-dom";
+import { List, ListItem, Drawer } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
-import * as S from "./Navbar.style";
-import { useContext } from "react";
-import { ThemeContext } from "../App";
-import { List, ListItem, Drawer } from "@mui/material";
-import Classes from "../views/Classes";
-import Students from "../views/Students";
-import Create from "../views/Create";
-import { BrowserRouter, Routes, Route, Link as RouterLink,} from "react-router-dom";
+import { ThemeContext } from "../../App";
+import {routes} from "../../consts/consts"
+import { PageRoute } from "../../types";
+import ListModal from "../ListModal/ListModal";
 
 export default function Navbar(props: any) {
-  const theme = useContext(ThemeContext);
+  const theme = React.useContext(ThemeContext);
+  const navigate = useNavigate();
   const [isOpen, setIsOpen] = React.useState(false);
-
-  const routes = [
-    { path: "/", name: "Classes", Component: Classes },
-    { path: "/students", name: "Students", Component: Students },
-    { path: "/create", name: "Create", Component: Create },
-  ];
 
   const toggleDrawer = () => {
     setIsOpen((prevIsOpen) => !prevIsOpen);
   };
 
-  const listItems = routes.map((route) => (
+  const handleNavigate = (path: string) => {
+    navigate(path);
+  }
+
+  const listItems = routes.map((route: PageRoute) => (
     <ListItem key={route.name}>
-      <S.ListButton>
+      <S.ListButton onClick={() => handleNavigate(route.path)}>
         <S.ListText primary={route.name} />
       </S.ListButton>
     </ListItem>
