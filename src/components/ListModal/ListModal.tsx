@@ -7,7 +7,7 @@ export default function ListModal(props: any) {
   const theme = React.useContext(ThemeContext);
 
   const items = props.students.map((student: string) => (
-    <S.Item>
+    <S.Item key={student}>
       <S.IconAvatar><props.avatarIcon /></S.IconAvatar>
       <S.Name>{student}</S.Name>
       <S.Button coloring={theme}>

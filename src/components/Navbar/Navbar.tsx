@@ -7,7 +7,6 @@ import Toolbar from "@mui/material/Toolbar";
 import { ThemeContext } from "../../App";
 import {routes} from "../../consts/consts"
 import { PageRoute } from "../../types";
-import ListModal from "../ListModal/ListModal";
 
 export default function Navbar(props: any) {
   const theme = React.useContext(ThemeContext);
