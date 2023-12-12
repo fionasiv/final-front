@@ -5,7 +5,7 @@ import { List, ListItem, Drawer } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
 import { ThemeContext } from "../../App";
-import {routes} from "../../consts"
+import {routes} from "../../consts/consts"
 import { PageRoute } from "../../types";
 import ListModal from "../ListModal/ListModal";
 

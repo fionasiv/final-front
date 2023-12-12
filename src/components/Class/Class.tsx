@@ -1,9 +1,7 @@
 import * as S from "./Class.style";
 import { CardContent, IconButton } from "@mui/material";
 import Person2Icon from '@mui/icons-material/Person2';
-import SchoolIcon from '@mui/icons-material/School'
 import DeleteIcon from '@mui/icons-material/Delete';
-import AddIcon from '@mui/icons-material/Add';
 import { ThemeContext } from "../../App";
 import React from "react";
 import ListModal from "../ListModal/ListModal";

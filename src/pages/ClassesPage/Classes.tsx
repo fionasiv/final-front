@@ -1,6 +1,6 @@
 import * as S from "./Classes.style";
 import Class from "../../components/Class/Class";
-import { classes, students } from "../../consts";
+import { classes, students } from "../../consts/consts";
 import { ShobClass } from "../../types";
 
 export default function Classes() {

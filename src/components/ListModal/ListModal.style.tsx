@@ -1,5 +1,4 @@
 import { Box, IconButton, Avatar, styled } from "@mui/material";
-import DeleteIcon from '@mui/icons-material/Delete';
 
 export const DesignedBox = styled(Box)({
   position: "absolute",
