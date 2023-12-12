@@ -1,7 +1,7 @@
-import { PageRoute, ShobClass } from "./types";
-import Classes from "./pages/ClassesPage/Classes";
-import Students from "./pages/Students";
-import Create from "./pages/Create";
+import { PageRoute, ShobClass } from "../types";
+import Classes from "../pages/ClassesPage/Classes";
+import Students from "../pages/StudentsPage/Students";
+import Create from "../pages/Create";
 
 export const routes: PageRoute[] = [
   { path: "/", name: "Classes", Component: <Classes /> },
@@ -17,5 +17,7 @@ export const classes: ShobClass[] = [
   { name: "גפן", availableSeats: 1, totalSeats: 1 },
   { name: "ארזים", availableSeats: 0, totalSeats: 22 },
 ];
+
+export const availableClasses = ["אלון", "שקמה", "שיטה"]
 
 export const students = [ "איימי ווינהאוס", "דוד שימי" ]
