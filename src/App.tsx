@@ -1,6 +1,6 @@
 import "./App.css";
 import Navbar from "./components/Navbar/Navbar";
-import { routes } from "./consts/consts";
+import { routes } from "./consts/AppConsts";
 import { useState, createContext } from "react";
 import { Routes, Route } from "react-router-dom";
 import { PageRoute } from "./types";

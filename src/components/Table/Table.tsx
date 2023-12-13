@@ -2,7 +2,7 @@ import React from "react";
 import { useState } from "react";
 import * as S from "./Table.style";
 import { columns, rows } from "../../consts/TableConsts";
-import { availableClasses } from "../../consts/consts";
+import { availableClasses } from "../../consts/AppConsts";
 import { ThemeContext } from "../../App";
 import ListModal from "../ListModal/ListModal";
 import SchoolIcon from "@mui/icons-material/School";

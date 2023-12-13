@@ -11,3 +11,11 @@ export type ShobClass = {
   availableSeats: number;
   totalSeats: number;
 };
+
+export type Field = {
+  label: string;
+  id: string;
+  type: string;
+  check: Function;
+  required?: boolean | null;
+};
