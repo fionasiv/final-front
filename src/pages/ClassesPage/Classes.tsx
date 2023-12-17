@@ -1,16 +1,50 @@
+import React, { useState } from "react";
 import * as S from "./Classes.style";
 import Class from "../../components/Class/Class";
-import { classes, students } from "../../consts/AppConsts";
-import { ShobClass } from "../../types";
+import { ShobClass, Student } from "../../types";
+import { API_CONNECTION_URL } from "../../consts/AppConsts";
 
 export default function Classes() {
-  const shobClasses = classes.map((shobClass: ShobClass) => (
-    <Class
-      name={shobClass.name}
-      avilableSeats={shobClass.availableSeats}
-      totalSeats={shobClass.totalSeats}
-      students={students}
-    />
-  ));
+  const [classrooms, setClassrooms] = useState([]);
+
+  React.useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(`${API_CONNECTION_URL}/classrooms`);
+        const allData = await response.json();
+        setClassrooms(
+          allData.map((classroom: ShobClass) => {
+            return {
+              _id: classroom._id,
+              name: classroom.name,
+              numberOfSeatsLeft: classroom.numberOfSeatsLeft,
+              numberOfSeats: classroom.numberOfSeats,
+              students: classroom.students.map((student: Student) => {
+                return {
+                  id: student._id,
+                  name: `${student.firstName} ${student.lastName}`
+                }
+              }),
+            };
+          })
+        );
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const shobClasses = classrooms.map((shobClass: ShobClass) => (
+      <Class
+        id={shobClass._id}
+        name={shobClass.name}
+        avilableSeats={shobClass.numberOfSeatsLeft}
+        totalSeats={shobClass.numberOfSeats}
+        students={shobClass.students}
+      />
+    )
+  );
   return <S.ClassesList>{shobClasses}</S.ClassesList>;
 }

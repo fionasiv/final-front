@@ -1,6 +1,6 @@
 const fieldChecks = {
   numericCheck: (value: string) => new RegExp("^[0-9]+$").test(value),
-  onlyLettersCheck: (value: string) => new RegExp("^[A-Za-z]+$").test(value),
+  onlyLettersCheck: (value: string) => new RegExp("^[a-zA-Z\u0590-\u05fe]+$").test(value),
   seatsAmountCheck: (value: number) => value > 0 && value <= 1000,
   ageCheck: (value: number) => value > 0 && value <= 120,
 };

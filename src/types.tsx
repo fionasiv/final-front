@@ -6,10 +6,26 @@ export type PageRoute = {
   Component: ReactNode;
 };
 
+export type Student = {
+  _id: string,
+  firstName: string,
+  lastName: string,
+  age: number,
+  profession: string,
+  __v: number
+}
+
+export type displayedItem = {
+  id: string,
+  name: string
+}
+
 export type ShobClass = {
+  _id: string,
   name: string;
-  availableSeats: number;
-  totalSeats: number;
+  numberOfSeatsLeft: number;
+  numberOfSeats: number;
+  students: Student[]
 };
 
 export type Field = {
