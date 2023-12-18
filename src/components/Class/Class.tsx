@@ -6,7 +6,8 @@ import { ThemeContext } from "../../App";
 import { useState, useContext, useEffect } from "react";
 import ListModal from "../ListModal/ListModal";
 import { API_CONNECTION_URL } from "../../consts/AppConsts";
-import { ShobClass } from "../../types";
+import { ShobClass, Student } from "../../types";
+import { getAllStudents } from "../../requests/StudentsRequests";
 
 export default function Class(props: any) {
   const [open, setOpen] = useState(false);
@@ -15,22 +16,13 @@ export default function Class(props: any) {
 
   useEffect(() => {
     const fetchData = async () => {
-      try {
-        const response = await fetch(`${API_CONNECTION_URL}/students/classroom/${props.id}`);
-        const allData = await response.json();
-        setClassrooms(
-          allData.map((classroom: ShobClass) => {
-            return {
-              _id: classroom._id,
-              name: classroom.name,
-              numberOfSeatsLeft: classroom.numberOfSeatsLeft,
-              numberOfSeats: classroom.numberOfSeats,
-            };
-          })
-        );
-      } catch (error) {
-        console.error(error);
-      }
+      const classStudents = await getAllStudents(`classroom/${props.id}`);
+      setStudents(classStudents.map((student: Student) => {
+        return {
+          id: student._id,
+          name: `${student.firstName} ${student.lastName}`
+        }
+      }));
     };
 
     fetchData();
@@ -84,7 +76,7 @@ export default function Class(props: any) {
       <ListModal
         open={open}
         handleClose={handleClick}
-        list={props.students}
+        list={students}
         title="Class Students"
         avatarIcon={Person2Icon}
         buttonIcon={DeleteIcon}
