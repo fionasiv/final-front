@@ -12,7 +12,8 @@ export type Student = {
   lastName: string,
   age: number,
   profession: string,
-  __v: number
+  classroom?: string
+  __v?: number
 }
 
 export type displayedItem = {

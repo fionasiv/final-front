@@ -3,7 +3,6 @@ import * as S from "./ListModal.style";
 import { Modal } from "@mui/material";
 import { ThemeContext } from "../../App";
 import { displayedItem } from "../../types";
-import { API_CONNECTION_URL } from "../../consts/AppConsts";
 
 export default function ListModal(props: any) {
   const theme = React.useContext(ThemeContext);

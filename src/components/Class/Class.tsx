@@ -3,13 +3,38 @@ import { CardContent, IconButton } from "@mui/material";
 import Person2Icon from "@mui/icons-material/Person2";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { ThemeContext } from "../../App";
-import React from "react";
+import { useState, useContext, useEffect } from "react";
 import ListModal from "../ListModal/ListModal";
 import { API_CONNECTION_URL } from "../../consts/AppConsts";
+import { ShobClass } from "../../types";
 
 export default function Class(props: any) {
-  const [open, setOpen] = React.useState(false);
-  const theme = React.useContext(ThemeContext);
+  const [open, setOpen] = useState(false);
+  const [students, setStudents] = useState([]);
+  const theme = useContext(ThemeContext);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(`${API_CONNECTION_URL}/students/classroom/${props.id}`);
+        const allData = await response.json();
+        setClassrooms(
+          allData.map((classroom: ShobClass) => {
+            return {
+              _id: classroom._id,
+              name: classroom.name,
+              numberOfSeatsLeft: classroom.numberOfSeatsLeft,
+              numberOfSeats: classroom.numberOfSeats,
+            };
+          })
+        );
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   const handleClick = () => setOpen((prevOpen) => !prevOpen);
 

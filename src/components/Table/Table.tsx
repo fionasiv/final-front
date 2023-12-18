@@ -1,19 +1,58 @@
 import React from "react";
 import { useState } from "react";
 import * as S from "./Table.style";
-import { columns, rows } from "../../consts/TableConsts";
-import { availableClasses } from "../../consts/AppConsts";
+import { columns } from "../../consts/TableConsts";
+import { API_CONNECTION_URL, availableClasses } from "../../consts/AppConsts";
 import { ThemeContext } from "../../App";
 import ListModal from "../ListModal/ListModal";
 import SchoolIcon from "@mui/icons-material/School";
 import AddIcon from "@mui/icons-material/Add";
+import { Student } from "../../types";
 
 export default function Table() {
   const [open, setOpen] = useState(false);
+  const [students, setStudents] = useState([]);
+  const [availableClasses, setAvailableClasses] = useState([]);
   const theme = React.useContext(ThemeContext);
 
-  function handleClick() {
+  React.useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(`${API_CONNECTION_URL}/students`);
+        const allData = await response.json();
+        setStudents(
+          allData.map((student: Student) => {
+            return {
+              id: student._id,
+              firstName: student.firstName,
+              lastName: student.lastName,
+              age: student.age,
+              profession: student.profession,
+            };
+          })
+        );
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const handleClick = async () => {
     setOpen((prevOpen) => !prevOpen);
+
+    if (open) {
+      try {
+        const response = await fetch(
+          `${API_CONNECTION_URL}/classrooms/available`,
+        );
+        const allData = await response.json();
+        setAvailableClasses(allData);
+      } catch (error) {
+        console.error(error);
+      }
+    }
   }
 
   const assignButton = () => {
@@ -24,9 +63,18 @@ export default function Table() {
     );
   };
 
-  const deleteButton = () => {
-    function handleDelete() {
-      console.log("delete");
+  const deleteButton = (props: any) => {
+    async function handleDelete() {
+      const studentId = props.row.id;
+      try {
+        await fetch(
+          `${API_CONNECTION_URL}/students/${studentId}`,
+          { method: "DELETE" }
+        );
+        window.location.reload();
+      } catch (error) {
+        console.error(error);
+      }
     }
     return (
       <S.TableButton coloring={theme} onClick={handleDelete}>
@@ -39,7 +87,7 @@ export default function Table() {
     <>
       <S.DesignedBox>
         <S.Table
-          rows={rows}
+          rows={students}
           columns={[
             ...columns,
             {
@@ -58,7 +106,7 @@ export default function Table() {
               align: "center",
               width: 140,
               sortable: false,
-              renderCell: deleteButton
+              renderCell: deleteButton,
             },
           ]}
           slots={{
@@ -74,7 +122,7 @@ export default function Table() {
       <ListModal
         open={open}
         handleClose={handleClick}
-        students={availableClasses}
+        list={availableClasses}
         title="Available Classes"
         avatarIcon={SchoolIcon}
         buttonIcon={AddIcon}

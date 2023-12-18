@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import * as S from "./Classes.style";
 import Class from "../../components/Class/Class";
 import { ShobClass, Student } from "../../types";
@@ -7,7 +7,7 @@ import { API_CONNECTION_URL } from "../../consts/AppConsts";
 export default function Classes() {
   const [classrooms, setClassrooms] = useState([]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await fetch(`${API_CONNECTION_URL}/classrooms`);
@@ -19,12 +19,6 @@ export default function Classes() {
               name: classroom.name,
               numberOfSeatsLeft: classroom.numberOfSeatsLeft,
               numberOfSeats: classroom.numberOfSeats,
-              students: classroom.students.map((student: Student) => {
-                return {
-                  id: student._id,
-                  name: `${student.firstName} ${student.lastName}`
-                }
-              }),
             };
           })
         );
@@ -42,7 +36,6 @@ export default function Classes() {
         name={shobClass.name}
         avilableSeats={shobClass.numberOfSeatsLeft}
         totalSeats={shobClass.numberOfSeats}
-        students={shobClass.students}
       />
     )
   );

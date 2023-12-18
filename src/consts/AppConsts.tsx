@@ -1,4 +1,4 @@
-import { PageRoute, ShobClass } from "../types";
+import { PageRoute } from "../types";
 import Classes from "../pages/ClassesPage/Classes";
 import Students from "../pages/StudentsPage/Students";
 import Create from "../pages/CreatePage/Create";
