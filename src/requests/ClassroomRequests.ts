@@ -51,9 +51,9 @@ export const getAvailableClasses = async () => {
     const response = await fetch(`${API_CONNECTION_URL}/classrooms/available`);
     const allData = await response.json();
 
-    return allData.map((classroom: ShobClass) => {
+    return allData.map((classroom: displayedItem) => {
       return {
-        id: classroom._id,
+        id: classroom.id,
         name: classroom.name,
       };
     });

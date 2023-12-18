@@ -12,6 +12,7 @@ export const getAllStudents = async (path: string) => {
       lastName: student.lastName,
       age: student.age,
       profession: student.profession,
+      classroom: student.classroom
     };
   });
 };

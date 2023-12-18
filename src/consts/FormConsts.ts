@@ -63,5 +63,5 @@ export const AddStudentFields = [
     type: "string",
     check: fieldChecks.onlyLettersCheck,
     required: true,
-  },
+  }
 ];

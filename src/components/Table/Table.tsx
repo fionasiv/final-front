@@ -1,84 +1,81 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import * as S from "./Table.style";
 import { columns } from "../../consts/TableConsts";
-import { API_CONNECTION_URL, availableClasses } from "../../consts/AppConsts";
 import { ThemeContext } from "../../App";
 import ListModal from "../ListModal/ListModal";
 import SchoolIcon from "@mui/icons-material/School";
 import AddIcon from "@mui/icons-material/Add";
+import { getAvailableClasses } from "../../requests/ClassroomRequests";
+import {
+  addStudentToClassroom,
+  deleteStudent,
+  getAllStudents,
+} from "../../requests/StudentsRequests";
 import { Student } from "../../types";
 
+
+
 export default function Table() {
+  const theme = React.useContext(ThemeContext);
   const [open, setOpen] = useState(false);
+  const [currStudent, setCurrStudent] = useState('');
   const [students, setStudents] = useState([]);
   const [availableClasses, setAvailableClasses] = useState([]);
-  const theme = React.useContext(ThemeContext);
-
-  React.useEffect(() => {
+  
+  useEffect(() => {
     const fetchData = async () => {
-      try {
-        const response = await fetch(`${API_CONNECTION_URL}/students`);
-        const allData = await response.json();
-        setStudents(
-          allData.map((student: Student) => {
-            return {
-              id: student._id,
-              firstName: student.firstName,
-              lastName: student.lastName,
-              age: student.age,
-              profession: student.profession,
-            };
-          })
+      const studentsList = await getAllStudents("");
+      
+      setStudents(
+        studentsList.map((student: Student) => {
+          return {
+            ...student,
+            id: student._id,
+          };
+        })
         );
-      } catch (error) {
-        console.error(error);
-      }
+        setAvailableClasses(await getAvailableClasses());
+      };
+      fetchData();
+    }, []);
+    
+    const handleOpen = () => {
+      setOpen((prevOpen) => !prevOpen)
+    }
+    
+    const addStudentToClass = async (classId: string) => {
+      await addStudentToClassroom(classId, currStudent);
+      window.location.reload()
     };
 
-    fetchData();
-  }, []);
-
-  const handleClick = async () => {
-    setOpen((prevOpen) => !prevOpen);
-
-    if (open) {
-      try {
-        const response = await fetch(
-          `${API_CONNECTION_URL}/classrooms/available`,
-        );
-        const allData = await response.json();
-        setAvailableClasses(allData);
-      } catch (error) {
-        console.error(error);
+    const deleteButton = (props: any) => {
+      async function handleDelete() {
+        const studentId = props.row.id;
+        await deleteStudent(studentId);
       }
-    }
-  }
-
-  const assignButton = () => {
-    return (
-      <S.TableButton coloring={theme} onClick={handleClick}>
+      
+      return (
+        <S.TableButton coloring={theme} onClick={handleDelete}>
+          Delete
+        </S.TableButton>
+      );
+    };
+    
+    const assignButton = (props: any) => {
+      const disableButton = props.row.classroom !== "";
+      const handleClick = async () => {
+        handleOpen();
+        setCurrStudent(props.row._id)
+      };
+      
+      return (
+        <S.TableButton
+        coloring={theme}
+        onClick={handleClick}
+        disabled={disableButton}
+        >
         Assign to class
-      </S.TableButton>
-    );
-  };
-
-  const deleteButton = (props: any) => {
-    async function handleDelete() {
-      const studentId = props.row.id;
-      try {
-        await fetch(
-          `${API_CONNECTION_URL}/students/${studentId}`,
-          { method: "DELETE" }
-        );
-        window.location.reload();
-      } catch (error) {
-        console.error(error);
-      }
-    }
-    return (
-      <S.TableButton coloring={theme} onClick={handleDelete}>
-        Delete
       </S.TableButton>
     );
   };
@@ -109,23 +106,21 @@ export default function Table() {
               renderCell: deleteButton,
             },
           ]}
-          slots={{
-            footer: () => <></>,
-            columnMenu: () => <></>,
-            columnMenuIcon: () => <></>,
-          }}
           rowHeight={75}
           disableRowSelectionOnClick
           disableColumnFilter
+          hideFooter
+          disableColumnMenu
         />
       </S.DesignedBox>
       <ListModal
         open={open}
-        handleClose={handleClick}
+        handleClose={handleOpen}
         list={availableClasses}
         title="Available Classes"
         avatarIcon={SchoolIcon}
         buttonIcon={AddIcon}
+        handleClick={addStudentToClass}
       />
     </>
   );

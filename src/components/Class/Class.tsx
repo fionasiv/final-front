@@ -6,8 +6,11 @@ import { ThemeContext } from "../../App";
 import { useState, useContext, useEffect } from "react";
 import ListModal from "../ListModal/ListModal";
 import { API_CONNECTION_URL } from "../../consts/AppConsts";
-import { ShobClass, Student } from "../../types";
-import { getAllStudents, removeStudentFromClassroom } from "../../requests/StudentsRequests";
+import { Student } from "../../types";
+import {
+  getAllStudents,
+  removeStudentFromClassroom,
+} from "../../requests/StudentsRequests";
 
 export default function Class(props: any) {
   const [open, setOpen] = useState(false);
@@ -15,27 +18,30 @@ export default function Class(props: any) {
   const theme = useContext(ThemeContext);
 
   useEffect(() => {
-    const fetchData = async () => {
-      const classStudents = await getAllStudents(`classroom/${props.id}`);
-      setStudents(classStudents.map((student: Student) => {
-        return {
-          id: student._id,
-          name: `${student.firstName} ${student.lastName}`
-        }
-      }));
-    };
+    if (open) {
+      const fetchData = async () => {
+        const classStudents = await getAllStudents(`classroom/${props.id}`);
+        setStudents(
+          classStudents.map((student: Student) => {
+            return {
+              id: student._id,
+              name: `${student.firstName} ${student.lastName}`,
+            };
+          })
+        );
+      };
 
-    fetchData();
+      fetchData();
+    }
   }, [open]);
 
   const handleClick = () => setOpen((prevOpen) => !prevOpen);
 
   const removeClass = async () => {
     try {
-      await fetch(
-        `${API_CONNECTION_URL}/classrooms/${props.id}`,
-        { method: "DELETE" }
-      );
+      await fetch(`${API_CONNECTION_URL}/classrooms/${props.id}`, {
+        method: "DELETE",
+      });
       window.location.reload();
     } catch (error) {
       console.error(error);

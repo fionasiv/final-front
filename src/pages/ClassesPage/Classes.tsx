@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import * as S from "./Classes.style";
 import Class from "../../components/Class/Class";
-import { ShobClass, Student } from "../../types";
-import { API_CONNECTION_URL } from "../../consts/AppConsts";
+import { ShobClass } from "../../types";
 import { getAllClassrooms } from "../../requests/ClassroomRequests";
 
 export default function Classes() {

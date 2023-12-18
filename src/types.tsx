@@ -12,7 +12,7 @@ export type Student = {
   lastName: string,
   age: number,
   profession: string,
-  classroom?: string
+  classroom: string
   __v?: number
 }
 

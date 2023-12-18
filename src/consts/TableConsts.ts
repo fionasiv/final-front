@@ -1,4 +1,5 @@
 import { GridColDef } from "@mui/x-data-grid";
+// import { deleteButton } from "../components/Table/Table"
 
 export const columns: GridColDef[] = [
   {
@@ -36,7 +37,7 @@ export const columns: GridColDef[] = [
     headerAlign: "center",
     align: "center",
     width: 150,
-  },
+  }
 ];
 
 export const rows = [
