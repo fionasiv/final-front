@@ -21,12 +21,12 @@ export default function ListModal(props: any) {
 
   const noItemsMessage = (
     <S.Item>
-      <S.Name>No students have been registered to this classroom.</S.Name>
+      <S.Name>{props.emptyListMsg}</S.Name>
     </S.Item>
   );
 
   return (
-    <Modal open={props.open} onClose={props.handleClose}>
+    <Modal key={props.id} open={props.open} onClose={props.handleClose}>
       <S.DesignedBox>
         <S.Title>{props.title}</S.Title>
         {props.list.length ? items : noItemsMessage}

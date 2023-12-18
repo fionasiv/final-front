@@ -7,7 +7,7 @@ import { useState, useContext, useEffect } from "react";
 import ListModal from "../ListModal/ListModal";
 import { API_CONNECTION_URL } from "../../consts/AppConsts";
 import { ShobClass, Student } from "../../types";
-import { getAllStudents } from "../../requests/StudentsRequests";
+import { getAllStudents, removeStudentFromClassroom } from "../../requests/StudentsRequests";
 
 export default function Class(props: any) {
   const [open, setOpen] = useState(false);
@@ -26,7 +26,7 @@ export default function Class(props: any) {
     };
 
     fetchData();
-  }, []);
+  }, [open]);
 
   const handleClick = () => setOpen((prevOpen) => !prevOpen);
 
@@ -44,11 +44,8 @@ export default function Class(props: any) {
 
   const removeStudent = async (studentId: string) => {
     try {
-      await fetch(
-        `${API_CONNECTION_URL}/classrooms/${props.id}/students/${studentId}`,
-        { method: "PATCH" }
-      );
-      window.location.reload();
+      await removeStudentFromClassroom(studentId);
+      handleClick();
     } catch (error) {
       console.error(error);
     }
@@ -74,10 +71,13 @@ export default function Class(props: any) {
         </S.Actions>
       </S.ClassCard>
       <ListModal
+        id={props.id}
+        key={props.id}
         open={open}
         handleClose={handleClick}
         list={students}
         title="Class Students"
+        emptyListMsg="No students have been registered to this classroom."
         avatarIcon={Person2Icon}
         buttonIcon={DeleteIcon}
         handleClick={removeStudent}

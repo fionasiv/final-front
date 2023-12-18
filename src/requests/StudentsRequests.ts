@@ -7,7 +7,7 @@ export const getAllStudents = async (path: string) => {
 
   return allData.map((student: Student) => {
     return {
-      id: student._id,
+      _id: student._id,
       firstName: student.firstName,
       lastName: student.lastName,
       age: student.age,
@@ -56,7 +56,9 @@ export const addStudentToClassroom = async (
 ) => {
   try {
     const response = await fetch(
-      `${API_CONNECTION_URL}/students/${studentId}/classroom/${classId}`
+      `${API_CONNECTION_URL}/students/${studentId}/classroom/${classId}`, {
+        method: "PATCH",
+      }
     );
     const newStudent = await response.json();
 
@@ -71,14 +73,17 @@ export const addStudentToClassroom = async (
 export const removeStudentFromClassroom = async (studentId: string) => {
   try {
     const response = await fetch(
-      `${API_CONNECTION_URL}/students/${studentId}/classroom`
-    );
-    const changedStudent = await response.json();
-
-    if (changedStudent.classroom === "") {
-      return "student has been removed from classroom successfully";
+      `${API_CONNECTION_URL}/students/${studentId}/classroom`, {
+        method: "PATCH",
+      }
+      );
+      const changedStudent = await response.json();
+      
+      if (changedStudent.classroom === "") {
+        return "student has been removed from classroom successfully";
+      }
+    } catch (error) {
+      console.error(error);
     }
-  } catch (error) {
-    console.error(error);
-  }
-};
+  };
+  

@@ -19,6 +19,7 @@ export default function Classes() {
 
   const shobClasses = classrooms.map((shobClass: ShobClass) => (
     <Class
+      key={shobClass._id}
       id={shobClass._id}
       name={shobClass.name}
       avilableSeats={shobClass.numberOfSeatsLeft}
