@@ -14,7 +14,7 @@ import {
 
 export default function Class(props: any) {
   const [open, setOpen] = useState(false);
-  const [students, setStudents] = useState([]);
+  const [students, setStudents] = useState([] as Student[]);
   const theme = useContext(ThemeContext);
 
   useEffect(() => {
@@ -37,20 +37,12 @@ export default function Class(props: any) {
 
   const handleClick = () => setOpen((prevOpen) => !prevOpen);
 
-  const removeClass = async () => {
-    try {
-      await fetch(`${API_CONNECTION_URL}/classrooms/${props.id}`, {
-        method: "DELETE",
-      });
-      window.location.reload();
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
   const removeStudent = async (studentId: string) => {
     try {
       await removeStudentFromClassroom(studentId);
+      setStudents((prevStudents) =>
+        prevStudents.filter((student) => student._id !== studentId)
+      );
       handleClick();
     } catch (error) {
       console.error(error);
@@ -71,7 +63,7 @@ export default function Class(props: any) {
           <S.StudentsButton onClick={handleClick}>
             STUDENTS LIST
           </S.StudentsButton>
-          <IconButton onClick={removeClass}>
+          <IconButton onClick={() => props.removeClass(props.id)}>
             <S.Delete coloring={theme} />
           </IconButton>
         </S.Actions>

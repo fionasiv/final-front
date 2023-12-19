@@ -24,9 +24,9 @@ export type displayedItem = {
 export type ShobClass = {
   _id: string,
   name: string;
-  numberOfSeatsLeft: number;
   numberOfSeats: number;
-  students: Student[]
+  numberOfSeatsLeft: number;
+  __v?: number;
 };
 
 export type Field = {
