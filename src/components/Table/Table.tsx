@@ -6,7 +6,6 @@ import { ThemeContext } from "../../App";
 import ListModal from "../ListModal/ListModal";
 import SchoolIcon from "@mui/icons-material/School";
 import AddIcon from "@mui/icons-material/Add";
-import { deleteStudent } from "../../requests/StudentsRequests";
 
 export default function Table(props: any) {
   const theme = React.useContext(ThemeContext);
@@ -15,12 +14,13 @@ export default function Table(props: any) {
 
   const addStudentToClass = async (classId: string) => {
     await props.addStudent(classId, currStudent);
+    handleOpen();
   };
 
   const deleteButton = (props: any) => {
     async function handleDelete() {
       const studentId = props.row.id;
-      await deleteStudent(studentId);
+      await removeStudent(studentId);
     }
     return (
       <S.TableButton coloring={theme} onClick={handleDelete}>
@@ -45,6 +45,10 @@ export default function Table(props: any) {
       </S.TableButton>
     );
   };
+
+  const removeStudent = async (studentId: string) => {
+    await props.deleteStudent(studentId);
+  }
 
   const handleOpen = () => {
     setOpen((prevOpen) => !prevOpen);

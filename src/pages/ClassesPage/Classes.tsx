@@ -2,8 +2,12 @@ import { useState, useEffect } from "react";
 import * as S from "./Classes.style";
 import Class from "../../components/Class/Class";
 import { ShobClass } from "../../types";
-import { getAllClassrooms } from "../../requests/ClassroomRequests";
-import { API_CONNECTION_URL } from "../../consts/AppConsts";
+import {
+  deleteClassroom,
+  getAllClassrooms,
+} from "../../requests/ClassroomRequests";
+import { getAllStudents } from "../../requests/StudentsRequests";
+import Swal from "sweetalert2";
 
 export default function Classes() {
   const [classrooms, setClassrooms] = useState([] as ShobClass[]);
@@ -17,25 +21,30 @@ export default function Classes() {
     fetchData();
   }, []);
 
-  const updateClassrooms = (updatedClassroom: ShobClass) => {
-    setClassrooms((prevClassrooms) => {
-      return prevClassrooms.map((classroom: ShobClass) =>
-        classroom._id === updatedClassroom._id ? updatedClassroom : classroom
-      );
-    });
-  };
-
   const removeClass = async (classId: string) => {
-    try {
-      await fetch(`${API_CONNECTION_URL}/classrooms/${classId}`, {
-        method: "DELETE",
+    const classroomStudents = await getAllStudents(`classroom/${classId}`);
+
+    if (classroomStudents.length) {
+      Swal.fire({
+        icon: "error",
+        title: "לא ניתן למחוק כיתה המכילה תלמידים",
       });
+    } else {
+      await deleteClassroom(classId);
       setClassrooms((prevClassrooms) => {
         return prevClassrooms.filter((classroom) => classroom._id !== classId);
       });
-    } catch (error) {
-      console.error(error);
     }
+  };
+
+  const removeStudentFromClass = (classId: string) => {
+    setClassrooms((prevClassrooms) =>
+      prevClassrooms.map((classroom) =>
+        classroom._id === classId
+          ? { ...classroom, numberOfSeatsLeft: classroom.numberOfSeatsLeft + 1 }
+          : classroom
+      )
+    );
   };
 
   const shobClasses = classrooms.map((shobClass: ShobClass) => (
@@ -46,6 +55,7 @@ export default function Classes() {
       avilableSeats={shobClass.numberOfSeatsLeft}
       totalSeats={shobClass.numberOfSeats}
       removeClass={removeClass}
+      removeStudentFromClass={removeStudentFromClass}
     />
   ));
   return <S.ClassesList>{shobClasses}</S.ClassesList>;

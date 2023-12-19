@@ -5,7 +5,6 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { ThemeContext } from "../../App";
 import { useState, useContext, useEffect } from "react";
 import ListModal from "../ListModal/ListModal";
-import { API_CONNECTION_URL } from "../../consts/AppConsts";
 import { Student } from "../../types";
 import {
   getAllStudents,
@@ -33,7 +32,7 @@ export default function Class(props: any) {
 
       fetchData();
     }
-  }, [open]);
+  }, [open, props.id]);
 
   const handleClick = () => setOpen((prevOpen) => !prevOpen);
 
@@ -44,6 +43,7 @@ export default function Class(props: any) {
         prevStudents.filter((student) => student._id !== studentId)
       );
       handleClick();
+      props.removeStudentFromClass(props.id);
     } catch (error) {
       console.error(error);
     }

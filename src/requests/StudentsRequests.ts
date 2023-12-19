@@ -1,25 +1,34 @@
 import { API_CONNECTION_URL } from "../consts/AppConsts";
 import { Student } from "../types";
+import { SwalToast } from "./SwalToast";
 
 export const getAllStudents = async (path: string) => {
-  const response = await fetch(`${API_CONNECTION_URL}/students/${path}`);
-  const allData = await response.json();
-
-  return allData.map((student: Student) => {
-    return {
-      _id: student._id,
-      firstName: student.firstName,
-      lastName: student.lastName,
-      age: student.age,
-      profession: student.profession,
-      classroom: student.classroom
-    };
-  });
+  try {
+    const response = await fetch(`${API_CONNECTION_URL}/students/${path}`);
+    const allData = await response.json();
+  
+    return allData.map((student: Student) => {
+      return {
+        _id: student._id,
+        firstName: student.firstName,
+        lastName: student.lastName,
+        age: student.age,
+        profession: student.profession,
+        classroom: student.classroom
+      };
+    });
+  } catch (error) {
+    console.error(error);
+    SwalToast.fire({
+      icon: "error",
+      title: "חלה בעיה בעת קבלת הסטודנטים, נסה שוב מאוחר יותר",
+    });
+  }
 };
 
 export const addStudent = async (student: Student) => {
   try {
-    const response = await fetch("/students", {
+    const response = await fetch(`${API_CONNECTION_URL}/students`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -33,10 +42,17 @@ export const addStudent = async (student: Student) => {
     const newStudent = await response.json();
 
     if (newStudent) {
-      return "student has been added successfully";
+      SwalToast.fire({
+        icon: "success",
+        text: "הסטודנט נוסף לרשימה בהצלחה!",
+      });
     }
   } catch (error) {
-    console.log(error);
+    console.error(error);
+    SwalToast.fire({
+      icon: "error",
+      text: "חלה בעיה בעת הוספת הסטודנט לכיתה, נסה שוב מאוחר יותר",
+    });
   }
 };
 
@@ -45,9 +61,17 @@ export const deleteStudent = async (studentId: string) => {
     await fetch(`${API_CONNECTION_URL}/students/${studentId}`, {
       method: "DELETE",
     });
-    window.location.reload();
+    SwalToast.fire({
+      icon: "success",
+      title: "הסטודנט נמחק בהצלחה!"
+    })
   } catch (error) {
     console.error(error);
+    SwalToast.fire({
+      icon: "error",
+      title: "אופס...",
+      text: "חלה בעיה בעת מחיקת הסטודנט, נסה שוב מאוחר יותר",
+    });
   }
 };
 
@@ -64,10 +88,18 @@ export const addStudentToClassroom = async (
     const newStudent = await response.json();
 
     if (newStudent.classroom !== "") {
-      return "student has been added to classroom successfully";
+      SwalToast.fire({
+        icon: "success",
+        title: "הסטודנט התווסף לכיתה בהצלחה!"
+      });
     }
   } catch (error) {
     console.error(error);
+    SwalToast.fire({
+      icon: "error",
+      title: "אופס...",
+      text: "חלה בעיה בעת הוספת הסטודנט לכיתה, נסה שוב מאוחר יותר",
+    });
   }
 };
 
@@ -81,10 +113,18 @@ export const removeStudentFromClassroom = async (studentId: string) => {
       const changedStudent = await response.json();
       
       if (changedStudent.classroom === "") {
-        return "student has been removed from classroom successfully";
+        SwalToast.fire({
+          icon: "success",
+          title: "הסטודנט נמחק מהכיתה בהצלחה!"
+        });
       }
     } catch (error) {
       console.error(error);
+      SwalToast.fire({
+        icon: "error",
+        title: "אופס...",
+        text: "חלה בעיה בעת מחיקת הסטודנט מהכיתה, נסה שוב מאוחר יותר",
+      });
     }
   };
   

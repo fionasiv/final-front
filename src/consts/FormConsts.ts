@@ -8,7 +8,7 @@ const fieldChecks = {
 export const NewClassFields = [
   {
     label: "Class ID",
-    id: "class-id",
+    id: "_id",
     type: "string",
     check: fieldChecks.numericCheck,
     required: true,
@@ -22,7 +22,7 @@ export const NewClassFields = [
   },
   {
     label: "Max Seats",
-    id: "max-seats",
+    id: "numberOfSeats",
     type: "number",
     check: fieldChecks.seatsAmountCheck,
     required: true,
@@ -32,21 +32,21 @@ export const NewClassFields = [
 export const AddStudentFields = [
   {
     label: "ID",
-    id: "id",
+    id: "_id",
     type: "string",
     check: fieldChecks.numericCheck,
     required: true,
   },
   {
     label: "First Name",
-    id: "first-name",
+    id: "firstName",
     type: "string",
     check: fieldChecks.onlyLettersCheck,
     required: true,
   },
   {
     label: "Last Name",
-    id: "last-name",
+    id: "lastName",
     type: "string",
     check: fieldChecks.onlyLettersCheck,
     required: true,

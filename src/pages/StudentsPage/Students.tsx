@@ -3,6 +3,7 @@ import Table from "../../components/Table/Table";
 import * as S from "./Students.style";
 import {
   addStudentToClassroom,
+  deleteStudent,
   getAllStudents,
 } from "../../requests/StudentsRequests";
 import { getAvailableClasses } from "../../requests/ClassroomRequests";
@@ -40,9 +41,21 @@ export default function Students() {
     );
   };
 
+  const removeStudent = async (studentId: string) => {
+    await deleteStudent(studentId);
+    setStudents((prevStudents) =>
+      prevStudents.filter((student) => student._id !== studentId)
+    );
+  };
+
   return (
     <S.TablesSection>
-      <Table students={students} availableClasses={availableClasses} addStudent={addStudentToClass} />
+      <Table
+        students={students}
+        availableClasses={availableClasses}
+        addStudent={addStudentToClass}
+        deleteStudent={removeStudent}
+      />
     </S.TablesSection>
   );
 }

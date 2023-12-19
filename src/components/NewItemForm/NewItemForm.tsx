@@ -18,9 +18,9 @@ export default function NewItemForm(props: any) {
     }));
   };
 
-  const handleSubmit = (event: React.SyntheticEvent) => {
+  const handleSubmit = async (event: React.SyntheticEvent) => {
     event.preventDefault();
-    console.log(inputs);
+    await props.handleCreate(inputs);
   };
 
   const isFormValid = () => {
@@ -59,7 +59,7 @@ export default function NewItemForm(props: any) {
             onClick={handleSubmit}
             disabled={!isFormValid()}
           >
-            CREATE CLASS
+            {props.createMessage}
           </S.SubmitButton>
         </S.FormFields>
       </S.FormSection>
