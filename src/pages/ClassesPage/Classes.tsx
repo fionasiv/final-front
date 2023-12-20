@@ -34,15 +34,27 @@ export default function Classes() {
     const classroomStudents = await getAllStudents(`classroom/${classId}`);
 
     if (classroomStudents.length) {
-      Swal.fire({
+      SwalToast.fire({
         icon: "error",
         title: "לא ניתן למחוק כיתה המכילה תלמידים",
       });
     } else {
-      await deleteClassroom(classId);
-      setClassrooms((prevClassrooms) => {
-        return prevClassrooms.filter((classroom) => classroom._id !== classId);
-      });
+      const isRemoved = await deleteClassroom(classId);
+
+      if (isRemoved) {
+        SwalToast.fire({
+          icon: "success",
+          title: "הכיתה נמחקה בהצלחה!",
+        });
+        setClassrooms((prevClassrooms) => {
+          return prevClassrooms.filter((classroom) => classroom._id !== classId);
+        });
+      } else {
+        SwalToast.fire({
+          icon: "error",
+          title: "חלה תקלה בעת מחיקת הכיתה, אנא נסו שוב מאוחר יותר",
+        });
+      }
     }
   };
 

@@ -20,6 +20,7 @@ export default function Students() {
     const fetchData = async () => {
       try {
         const studentsList = await getAllStudents("");
+        const classes = await getAvailableClasses();
   
         setStudents(
           studentsList.map((student: Student) => {
@@ -29,12 +30,19 @@ export default function Students() {
             };
           })
         );
-        setAvailableClasses(await getAvailableClasses());
+        setAvailableClasses(classes);
       } catch (error) {
-        SwalToast.fire({
-          icon: "error",
-          title: "חלה תקלה בעת קבלת הסטודנטים, נסו שוב מאוחר יותר",
-        });
+        if (true) { //to handle
+          SwalToast.fire({
+            icon: "error",
+            title: "חלה תקלה בעת קבלת הכיתות הזמינות, נסו שוב מאוחר יותר",
+          });
+        } else {
+          SwalToast.fire({
+            icon: "error",
+            title: "חלה תקלה בעת קבלת הסטודנטים, נסו שוב מאוחר יותר",
+          });
+        }
         console.log(error);
       }
     };

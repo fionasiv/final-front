@@ -8,7 +8,19 @@ import * as S from "./Create.style";
 
 export default function Create() {
   const addNewClassroom = async (newClass: ShobClass) => {
-    await addClassroom(newClass);
+    const isCreated = await addClassroom(newClass);
+
+    if (isCreated) {
+      SwalToast.fire({
+        icon: "success",
+        text: "הכיתה נוספה לרשימה בהצלחה!",
+      });
+    } else {
+      SwalToast.fire({
+        icon: "error",
+        text: "חלה תקלה בעת הוספת הכיתה, נסו שוב מאוחר יותר",
+      });
+    }
   };
 
   const addNewStudent = async (newStudent: Student) => {
