@@ -15,11 +15,15 @@ export default function Create() {
         icon: "success",
         text: "הכיתה נוספה לרשימה בהצלחה!",
       });
+
+      return true;
     } else {
       SwalToast.fire({
         icon: "error",
         text: "חלה תקלה בעת הוספת הכיתה, נסו שוב מאוחר יותר",
       });
+
+      return false;
     }
   };
 
@@ -31,28 +35,32 @@ export default function Create() {
         icon: "success",
         text: "הסטודנט/ית נוסף/ה לרשימה בהצלחה!",
       });
+
+      return true;
     } else {
       SwalToast.fire({
         icon: "error",
         text: "חלה תקלה בעת הוספת הסטודנט/ית",
       });
+
+      return false;
     }
   };
 
   return (
     <S.Forms>
-      <Form
-        fields={NewClassFields}
-        title="Create new class"
-        createMessage="CREATE CLASS"
-        handleCreate={addNewClassroom}
-      />
-      <Form
-        fields={AddStudentFields}
-        title="Add new student"
-        createMessage="ADD STUDENT"
-        handleCreate={addNewStudent}
-      />
+        <Form
+          fields={NewClassFields}
+          title="Create new class"
+          createMessage="CREATE CLASS"
+          handleCreate={addNewClassroom}
+        />
+        <Form
+          fields={AddStudentFields}
+          title="Add new student"
+          createMessage="ADD STUDENT"
+          handleCreate={addNewStudent}
+        />
     </S.Forms>
   );
 }

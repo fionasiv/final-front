@@ -11,17 +11,14 @@ import { Student, displayedItem } from "../../types";
 import { SwalToast } from "../../requests/SwalToast";
 
 export default function Students() {
-  const [students, setStudents] = useState([] as Student[]);
-  const [availableClasses, setAvailableClasses] = useState(
-    [] as displayedItem[]
-  );
+  const [students, setStudents] = useState<Student[]>([]);
+  const [availableClasses, setAvailableClasses] = useState<displayedItem[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const studentsList = await getAllStudents("");
-        const classes = await getAvailableClasses();
-  
+
         setStudents(
           studentsList.map((student: Student) => {
             return {
@@ -30,22 +27,32 @@ export default function Students() {
             };
           })
         );
-        setAvailableClasses(classes);
       } catch (error) {
-        if (true) { //to handle
-          SwalToast.fire({
-            icon: "error",
-            title: "חלה תקלה בעת קבלת הכיתות הזמינות, נסו שוב מאוחר יותר",
-          });
-        } else {
-          SwalToast.fire({
-            icon: "error",
-            title: "חלה תקלה בעת קבלת הסטודנטים, נסו שוב מאוחר יותר",
-          });
-        }
+        SwalToast.fire({
+          icon: "error",
+          title: "חלה תקלה בעת קבלת הכיתות הזמינות, נסו שוב מאוחר יותר",
+        });
+
         console.log(error);
       }
     };
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const classes = await getAvailableClasses();
+        setAvailableClasses(classes);
+      } catch (error) {
+        SwalToast.fire({
+          icon: "error",
+          title: "חלה תקלה בעת קבלת הסטודנטים, נסו שוב מאוחר יותר",
+        });
+        console.log(error);
+      }
+    };
+
     fetchData();
   }, []);
 
@@ -59,7 +66,9 @@ export default function Students() {
       });
       setStudents((prevStudents) =>
         prevStudents.map((student) =>
-          student._id === studentId ? { ...student, classroom: classId } : student
+          student._id === studentId
+            ? { ...student, classroom: classId }
+            : student
         )
       );
     } else {
@@ -74,7 +83,7 @@ export default function Students() {
   const removeStudent = async (studentId: string) => {
     const isRemoved = await deleteStudent(studentId);
 
-    if(isRemoved) {
+    if (isRemoved) {
       SwalToast.fire({
         icon: "success",
         title: "הסטודנט/ית נמחק/ה בהצלחה!",

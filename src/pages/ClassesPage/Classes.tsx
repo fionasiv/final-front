@@ -7,7 +7,6 @@ import {
   getAllClassrooms,
 } from "../../requests/ClassroomRequests";
 import { getAllStudents } from "../../requests/StudentsRequests";
-import Swal from "sweetalert2";
 import { SwalToast } from "../../requests/SwalToast";
 
 export default function Classes() {

@@ -1,7 +1,5 @@
-import Swal from "sweetalert2";
 import { API_CONNECTION_URL } from "./api";
-import { ShobClass, displayedItem } from "../types";
-import { SwalToast } from "./SwalToast";
+import { ShobClass } from "../types";
 import api from "./api";
 
 export const getAllClassrooms = async () => {
