@@ -10,6 +10,7 @@ import {
   getAllStudents,
   removeStudentFromClassroom,
 } from "../../requests/StudentsRequests";
+import { SwalToast } from "../../requests/SwalToast";
 
 export default function Class(props: any) {
   const [open, setOpen] = useState(false);
@@ -38,14 +39,25 @@ export default function Class(props: any) {
 
   const removeStudent = async (studentId: string) => {
     try {
-      await removeStudentFromClassroom(studentId);
-      setStudents((prevStudents) =>
-        prevStudents.filter((student) => student._id !== studentId)
-      );
+      const isRemoved = await removeStudentFromClassroom(studentId);
       handleClick();
-      props.removeStudentFromClass(props.id);
+
+      if (isRemoved) {
+        setStudents((prevStudents) =>
+          prevStudents.filter((student) => student._id !== studentId)
+        );
+        props.returnSeatToClass(props.id);
+        SwalToast.fire({
+          icon: "success",
+          title: "הסטודנט/ית נמחק/ה מהכיתה בהצלחה!",
+        });
+      }
     } catch (error) {
-      console.error(error);
+      SwalToast.fire({
+        icon: "error",
+        title: "אופס...",
+        text: "חלה תקלה בעת מחיקת הסטודנט/ית מהכיתה, נסו שוב מאוחר יותר",
+      });
     }
   };
 

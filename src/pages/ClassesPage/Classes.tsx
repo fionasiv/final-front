@@ -8,14 +8,23 @@ import {
 } from "../../requests/ClassroomRequests";
 import { getAllStudents } from "../../requests/StudentsRequests";
 import Swal from "sweetalert2";
+import { SwalToast } from "../../requests/SwalToast";
 
 export default function Classes() {
   const [classrooms, setClassrooms] = useState([] as ShobClass[]);
 
   useEffect(() => {
     const fetchData = async () => {
-      const classes = await getAllClassrooms();
-      setClassrooms(classes);
+      try {
+        const classes = await getAllClassrooms();
+        setClassrooms(classes);
+      } catch (error) {
+        console.error(error);
+        SwalToast.fire({
+          icon: "error",
+          title: "חלה תקלה בעת קבלת הכיתות, נסו שוב מאוחר יותר",
+        });
+      }
     };
 
     fetchData();
@@ -37,7 +46,7 @@ export default function Classes() {
     }
   };
 
-  const removeStudentFromClass = (classId: string) => {
+  const returnSeatToClass = (classId: string) => {
     setClassrooms((prevClassrooms) =>
       prevClassrooms.map((classroom) =>
         classroom._id === classId
@@ -47,7 +56,7 @@ export default function Classes() {
     );
   };
 
-  const shobClasses = classrooms.map((shobClass: ShobClass) => (
+  const shobClasses = classrooms ? classrooms.map((shobClass: ShobClass) => (
     <Class
       key={shobClass._id}
       id={shobClass._id}
@@ -55,8 +64,8 @@ export default function Classes() {
       avilableSeats={shobClass.numberOfSeatsLeft}
       totalSeats={shobClass.numberOfSeats}
       removeClass={removeClass}
-      removeStudentFromClass={removeStudentFromClass}
+      returnSeatToClass={returnSeatToClass}
     />
-  ));
+  )) : [];
   return <S.ClassesList>{shobClasses}</S.ClassesList>;
 }

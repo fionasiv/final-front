@@ -21,6 +21,7 @@ export default function NewItemForm(props: any) {
   const handleSubmit = async (event: React.SyntheticEvent) => {
     event.preventDefault();
     await props.handleCreate(inputs);
+    setInputs(fieldObjects);
   };
 
   const isFormValid = () => {

@@ -1,21 +1,17 @@
 import Swal from "sweetalert2";
-import { API_CONNECTION_URL } from "../consts/AppConsts";
+import { API_CONNECTION_URL } from "./api";
 import { ShobClass, displayedItem } from "../types";
 import { SwalToast } from "./SwalToast";
-
+import api from "./api";
 
 export const getAllClassrooms = async () => {
-  const response = await fetch(`${API_CONNECTION_URL}/classrooms`);
-  const allData = await response.json();
-  
-  return allData.map((classroom: ShobClass) => {
-    return {
-      _id: classroom._id,
-      name: classroom.name,
-      numberOfSeatsLeft: classroom.numberOfSeatsLeft,
-      numberOfSeats: classroom.numberOfSeats,
-    };
-  });
+  try {
+    const classrooms = (await api.get("/classrooms")).data;
+    
+    return classrooms;
+  } catch (error) {
+    throw error;
+  }
 };
 
 export const addClassroom = async (shobClass: ShobClass) => {
@@ -31,15 +27,21 @@ export const addClassroom = async (shobClass: ShobClass) => {
     });
     
     if (newClassroom) {
-      return "class has been added successfully";
+      SwalToast.fire({
+        icon: "success",
+        text: "הכיתה נוספה לרשימה בהצלחה!",
+      });
     }
   } catch (error) {
     console.log(error);
+    SwalToast.fire({
+      icon: "error",
+      text: "חלה תקלה בעת הוספת הכיתה, נסו שוב מאוחר יותר",
+    });
   }
 };
 
 export const deleteClassroom = async (classId: string) => {
-  
     try {
       await fetch(`${API_CONNECTION_URL}/classrooms/${classId}`, {
         method: "DELETE",
@@ -71,5 +73,9 @@ export const getAvailableClasses = async () => {
     });
   } catch (error) {
     console.error(error);
+    SwalToast.fire({
+      icon: "error",
+      title: "חלה תקלה בעת קבלת הכיתות הזמינות, נסו שוב מאוחר יותר",
+    });
   }
 };

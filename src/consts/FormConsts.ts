@@ -1,5 +1,6 @@
 const fieldChecks = {
   numericCheck: (value: string) => new RegExp("^[0-9]+$").test(value),
+  idCheck: (value: string) => fieldChecks.numericCheck(value) && value.length > 8,
   onlyLettersCheck: (value: string) => new RegExp("^[a-zA-Z\u0590-\u05fe]+$").test(value),
   seatsAmountCheck: (value: number) => value > 0 && value <= 1000,
   ageCheck: (value: number) => value > 0 && value <= 120,
@@ -10,7 +11,7 @@ export const NewClassFields = [
     label: "Class ID",
     id: "_id",
     type: "string",
-    check: fieldChecks.numericCheck,
+    check: fieldChecks.idCheck,
     required: true,
   },
   {
@@ -34,7 +35,7 @@ export const AddStudentFields = [
     label: "ID",
     id: "_id",
     type: "string",
-    check: fieldChecks.numericCheck,
+    check: fieldChecks.idCheck,
     required: true,
   },
   {
