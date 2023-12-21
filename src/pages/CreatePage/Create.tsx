@@ -49,18 +49,20 @@ export default function Create() {
 
   return (
     <S.Forms>
-        <Form
-          fields={NewClassFields}
-          title="Create new class"
-          createMessage="CREATE CLASS"
-          handleCreate={addNewClassroom}
-        />
-        <Form
-          fields={AddStudentFields}
-          title="Add new student"
-          createMessage="ADD STUDENT"
-          handleCreate={addNewStudent}
-        />
+      <Form
+        id="new-class"
+        fields={NewClassFields}
+        title="Create new class"
+        createMessage="CREATE CLASS"
+        handleCreate={addNewClassroom}
+      />
+      <Form
+        id="new-student"
+        fields={AddStudentFields}
+        title="Add new student"
+        createMessage="ADD STUDENT"
+        handleCreate={addNewStudent}
+      />
     </S.Forms>
   );
 }

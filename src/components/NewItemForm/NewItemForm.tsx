@@ -46,6 +46,7 @@ export default function NewItemForm(props: any) {
     return (
       <S.Field
         id={field.id}
+        key={field.id}
         value={inputs[field.id]}
         required={field.required ? true : false}
         label={field.label}
