@@ -2,7 +2,7 @@ import Form from "../../components/NewItemForm/NewItemForm";
 import { NewClassFields, AddStudentFields } from "../../consts/FormConsts";
 import { addClassroom } from "../../requests/ClassroomRequests";
 import { addStudent } from "../../requests/StudentsRequests";
-import { SwalToast } from "../../requests/SwalToast";
+import { SwalToast } from "../../consts/SwalToast";
 import { ShobClass, Student } from "../../types";
 import * as S from "./Create.style";
 

@@ -10,12 +10,15 @@ import {
   getAllStudents,
   removeStudentFromClassroom,
 } from "../../requests/StudentsRequests";
-import { SwalToast } from "../../requests/SwalToast";
+import { SwalToast } from "../../consts/SwalToast";
+import { useAppDispatch, useAppSelector } from "../../store";
+import { addClassroomSeat } from "../../store/reducers/classesSlice";
 
 export default function Class(props: any) {
   const [open, setOpen] = useState(false);
   const [students, setStudents] = useState([] as Student[]);
   const theme = useContext(ThemeContext);
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     if (open) {
@@ -46,7 +49,8 @@ export default function Class(props: any) {
         setStudents((prevStudents) =>
           prevStudents.filter((student) => student._id !== studentId)
         );
-        props.returnSeatToClass(props.id);
+        dispatch(addClassroomSeat({ classroomId: props.id }));
+
         SwalToast.fire({
           icon: "success",
           title: "הסטודנט/ית נמחק/ה מהכיתה בהצלחה!",

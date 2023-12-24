@@ -23,7 +23,13 @@ function App() {
         <Navbar handleThemeChange={changeTheme} />
         <Routes>
           {routes.map((route: PageRoute) => {
-            return <Route path={route.path} element={route.Component} key={route.name} />;
+            return (
+              <Route
+                path={route.path}
+                element={route.Component}
+                key={route.name}
+              />
+            );
           })}
         </Routes>
       </div>

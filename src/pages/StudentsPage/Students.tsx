@@ -8,7 +8,7 @@ import {
 } from "../../requests/StudentsRequests";
 import { getAvailableClasses } from "../../requests/ClassroomRequests";
 import { Student, displayedItem } from "../../types";
-import { SwalToast } from "../../requests/SwalToast";
+import { SwalToast } from "../../consts/SwalToast";
 
 export default function Students() {
   const [students, setStudents] = useState<Student[]>([]);

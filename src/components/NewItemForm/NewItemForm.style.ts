@@ -7,7 +7,6 @@ export const FormBox = styled(Box)({
 });
 
 export const FormSection = styled("section")({
-  width: "100vw",
   paddingTop: "2vh",
   paddingLeft: "15vw",
 });
@@ -26,7 +25,7 @@ export const Title = styled("h1")({
   fontWeight: "300",
   textAlign: "center",
   fontSize: "38px",
-  width: "80vw",
+  width: "50vw",
   marginBottom: "2vh",
 });
 
@@ -43,6 +42,5 @@ export const SubmitButton = styled(Button)<{ coloring: string }>(
     fontSize: "20px",
     height: "4vh",
     margin: "0.5vh 1vw 0vh 1vw",
-    // width: "25vw",
   })
 );

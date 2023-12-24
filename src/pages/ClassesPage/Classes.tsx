@@ -7,16 +7,19 @@ import {
   getAllClassrooms,
 } from "../../requests/ClassroomRequests";
 import { getAllStudents } from "../../requests/StudentsRequests";
-import { SwalToast } from "../../requests/SwalToast";
+import { SwalToast } from "../../consts/SwalToast";
+import { useAppDispatch, useAppSelector } from "../../store";
+import { addClassroomSeat, removeClassroom, setClassrooms } from "../../store/reducers/classesSlice";
 
 export default function Classes() {
-  const [classrooms, setClassrooms] = useState([] as ShobClass[]);
+  const classrooms = useAppSelector((state) => state.classrooms.classrooms);
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const classes = await getAllClassrooms();
-        setClassrooms(classes);
+        const classes: ShobClass[] = await getAllClassrooms();
+        dispatch(setClassrooms({classrooms: classes}));
       } catch (error) {
         console.error(error);
         SwalToast.fire({
@@ -45,9 +48,7 @@ export default function Classes() {
           icon: "success",
           title: "הכיתה נמחקה בהצלחה!",
         });
-        setClassrooms((prevClassrooms) => {
-          return prevClassrooms.filter((classroom) => classroom._id !== classId);
-        });
+        dispatch(removeClassroom({classroomId: classId}))
       } else {
         SwalToast.fire({
           icon: "error",
@@ -55,16 +56,6 @@ export default function Classes() {
         });
       }
     }
-  };
-
-  const returnSeatToClass = (classId: string) => {
-    setClassrooms((prevClassrooms) =>
-      prevClassrooms.map((classroom) =>
-        classroom._id === classId
-          ? { ...classroom, numberOfSeatsLeft: classroom.numberOfSeatsLeft + 1 }
-          : classroom
-      )
-    );
   };
 
   const shobClasses = classrooms ? classrooms.map((shobClass: ShobClass) => (
@@ -75,7 +66,6 @@ export default function Classes() {
       avilableSeats={shobClass.numberOfSeatsLeft}
       totalSeats={shobClass.numberOfSeats}
       removeClass={removeClass}
-      returnSeatToClass={returnSeatToClass}
     />
   )) : [];
   return <S.ClassesList>{shobClasses}</S.ClassesList>;
