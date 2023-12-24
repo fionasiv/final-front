@@ -9,32 +9,12 @@ import {
 import { getAllStudents } from "../../requests/StudentsRequests";
 import { SwalToast, SwalToastWithButtons } from "../../consts/SwalToast";
 import { useAppDispatch, useAppSelector } from "../../store";
-import {
-  removeClassroom,
-  setClassrooms,
-} from "../../store/reducers/classesSlice";
+import { removeClassroom } from "../../store/reducers/classesSlice";
 import Swal from "sweetalert2";
 
 export default function Classes() {
   const classrooms = useAppSelector((state) => state.classrooms.classrooms);
   const dispatch = useAppDispatch();
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const classes: ShobClass[] = await getAllClassrooms();
-        dispatch(setClassrooms({ classrooms: classes }));
-      } catch (error) {
-        console.error(error);
-        SwalToast.fire({
-          icon: "error",
-          title: "חלה תקלה בעת קבלת הכיתות, נסו שוב מאוחר יותר",
-        });
-      }
-    };
-
-    fetchData();
-  }, []);
 
   const removeClassHandler = async (classId: string) => {
     const classroomStudents = await getAllStudents(`classroom/${classId}`);
