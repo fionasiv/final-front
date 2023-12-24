@@ -5,9 +5,9 @@ import { useState, createContext, useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 import { PageRoute, ShobClass } from "./types";
 import { Modes } from "./Enums";
-import { useAppDispatch, useAppSelector } from "./store";
+import { useAppDispatch } from "./store";
 import { setClassrooms } from "./store/reducers/classesSlice";
-import { SwalToast } from "./consts/SwalToast";
+import { SwalToastWithoutTimer } from "./consts/SwalToast";
 import { getAllClassrooms } from "./requests/ClassroomRequests";
 
 export const ThemeContext = createContext(Modes.PURPLE_MODE);
@@ -23,7 +23,7 @@ function App() {
         dispatch(setClassrooms({ classrooms: classes }));
       } catch (error) {
         console.error(error);
-        SwalToast.fire({
+        SwalToastWithoutTimer.fire({
           icon: "error",
           title: "חלה תקלה בעת קבלת הכיתות, נסו שוב מאוחר יותר",
         });

@@ -24,8 +24,8 @@ export type displayedItem = {
 export type ShobClass = {
   _id: string,
   name: string;
-  numberOfSeats: number;
-  numberOfSeatsLeft: number;
+  capacity: number;
+  seatsLeft: number;
   __v?: number;
 };
 

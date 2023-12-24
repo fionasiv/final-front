@@ -20,3 +20,12 @@ export const SwalToastWithButtons = Swal.mixin({
   confirmButtonText: "כן",
   cancelButtonText: "לא",
 });
+
+export const SwalToastWithoutTimer = Swal.mixin({
+  toast: true,
+  position: "top-end",
+  customClass: {
+    popup: "colored-toast",
+  },
+  timerProgressBar: false,
+});

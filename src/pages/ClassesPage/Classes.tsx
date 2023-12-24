@@ -1,11 +1,7 @@
-import { useEffect } from "react";
 import * as S from "./Classes.style";
 import Class from "../../components/Class/Class";
 import { ShobClass } from "../../types";
-import {
-  deleteClassroom,
-  getAllClassrooms,
-} from "../../requests/ClassroomRequests";
+import { deleteClassroom } from "../../requests/ClassroomRequests";
 import { getAllStudents } from "../../requests/StudentsRequests";
 import { SwalToast, SwalToastWithButtons } from "../../consts/SwalToast";
 import { useAppDispatch, useAppSelector } from "../../store";
@@ -13,7 +9,7 @@ import { removeClassroom } from "../../store/reducers/classesSlice";
 import Swal from "sweetalert2";
 
 export default function Classes() {
-  const classrooms = useAppSelector((state) => state.classrooms.classrooms);
+  const classrooms = useAppSelector((state) => state.classrooms.data);
   const dispatch = useAppDispatch();
 
   const removeClassHandler = async (classId: string) => {
@@ -65,8 +61,8 @@ export default function Classes() {
           key={shobClass._id}
           id={shobClass._id}
           name={shobClass.name}
-          avilableSeats={shobClass.numberOfSeatsLeft}
-          totalSeats={shobClass.numberOfSeats}
+          avilableSeats={shobClass.seatsLeft}
+          totalSeats={shobClass.capacity}
           removeClass={removeClassHandler}
         />
       ))

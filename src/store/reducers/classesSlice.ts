@@ -2,11 +2,11 @@ import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { ShobClass } from "../../types";
 
 interface ClassroomState {
-  classrooms: ShobClass[];
+  data: ShobClass[];
 }
 
 const initialState: ClassroomState = {
-  classrooms: [],
+    data: [],
 };
 
 export const classroomSlice = createSlice({
@@ -17,18 +17,18 @@ export const classroomSlice = createSlice({
       state,
       action: PayloadAction<{ classrooms: ShobClass[] }>
     ) => {
-      state.classrooms = action.payload.classrooms.map(
+      state.data = action.payload.classrooms.map(
         (classroom) => classroom
       );
     },
     addClassroom: (state, action: PayloadAction<{ classroom: ShobClass }>) => {
-      state.classrooms.push(action.payload.classroom);
+      state.data.push(action.payload.classroom);
     },
     removeClassroom: (
       state,
       action: PayloadAction<{ classroomId: string }>
     ) => {
-        state.classrooms = state.classrooms.filter(
+        state.data = state.data.filter(
         (classroom) => classroom._id !== action.payload.classroomId
       );
     },
@@ -36,9 +36,9 @@ export const classroomSlice = createSlice({
       state,
       action: PayloadAction<{ classroomId: string }>
     ) => {
-        state.classrooms = state.classrooms.map((classroom) =>
+        state.data = state.data.map((classroom) =>
         classroom._id === action.payload.classroomId
-          ? { ...classroom, numberOfSeatsLeft: classroom.numberOfSeatsLeft - 1 }
+          ? { ...classroom, numberOfSeatsLeft: classroom.seatsLeft - 1 }
           : classroom
       );
     },
@@ -46,9 +46,9 @@ export const classroomSlice = createSlice({
         state,
         action: PayloadAction<{ classroomId: string }>
       ) => {
-        state.classrooms = state.classrooms.map((classroom) =>
+        state.data = state.data.map((classroom) =>
           classroom._id === action.payload.classroomId
-            ? { ...classroom, numberOfSeatsLeft: classroom.numberOfSeatsLeft + 1 }
+            ? { ...classroom, numberOfSeatsLeft: classroom.seatsLeft + 1 }
             : classroom
         );
       },

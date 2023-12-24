@@ -13,7 +13,7 @@ export default function Table(props: any) {
   const theme = useContext(ThemeContext);
   const [open, setOpen] = useState(false);
   const [currStudent, setCurrStudent] = useState("");
-  const classrooms = useAppSelector((state) => state.classrooms.classrooms);
+  const classrooms = useAppSelector((state) => state.classrooms.data);
   const [availableClasses, setAvailableClasses] = useState<displayedItem[]>([]);
   const dispatch = useAppDispatch();
 
@@ -66,7 +66,7 @@ export default function Table(props: any) {
   
   const updateAvilabillity = () => {
     const available = classrooms
-    .filter((classroom) => classroom.numberOfSeatsLeft > 0)
+    .filter((classroom) => classroom.seatsLeft > 0)
     .map((classroom) => {
       return {
         id: classroom._id,
