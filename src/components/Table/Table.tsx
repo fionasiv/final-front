@@ -1,5 +1,4 @@
-import React, { useEffect } from "react";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import * as S from "./Table.style";
 import { columns } from "../../consts/TableConsts";
 import { ThemeContext } from "../../App";
@@ -11,7 +10,7 @@ import { displayedItem } from "../../types";
 import { subtructClassroomSeat } from "../../store/reducers/classesSlice";
 
 export default function Table(props: any) {
-  const theme = React.useContext(ThemeContext);
+  const theme = useContext(ThemeContext);
   const [open, setOpen] = useState(false);
   const [currStudent, setCurrStudent] = useState("");
   const classrooms = useAppSelector((state) => state.classrooms.classrooms);

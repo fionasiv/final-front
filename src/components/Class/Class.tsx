@@ -11,7 +11,7 @@ import {
   removeStudentFromClassroom,
 } from "../../requests/StudentsRequests";
 import { SwalToast } from "../../consts/SwalToast";
-import { useAppDispatch, useAppSelector } from "../../store";
+import { useAppDispatch } from "../../store";
 import { addClassroomSeat } from "../../store/reducers/classesSlice";
 
 export default function Class(props: any) {

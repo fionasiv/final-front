@@ -6,9 +6,9 @@ import {
   deleteStudent,
   getAllStudents,
 } from "../../requests/StudentsRequests";
-import { getAvailableClasses } from "../../requests/ClassroomRequests";
-import { Student, displayedItem } from "../../types";
-import { SwalToast } from "../../consts/SwalToast";
+import { Student } from "../../types";
+import { SwalToast, SwalToastWithButtons } from "../../consts/SwalToast";
+import Swal from "sweetalert2";
 
 export default function Students() {
   const [students, setStudents] = useState<Student[]>([]);
@@ -64,6 +64,23 @@ export default function Students() {
     }
   };
 
+  const removeStudentHandler = async (studentId: string) => {
+    SwalToastWithButtons.fire({
+      title: "את/ה בטוח/ה שברצונך למחוק את הסטודנט/ית?",
+      icon: "warning",
+      reverseButtons: true,
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        await removeStudent(studentId);
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        SwalToast.fire({
+          title: "המחיקה בוטלה",
+          icon: "error",
+        });
+      }
+    });
+  }
+
   const removeStudent = async (studentId: string) => {
     const isRemoved = await deleteStudent(studentId);
 
@@ -89,7 +106,7 @@ export default function Students() {
       <Table
         students={students}
         addStudent={addStudentToClass}
-        deleteStudent={removeStudent}
+        deleteStudent={removeStudentHandler}
       />
     </S.TablesSection>
   );
