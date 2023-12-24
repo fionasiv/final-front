@@ -7,21 +7,24 @@ export const columns: GridColDef[] = [
     headerName: "ID",
     headerAlign: "center",
     align: "center",
-    width: 120,
+    minWidth: 120,
+    flex: 1
   },
   {
     field: "firstName",
     headerName: "First name",
     headerAlign: "center",
     align: "center",
-    width: 120,
+    minWidth: 120,
+    flex: 1
   },
   {
     field: "lastName",
     headerName: "Last name",
     headerAlign: "center",
     align: "center",
-    width: 120,
+    minWidth: 120,
+    flex: 1
   },
   {
     field: "age",
@@ -29,14 +32,16 @@ export const columns: GridColDef[] = [
     headerAlign: "center",
     align: "center",
     type: "number",
-    width: 120,
+    minWidth: 120,
+    flex: 1
   },
   {
     field: "profession",
     headerName: "Profession",
     headerAlign: "center",
     align: "center",
-    width: 150,
+    minWidth: 150,
+    flex: 1
   }
 ];
 

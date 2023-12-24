@@ -4,7 +4,10 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { mediaTheme } from '../../Theme';
 
 export const ClassCard = styled(Card) ({
-    [mediaTheme.breakpoints.up('md')]: {
+    [mediaTheme.breakpoints.only('xl')]: {
+        width: "13vw"
+    },
+    [mediaTheme.breakpoints.only('lg')]: {
         width: "16vw"
     },
     [mediaTheme.breakpoints.only('md')]: {

@@ -30,7 +30,7 @@ export default function Table(props: any) {
       const studentId = props.row.id;
       await removeStudent(studentId);
     }
-    
+
     return (
       <S.TableButton coloring={theme} onClick={handleDelete}>
         Delete
@@ -90,7 +90,8 @@ export default function Table(props: any) {
               headerName: "Action",
               headerAlign: "center",
               align: "center",
-              width: 230,
+              minWidth: 230,
+              flex: 1,
               sortable: false,
               renderCell: assignButton,
             },
@@ -99,7 +100,8 @@ export default function Table(props: any) {
               headerName: "Delete",
               headerAlign: "center",
               align: "center",
-              width: 140,
+              minWidth: 140,
+              flex: 1,
               sortable: false,
               renderCell: deleteButton,
             },
