@@ -9,7 +9,7 @@ import {
 import { getAllStudents } from "../../requests/StudentsRequests";
 import { SwalToast } from "../../consts/SwalToast";
 import { useAppDispatch, useAppSelector } from "../../store";
-import { addClassroomSeat, removeClassroom, setClassrooms } from "../../store/reducers/classesSlice";
+import { removeClassroom, setClassrooms } from "../../store/reducers/classesSlice";
 
 export default function Classes() {
   const classrooms = useAppSelector((state) => state.classrooms.classrooms);

@@ -12,7 +12,8 @@ import { SwalToast } from "../../consts/SwalToast";
 
 export default function Students() {
   const [students, setStudents] = useState<Student[]>([]);
-  const [availableClasses, setAvailableClasses] = useState<displayedItem[]>([]);
+  // const [availableClasses, setAvailableClasses] = useState<displayedItem[]>([])
+  
 
   useEffect(() => {
     const fetchData = async () => {
@@ -36,23 +37,6 @@ export default function Students() {
         console.log(error);
       }
     };
-    fetchData();
-  }, []);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const classes = await getAvailableClasses();
-        setAvailableClasses(classes);
-      } catch (error) {
-        SwalToast.fire({
-          icon: "error",
-          title: "חלה תקלה בעת קבלת הסטודנטים, נסו שוב מאוחר יותר",
-        });
-        console.log(error);
-      }
-    };
-
     fetchData();
   }, []);
 
@@ -104,7 +88,6 @@ export default function Students() {
     <S.TablesSection>
       <Table
         students={students}
-        availableClasses={availableClasses}
         addStudent={addStudentToClass}
         deleteStudent={removeStudent}
       />
