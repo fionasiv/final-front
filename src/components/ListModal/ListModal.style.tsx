@@ -1,4 +1,5 @@
 import { Box, IconButton, Avatar, styled } from "@mui/material";
+import { mediaTheme } from "../../Theme";
 
 export const DesignedBox = styled(Box)({
   position: "absolute",
@@ -10,32 +11,46 @@ export const DesignedBox = styled(Box)({
   background: "white",
   borderRadius: "5px",
   textAlign: "center",
+  [mediaTheme.breakpoints.up("md")]: {
+    width: "15vw",
+  },
+  [mediaTheme.breakpoints.only("md")]: {
+    width: "20vw",
+  },
+  [mediaTheme.breakpoints.only("sm")]: {
+    width: "30vw",
+  },
+  [mediaTheme.breakpoints.only("xs")]: {
+    width: "40vw",
+  },
+  [mediaTheme.breakpoints.down("xs")]: {
+    width: "50vw",
+  },
 });
 
 export const Title = styled("h3")({
-  fontWeight: "400",
+  fontWeight: "400"
 });
 
 export const Item = styled("div")({
   display: "flex",
   justifyContent: "space-between",
-  padding: "0vh 0.5vw 2vh 1.5vw"
+  padding: "0vh 0.5vw 2vh 1vw",
 });
 
 export const IconAvatar = styled(Avatar)({
-    width: "30px",
-    height: "30px"
-})
+  width: "30px",
+  height: "30px",
+  marginLeft: "1vw"
+});
 
 export const Name = styled("small")({
-    marginTop: "0.8vh",
-})
+  marginTop: "0.8vh",
+});
 
-export const Button = styled(IconButton)<{coloring: string}>(({coloring}) => ({
+export const Button = styled(IconButton)<{ coloring: string }>(
+  ({ coloring }) => ({
     color: coloring,
-    marginTop: "-1vh"
-}))
-
-// export const Icon = styled(DeleteIcon)<{coloring: string}>(({coloring}) => ({
-//     color: coloring,
-// }))
+    marginTop: "-1vh",
+  })
+);

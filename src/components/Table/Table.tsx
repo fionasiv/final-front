@@ -1,45 +1,86 @@
-import React from "react";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import * as S from "./Table.style";
-import { columns, rows } from "../../consts/TableConsts";
-import { availableClasses } from "../../consts/consts";
+import { columns } from "../../consts/TableConsts";
 import { ThemeContext } from "../../App";
 import ListModal from "../ListModal/ListModal";
 import SchoolIcon from "@mui/icons-material/School";
 import AddIcon from "@mui/icons-material/Add";
+import { useAppDispatch, useAppSelector } from "../../store/store";
+import { displayedItem } from "../../interfaces";
+import { subtructClassroomSeat } from "../../store/reducers/classesSlice";
 
-export default function Table() {
-  const [open, setOpen] = useState(false);
-  const theme = React.useContext(ThemeContext);
+export default function Table(props: any) {
+  const theme = useContext(ThemeContext);
+  const [open, setOpen] = useState<boolean>(false);
+  const [currStudent, setCurrStudent] = useState<string>("");
+  const [availableClasses, setAvailableClasses] = useState<displayedItem[]>([]);
+  const classrooms = useAppSelector((state) => state.classrooms.data);
+  const dispatch = useAppDispatch();
 
-  function handleClick() {
-    setOpen((prevOpen) => !prevOpen);
-  }
-
-  const assignButton = () => {
-    return (
-      <S.TableButton coloring={theme} onClick={handleClick}>
-        Assign to class
-      </S.TableButton>
-    );
-  };
-
-  const deleteButton = () => {
-    function handleDelete() {
-      console.log("delete");
+  const deleteButton = (props: any) => {
+    async function handleDelete() {
+      const studentId = props.row.id;
+      await removeStudent(studentId);
     }
+    
     return (
       <S.TableButton coloring={theme} onClick={handleDelete}>
         Delete
       </S.TableButton>
     );
   };
+  
+  const assignButton = (props: any) => {
+    const disableButton = props.row.classroom !== "";
+    const handleClick = async () => {
+      updateAvilabillity();
+      handleOpen();
+      setCurrStudent(props.row._id);
+    };
+    
+    return (
+      <S.TableButton
+      coloring={theme}
+      onClick={handleClick}
+      disabled={disableButton}
+      >
+        Assign to class
+      </S.TableButton>
+    );
+  };
+  
+  const addStudentToClass = async (classId: string) => {
+    await props.addStudent(classId, currStudent);
+    handleOpen();
+    dispatch(subtructClassroomSeat({classroomId: classId}))
+  };
 
+  const removeStudent = async (studentId: string) => {
+    await props.deleteStudent(studentId);
+  };
+  
+  const handleOpen = () => {
+    setOpen((prevOpen) => !prevOpen);
+  };
+  
+  const updateAvilabillity = () => {
+    const available = classrooms
+    .filter((classroom) => classroom.seatsLeft > 0)
+    .map((classroom) => {
+      return {
+        id: classroom._id,
+        name: classroom.name,
+      };
+    });
+
+    setAvailableClasses(available);
+  }
+  
   return (
     <>
       <S.DesignedBox>
         <S.Table
-          rows={rows}
+          rows={props.students}
           columns={[
             ...columns,
             {
@@ -47,7 +88,8 @@ export default function Table() {
               headerName: "Action",
               headerAlign: "center",
               align: "center",
-              width: 230,
+              minWidth: 230,
+              flex: 1,
               sortable: false,
               renderCell: assignButton,
             },
@@ -56,28 +98,28 @@ export default function Table() {
               headerName: "Delete",
               headerAlign: "center",
               align: "center",
-              width: 140,
+              minWidth: 140,
+              flex: 1,
               sortable: false,
-              renderCell: deleteButton
+              renderCell: deleteButton,
             },
           ]}
-          slots={{
-            footer: () => <></>,
-            columnMenu: () => <></>,
-            columnMenuIcon: () => <></>,
-          }}
           rowHeight={75}
           disableRowSelectionOnClick
           disableColumnFilter
+          hideFooter
+          disableColumnMenu
         />
       </S.DesignedBox>
       <ListModal
         open={open}
-        handleClose={handleClick}
-        students={availableClasses}
+        handleClose={handleOpen}
+        list={availableClasses}
         title="Available Classes"
+        emptyListMsg="There are no classes available at the moment"
         avatarIcon={SchoolIcon}
         buttonIcon={AddIcon}
+        handleClick={addStudentToClass}
       />
     </>
   );
