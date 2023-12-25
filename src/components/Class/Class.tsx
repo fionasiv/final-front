@@ -5,7 +5,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { ThemeContext } from "../../App";
 import { useState, useContext, useEffect } from "react";
 import ListModal from "../ListModal/ListModal";
-import { Student } from "../../types";
+import { Student } from "../../interfaces";
 import {
   getAllStudents,
   removeStudentFromClassroom,
@@ -36,7 +36,7 @@ export default function Class(props: any) {
 
       fetchData();
     }
-  }, [open, props.id]);
+  }, [open]);
 
   const handleClick = () => setOpen((prevOpen) => !prevOpen);
 

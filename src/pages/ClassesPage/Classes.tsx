@@ -1,12 +1,13 @@
 import * as S from "./Classes.style";
 import Class from "../../components/Class/Class";
-import { ShobClass } from "../../types";
+import { ShobClass } from "../../interfaces";
 import { deleteClassroom } from "../../requests/ClassroomRequests";
 import { getAllStudents } from "../../requests/StudentsRequests";
 import { SwalToast, SwalToastWithButtons } from "../../consts/SwalToast";
 import { useAppDispatch, useAppSelector } from "../../store/store";
 import { removeClassroomFromState } from "../../store/reducers/classesSlice";
 import Swal from "sweetalert2";
+import NotFound from "../../components/NotFound/NotFound";
 
 export default function Classes() {
   const classrooms = useAppSelector((state) => state.classrooms.data);
@@ -24,7 +25,6 @@ export default function Classes() {
       SwalToastWithButtons.fire({
         title: "את/ה בטוח/ה שברצונך למחוק את הכיתה?",
         icon: "warning",
-        reverseButtons: true,
       }).then(async (result) => {
         if (result.isConfirmed) {
           await deleteClass(classId);
@@ -56,8 +56,7 @@ export default function Classes() {
   };
 
   const shobClasses = classrooms
-    ? classrooms.map((shobClass: ShobClass) => 
-      (
+    ? classrooms.map((shobClass: ShobClass) => (
         <Class
           key={shobClass._id}
           id={shobClass._id}
@@ -69,5 +68,16 @@ export default function Classes() {
       ))
     : [];
 
-  return <S.ClassesList>{shobClasses}</S.ClassesList>;
+  const classesPage = classrooms.length ? (
+    <S.ClassesList>{shobClasses}</S.ClassesList>
+  ) : (
+    <NotFound
+      title="לא נמצאו כיתות..."
+      descripton="נסו שנית מאוחר יותר"
+      linkTitle="צרו כיתה חדשה"
+      url="/create"
+    />
+  );
+
+  return classesPage;
 }

@@ -6,30 +6,23 @@ import ListModal from "../ListModal/ListModal";
 import SchoolIcon from "@mui/icons-material/School";
 import AddIcon from "@mui/icons-material/Add";
 import { useAppDispatch, useAppSelector } from "../../store/store";
-import { displayedItem } from "../../types";
+import { displayedItem } from "../../interfaces";
 import { subtructClassroomSeat } from "../../store/reducers/classesSlice";
 
 export default function Table(props: any) {
   const theme = useContext(ThemeContext);
-  const [open, setOpen] = useState(false);
-  const [currStudent, setCurrStudent] = useState("");
-  const classrooms = useAppSelector((state) => state.classrooms.data);
+  const [open, setOpen] = useState<boolean>(false);
+  const [currStudent, setCurrStudent] = useState<string>("");
   const [availableClasses, setAvailableClasses] = useState<displayedItem[]>([]);
+  const classrooms = useAppSelector((state) => state.classrooms.data);
   const dispatch = useAppDispatch();
 
-  
-  const addStudentToClass = async (classId: string) => {
-    await props.addStudent(classId, currStudent);
-    handleOpen();
-    dispatch(subtructClassroomSeat({classroomId: classId}))
-  };
-  
   const deleteButton = (props: any) => {
     async function handleDelete() {
       const studentId = props.row.id;
       await removeStudent(studentId);
     }
-
+    
     return (
       <S.TableButton coloring={theme} onClick={handleDelete}>
         Delete
@@ -44,7 +37,7 @@ export default function Table(props: any) {
       handleOpen();
       setCurrStudent(props.row._id);
     };
-
+    
     return (
       <S.TableButton
       coloring={theme}
@@ -56,6 +49,12 @@ export default function Table(props: any) {
     );
   };
   
+  const addStudentToClass = async (classId: string) => {
+    await props.addStudent(classId, currStudent);
+    handleOpen();
+    dispatch(subtructClassroomSeat({classroomId: classId}))
+  };
+
   const removeStudent = async (studentId: string) => {
     await props.deleteStudent(studentId);
   };

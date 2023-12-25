@@ -3,7 +3,7 @@ import { NewClassFields, AddStudentFields } from "../../consts/FormConsts";
 import { addClassroom } from "../../requests/ClassroomRequests";
 import { addStudent } from "../../requests/StudentsRequests";
 import { SwalToast } from "../../consts/SwalToast";
-import { ShobClass, Student } from "../../types";
+import { ShobClass, Student } from "../../interfaces";
 import * as S from "./Create.style";
 import { useAppDispatch } from "../../store/store";
 import { addClassroomToState } from "../../store/reducers/classesSlice";

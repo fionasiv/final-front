@@ -6,11 +6,12 @@ import {
   deleteStudent,
   getAllStudents,
 } from "../../requests/StudentsRequests";
-import { Student } from "../../types";
+import { Student } from "../../interfaces";
 import { SwalToast, SwalToastWithButtons } from "../../consts/SwalToast";
 import Swal from "sweetalert2";
 import { useAppDispatch } from "../../store/store";
 import { addClassroomSeat } from "../../store/reducers/classesSlice";
+import NotFound from "../../components/NotFound/NotFound";
 
 export default function Students() {
   const [students, setStudents] = useState<Student[]>([]);
@@ -32,7 +33,7 @@ export default function Students() {
       } catch (error) {
         SwalToast.fire({
           icon: "error",
-          title: "חלה תקלה בעת קבלת הכיתות הזמינות, נסו שוב מאוחר יותר",
+          title: "חלה תקלה בעת קבלת הסטודנטים, נסו שוב מאוחר יותר",
         });
 
         console.log(error);
@@ -107,7 +108,7 @@ export default function Students() {
     }
   };
 
-  return (
+  const studentsPage = students.length ? (
     <S.TablesSection>
       <Table
         students={students}
@@ -115,5 +116,14 @@ export default function Students() {
         deleteStudent={removeStudentHandler}
       />
     </S.TablesSection>
+  ) : (
+    <NotFound
+      title="לא נמצאו תלמידים..."
+      descripton="נסו שנית מאוחר יותר"
+      linkTitle="צרו סטודנט/ית חדש/ה"
+      url="/create"
+    />
   );
+
+  return studentsPage;
 }

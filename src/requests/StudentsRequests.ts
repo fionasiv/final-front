@@ -1,5 +1,5 @@
 import { API_CONNECTION_URL } from "./api";
-import { Student } from "../types";
+import { Student } from "../interfaces";
 import api from "./api";
 
 export const getAllStudents = async (path: string) => {

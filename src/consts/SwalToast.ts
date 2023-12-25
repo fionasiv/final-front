@@ -13,6 +13,7 @@ export const SwalToast = Swal.mixin({
 export const SwalToastWithButtons = Swal.mixin({
   toast: true,
   position: "top-end",
+  reverseButtons: true,
   showConfirmButton: true,
   showCancelButton: true,
   confirmButtonColor: "#36ad38",

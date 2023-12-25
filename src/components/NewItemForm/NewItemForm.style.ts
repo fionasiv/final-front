@@ -1,4 +1,5 @@
 import { Box, Button, styled, TextField } from "@mui/material";
+import { mediaTheme } from "../../Theme";
 
 export const FormBox = styled(Box)({
   display: "flex",
@@ -39,8 +40,11 @@ export const SubmitButton = styled(Button)<{ coloring: string }>(
       fontWeight: "700",
     },
     fontWeight: "400",
-    fontSize: "20px",
+    fontSize: "1.4em",
     height: "4vh",
     margin: "0.5vh 1vw 0vh 1vw",
+    [mediaTheme.breakpoints.down('sm')]: {
+      fontSize: "1em"
+    },
   })
 );

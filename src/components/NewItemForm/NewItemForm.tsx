@@ -1,7 +1,7 @@
 import * as S from "./NewItemForm.style";
 import { ThemeContext } from "../../App";
 import { useState, useContext } from "react";
-import { Field } from "../../types";
+import { Field } from "../../interfaces";
 import Confetti from "react-confetti";
 
 export default function NewItemForm(props: any) {

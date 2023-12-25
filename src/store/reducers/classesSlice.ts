@@ -1,5 +1,5 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { ShobClass } from "../../types";
+import { ShobClass } from "../../interfaces";
 
 interface ClassroomState {
   data: ShobClass[];

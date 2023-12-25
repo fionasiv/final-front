@@ -3,7 +3,7 @@ import Navbar from "./components/Navbar/Navbar";
 import { routes } from "./consts/AppConsts";
 import { useState, createContext, useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
-import { PageRoute, ShobClass } from "./types";
+import { ShobClass, PageRoute } from "./interfaces";
 import { Modes } from "./Enums";
 import { useAppDispatch } from "./store/store";
 import { setClassrooms } from "./store/reducers/classesSlice";

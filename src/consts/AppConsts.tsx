@@ -1,4 +1,4 @@
-import { PageRoute } from "../types";
+import { PageRoute } from "../interfaces";
 import Classes from "../pages/ClassesPage/Classes";
 import Students from "../pages/StudentsPage/Students";
 import Create from "../pages/CreatePage/Create";
