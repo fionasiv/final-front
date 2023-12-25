@@ -4,8 +4,8 @@ import { ShobClass } from "../../types";
 import { deleteClassroom } from "../../requests/ClassroomRequests";
 import { getAllStudents } from "../../requests/StudentsRequests";
 import { SwalToast, SwalToastWithButtons } from "../../consts/SwalToast";
-import { useAppDispatch, useAppSelector } from "../../store";
-import { removeClassroom } from "../../store/reducers/classesSlice";
+import { useAppDispatch, useAppSelector } from "../../store/store";
+import { removeClassroomFromState } from "../../store/reducers/classesSlice";
 import Swal from "sweetalert2";
 
 export default function Classes() {
@@ -46,7 +46,7 @@ export default function Classes() {
         icon: "success",
         title: "הכיתה נמחקה בהצלחה!",
       });
-      dispatch(removeClassroom({ classroomId: classId }));
+      dispatch(removeClassroomFromState({ classroomId: classId }));
     } else {
       SwalToast.fire({
         icon: "error",
@@ -56,7 +56,8 @@ export default function Classes() {
   };
 
   const shobClasses = classrooms
-    ? classrooms.map((shobClass: ShobClass) => (
+    ? classrooms.map((shobClass: ShobClass) => 
+      (
         <Class
           key={shobClass._id}
           id={shobClass._id}

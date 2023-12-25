@@ -5,7 +5,7 @@ import { ThemeContext } from "../../App";
 import ListModal from "../ListModal/ListModal";
 import SchoolIcon from "@mui/icons-material/School";
 import AddIcon from "@mui/icons-material/Add";
-import { useAppDispatch, useAppSelector } from "../../store";
+import { useAppDispatch, useAppSelector } from "../../store/store";
 import { displayedItem } from "../../types";
 import { subtructClassroomSeat } from "../../store/reducers/classesSlice";
 

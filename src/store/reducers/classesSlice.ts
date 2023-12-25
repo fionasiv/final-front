@@ -21,10 +21,10 @@ export const classroomSlice = createSlice({
         (classroom) => classroom
       );
     },
-    addClassroom: (state, action: PayloadAction<{ classroom: ShobClass }>) => {
+    addClassroomToState: (state, action: PayloadAction<{ classroom: ShobClass }>) => {
       state.data.push(action.payload.classroom);
     },
-    removeClassroom: (
+    removeClassroomFromState: (
       state,
       action: PayloadAction<{ classroomId: string }>
     ) => {
@@ -38,9 +38,9 @@ export const classroomSlice = createSlice({
     ) => {
         state.data = state.data.map((classroom) =>
         classroom._id === action.payload.classroomId
-          ? { ...classroom, numberOfSeatsLeft: classroom.seatsLeft - 1 }
+          ? { ...classroom, seatsLeft: classroom.seatsLeft - 1 }
           : classroom
-      );
+          );
     },
     addClassroomSeat: (
         state,
@@ -48,13 +48,13 @@ export const classroomSlice = createSlice({
       ) => {
         state.data = state.data.map((classroom) =>
           classroom._id === action.payload.classroomId
-            ? { ...classroom, numberOfSeatsLeft: classroom.seatsLeft + 1 }
+            ? { ...classroom, seatsLeft: classroom.seatsLeft + 1 }
             : classroom
         );
       },
   },
 });
 
-export const { setClassrooms, addClassroom, removeClassroom, subtructClassroomSeat, addClassroomSeat } =
+export const { setClassrooms, addClassroomToState, removeClassroomFromState, subtructClassroomSeat, addClassroomSeat } =
   classroomSlice.actions;
 export default classroomSlice.reducer;

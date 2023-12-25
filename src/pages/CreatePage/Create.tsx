@@ -5,12 +5,21 @@ import { addStudent } from "../../requests/StudentsRequests";
 import { SwalToast } from "../../consts/SwalToast";
 import { ShobClass, Student } from "../../types";
 import * as S from "./Create.style";
+import { useAppDispatch } from "../../store/store";
+import { addClassroomToState } from "../../store/reducers/classesSlice";
 
 export default function Create() {
+  const dispatch = useAppDispatch();
+
   const addNewClassroom = async (newClass: ShobClass) => {
     const isCreated = await addClassroom(newClass);
 
     if (isCreated) {
+      const newClassroom = {
+        ...newClass,
+        seatsLeft: newClass.capacity
+      }
+      dispatch(addClassroomToState({ classroom: newClassroom }));
       SwalToast.fire({
         icon: "success",
         text: "הכיתה נוספה לרשימה בהצלחה!",

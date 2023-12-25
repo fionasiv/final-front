@@ -1,7 +1,8 @@
 const fieldChecks = {
   numericCheck: (value: string) => new RegExp("^[0-9]+$").test(value),
   idCheck: (value: string) => fieldChecks.numericCheck(value) && value.length > 8,
-  onlyLettersCheck: (value: string) => new RegExp("^[a-zA-Z\u0590-\u05fe]+$").test(value),
+  nameCheck: (value: string) => new RegExp("^[\u0590-\u05fea-zA-Z]+$").test(value),
+  onlyLettersCheck: (value: string) => new RegExp("^[\u0590-\u05fea-zA-Z\\s\\d]+$").test(value),
   seatsAmountCheck: (value: number) => value > 0 && value <= 1000,
   ageCheck: (value: number) => value > 0 && value <= 120,
 };
@@ -23,7 +24,7 @@ export const NewClassFields = [
   },
   {
     label: "Max Seats",
-    id: "numberOfSeats",
+    id: "capacity",
     type: "number",
     check: fieldChecks.seatsAmountCheck,
     required: true,
@@ -42,14 +43,14 @@ export const AddStudentFields = [
     label: "First Name",
     id: "firstName",
     type: "string",
-    check: fieldChecks.onlyLettersCheck,
+    check: fieldChecks.nameCheck,
     required: true,
   },
   {
     label: "Last Name",
     id: "lastName",
     type: "string",
-    check: fieldChecks.onlyLettersCheck,
+    check: fieldChecks.nameCheck,
     required: true,
   },
   {

@@ -11,12 +11,12 @@ import {
   removeStudentFromClassroom,
 } from "../../requests/StudentsRequests";
 import { SwalToast } from "../../consts/SwalToast";
-import { useAppDispatch } from "../../store";
+import { useAppDispatch } from "../../store/store";
 import { addClassroomSeat } from "../../store/reducers/classesSlice";
 
 export default function Class(props: any) {
   const [open, setOpen] = useState(false);
-  const [students, setStudents] = useState([] as Student[]);
+  const [students, setStudents] = useState<Student[]>([]);
   const theme = useContext(ThemeContext);
   const dispatch = useAppDispatch();
 
@@ -40,12 +40,12 @@ export default function Class(props: any) {
 
   const handleClick = () => setOpen((prevOpen) => !prevOpen);
 
-  const removeStudent = async (studentId: string) => {
+  const removeStudentFromClass = async (studentId: string) => {
     try {
-      const isRemoved = await removeStudentFromClassroom(studentId);
+      const isRemovedFromClass = await removeStudentFromClassroom(studentId);
       handleClick();
 
-      if (isRemoved) {
+      if (isRemovedFromClass) {
         setStudents((prevStudents) =>
           prevStudents.filter((student) => student._id !== studentId)
         );
@@ -94,7 +94,7 @@ export default function Class(props: any) {
         emptyListMsg="No students have been registered to this classroom."
         avatarIcon={Person2Icon}
         buttonIcon={DeleteIcon}
-        handleClick={removeStudent}
+        handleClick={removeStudentFromClass}
       />
     </>
   );

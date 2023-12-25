@@ -9,11 +9,12 @@ import {
 import { Student } from "../../types";
 import { SwalToast, SwalToastWithButtons } from "../../consts/SwalToast";
 import Swal from "sweetalert2";
+import { useAppDispatch } from "../../store/store";
+import { addClassroomSeat } from "../../store/reducers/classesSlice";
 
 export default function Students() {
   const [students, setStudents] = useState<Student[]>([]);
-  // const [availableClasses, setAvailableClasses] = useState<displayedItem[]>([])
-  
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -79,9 +80,11 @@ export default function Students() {
         });
       }
     });
-  }
+  };
 
   const removeStudent = async (studentId: string) => {
+    const student = students.find((student) => student._id === studentId);
+    const classId = student ? student.classroom : null;
     const isRemoved = await deleteStudent(studentId);
 
     if (isRemoved) {
@@ -92,6 +95,9 @@ export default function Students() {
       setStudents((prevStudents) =>
         prevStudents.filter((student) => student._id !== studentId)
       );
+      if (classId) {
+        dispatch(addClassroomSeat({ classroomId: classId }));
+      }
     } else {
       SwalToast.fire({
         icon: "error",

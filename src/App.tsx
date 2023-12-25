@@ -5,7 +5,7 @@ import { useState, createContext, useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 import { PageRoute, ShobClass } from "./types";
 import { Modes } from "./Enums";
-import { useAppDispatch } from "./store";
+import { useAppDispatch } from "./store/store";
 import { setClassrooms } from "./store/reducers/classesSlice";
 import { SwalToastWithoutTimer } from "./consts/SwalToast";
 import { getAllClassrooms } from "./requests/ClassroomRequests";
