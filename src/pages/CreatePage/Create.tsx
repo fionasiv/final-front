@@ -1,4 +1,4 @@
-import Form from "../../components/NewItemForm/NewItemForm";
+import Form from "../../components/Form/Form";
 import { NewClassFields, AddStudentFields } from "../../consts/FormConsts";
 import { addClassroom } from "../../requests/ClassroomRequests";
 import { addStudent } from "../../requests/StudentsRequests";
@@ -12,13 +12,13 @@ export default function Create() {
   const dispatch = useAppDispatch();
 
   const addNewClassroom = async (newClass: ShobClass) => {
-    const isCreated = await addClassroom(newClass);
+    try {
+      await addClassroom(newClass);
 
-    if (isCreated) {
       const newClassroom = {
         ...newClass,
-        seatsLeft: newClass.capacity
-      }
+        seatsLeft: newClass.capacity,
+      };
       dispatch(addClassroomToState({ classroom: newClassroom }));
       SwalToast.fire({
         icon: "success",
@@ -26,7 +26,7 @@ export default function Create() {
       });
 
       return true;
-    } else {
+    } catch (error) {
       SwalToast.fire({
         icon: "error",
         text: "חלה תקלה בעת הוספת הכיתה, נסו שוב מאוחר יותר",
@@ -37,16 +37,16 @@ export default function Create() {
   };
 
   const addNewStudent = async (newStudent: Student) => {
-    const isAdded = await addStudent(newStudent);
+    try {
+      await addStudent(newStudent);
 
-    if (isAdded) {
       SwalToast.fire({
         icon: "success",
         text: "הסטודנט/ית נוסף/ה לרשימה בהצלחה!",
       });
 
       return true;
-    } else {
+    } catch (error) {
       SwalToast.fire({
         icon: "error",
         text: "חלה תקלה בעת הוספת הסטודנט/ית",

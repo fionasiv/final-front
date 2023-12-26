@@ -43,9 +43,8 @@ export default function Students() {
   }, []);
 
   const addStudentToClass = async (classId: string, studentId: string) => {
-    const isAdded = await addStudentToClassroom(classId, studentId);
-
-    if (isAdded) {
+    try {
+      addStudentToClassroom(classId, studentId);
       SwalToast.fire({
         icon: "success",
         title: "הסטודנט/ית התווסף/ה לכיתה בהצלחה!",
@@ -57,7 +56,7 @@ export default function Students() {
             : student
         )
       );
-    } else {
+    } catch (error) {
       SwalToast.fire({
         icon: "error",
         title: "אופס...",
@@ -86,9 +85,9 @@ export default function Students() {
   const removeStudent = async (studentId: string) => {
     const student = students.find((student) => student._id === studentId);
     const classId = student ? student.classroom : null;
-    const isRemoved = await deleteStudent(studentId);
-
-    if (isRemoved) {
+    
+    try {
+      await deleteStudent(studentId);
       SwalToast.fire({
         icon: "success",
         title: "הסטודנט/ית נמחק/ה בהצלחה!",
@@ -96,10 +95,11 @@ export default function Students() {
       setStudents((prevStudents) =>
         prevStudents.filter((student) => student._id !== studentId)
       );
+
       if (classId) {
         dispatch(addClassroomSeat({ classroomId: classId }));
       }
-    } else {
+    } catch (error) {
       SwalToast.fire({
         icon: "error",
         title: "אופס...",

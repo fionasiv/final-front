@@ -39,15 +39,14 @@ export default function Classes() {
   };
 
   const deleteClass = async (classId: string) => {
-    const isRemoved = await deleteClassroom(classId);
-
-    if (isRemoved) {
+    try {
+      await deleteClassroom(classId);
       SwalToast.fire({
         icon: "success",
         title: "הכיתה נמחקה בהצלחה!",
       });
       dispatch(removeClassroomFromState({ classroomId: classId }));
-    } else {
+    } catch (error) {
       SwalToast.fire({
         icon: "error",
         title: "חלה תקלה בעת מחיקת הכיתה, אנא נסו שוב מאוחר יותר",

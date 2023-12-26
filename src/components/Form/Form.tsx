@@ -1,10 +1,10 @@
-import * as S from "./NewItemForm.style";
+import * as S from "./Form.style";
 import { ThemeContext } from "../../App";
 import { useState, useContext } from "react";
 import { Field } from "../../interfaces";
 import Confetti from "react-confetti";
 
-export default function NewItemForm(props: any) {
+export default function Form(props: any) {
   const theme = useContext(ThemeContext);
   const fieldNames = props.fields.map((field: Field) => field.id);
   const fieldObjects: any = {};

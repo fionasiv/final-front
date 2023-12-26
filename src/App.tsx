@@ -39,20 +39,22 @@ function App() {
     );
   }
 
+  const routeItems = routes.map((route: PageRoute) => {
+    return (
+      <Route
+        path={route.path}
+        element={route.Component}
+        key={route.name}
+      />
+    );
+  })
+
   return (
     <ThemeContext.Provider value={theme}>
       <div className="App">
         <Navbar handleThemeChange={changeTheme} />
         <Routes>
-          {routes.map((route: PageRoute) => {
-            return (
-              <Route
-                path={route.path}
-                element={route.Component}
-                key={route.name}
-              />
-            );
-          })}
+          {routeItems}
         </Routes>
       </div>
     </ThemeContext.Provider>

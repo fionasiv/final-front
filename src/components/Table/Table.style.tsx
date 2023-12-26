@@ -2,7 +2,7 @@ import { Box, Button, styled } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 
 export const DesignedBox = styled(Box)({
-  width: "75vw",
+  width: "90vw",
   borderRadius: "5px",
   textAlign: "center",
   display: "flex",

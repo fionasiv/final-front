@@ -42,20 +42,16 @@ export default function Class(props: any) {
 
   const removeStudentFromClass = async (studentId: string) => {
     try {
-      const isRemovedFromClass = await removeStudentFromClassroom(studentId);
+      await removeStudentFromClassroom(studentId);
       handleClick();
-
-      if (isRemovedFromClass) {
-        setStudents((prevStudents) =>
-          prevStudents.filter((student) => student._id !== studentId)
-        );
-        dispatch(addClassroomSeat({ classroomId: props.id }));
-
-        SwalToast.fire({
-          icon: "success",
-          title: "הסטודנט/ית נמחק/ה מהכיתה בהצלחה!",
-        });
-      }
+      setStudents((prevStudents) =>
+        prevStudents.filter((student) => student._id !== studentId)
+      );
+      dispatch(addClassroomSeat({ classroomId: props.id }));
+      SwalToast.fire({
+        icon: "success",
+        title: "הסטודנט/ית נמחק/ה מהכיתה בהצלחה!",
+      });
     } catch (error) {
       SwalToast.fire({
         icon: "error",

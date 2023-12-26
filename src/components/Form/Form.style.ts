@@ -39,6 +39,9 @@ export const SubmitButton = styled(Button)<{ coloring: string }>(
       color: "white",
       fontWeight: "700",
     },
+    "&:disabled": {
+      background: "#e8e8ea",
+    },
     fontWeight: "400",
     fontSize: "1.4em",
     height: "4vh",
