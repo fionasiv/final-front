@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Table from "../../components/Table/Table";
 import * as S from "./Students.style";
 import {
@@ -11,10 +11,18 @@ import { SwalToast, SwalToastWithButtons } from "../../consts/SwalToast";
 import Swal from "sweetalert2";
 import { useAppDispatch } from "../../store/store";
 import { addClassroomSeat } from "../../store/reducers/classesSlice";
-import NotFound from "../../components/NotFound/NotFound";
+import Error from "../../components/Error/Error";
+import { Mode, Themes } from "../../Enums";
+import { ThemeContext } from "../../App";
+import NotFoundPurple from "../../assets/images/notfound-purple.jpg";
+import NotFoundRed from "../../assets/images/notfound-red.png";
+import ErrorPurple from "../../assets/images/error-purple.jpg";
+import ErrorRed from "../../assets/images/error-red.png";
 
 export default function Students() {
+  const theme = useContext(ThemeContext);
   const [students, setStudents] = useState<Student[]>([]);
+  const [mode, setMode] = useState<Mode>(Mode.LOADING);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -30,13 +38,14 @@ export default function Students() {
             };
           })
         );
+        setMode(Mode.SUCCESS);
       } catch (error) {
         SwalToast.fire({
           icon: "error",
           title: "חלה תקלה בעת קבלת הסטודנטים, נסו שוב מאוחר יותר",
         });
-
-        console.log(error);
+        setMode(Mode.ERROR);
+        console.error(error);
       }
     };
     fetchData();
@@ -85,7 +94,7 @@ export default function Students() {
   const removeStudent = async (studentId: string) => {
     const student = students.find((student) => student._id === studentId);
     const classId = student ? student.classroom : null;
-    
+
     try {
       await deleteStudent(studentId);
       SwalToast.fire({
@@ -117,13 +126,30 @@ export default function Students() {
       />
     </S.TablesSection>
   ) : (
-    <NotFound
+    <Error
       title="לא נמצאו תלמידים..."
       descripton="נסו שנית מאוחר יותר"
       linkTitle="צרו סטודנט/ית חדש/ה"
       url="/create"
+      image={theme === Themes.PURPLE_MODE? NotFoundPurple : NotFoundRed}
     />
   );
 
-  return studentsPage;
+  if (mode === Mode.ERROR) {
+    return (
+      <Error
+        title="חלה תקלה בחיבור לשרת"
+        descripton="נסו שנית מאוחר יותר"
+        image={theme === Themes.PURPLE_MODE ? ErrorPurple : ErrorRed}
+      />
+    );
+  } else if (mode === Mode.LOADING) {
+    return (
+      <S.ProgressBox>
+        <S.Progress coloring={theme} size={100} />
+      </S.ProgressBox>
+    );
+  } else {
+    return studentsPage;
+  }
 }

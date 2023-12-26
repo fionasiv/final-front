@@ -4,6 +4,7 @@ export interface PageRoute {
   path: string;
   name: string;
   Component: ReactNode;
+  props?: string;  
 }
 
 export interface displayedItem {
