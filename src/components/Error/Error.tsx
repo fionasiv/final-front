@@ -12,22 +12,20 @@ export default function NotFound(props: any) {
   };
 
   return (
-    <S.FormFields>
+    <S.ErrorWrapper>
+        <S.Image src={props.image} />
       <S.TextArea>
         <S.Title coloring={theme}>{props.title}</S.Title>
-        <S.Description color={theme}>
-          {props.descripton} <br />
-          {props.linkTitle && (
-            <S.Description color={theme}>
-              או
-              <S.otherPageLink onClick={redirect} color={theme}>
-                {props.linkTitle}
-              </S.otherPageLink>
-            </S.Description>
-          )}
-        </S.Description>
+        <S.Description color={theme}>{props.descripton}</S.Description>
+        {props.linkTitle && (
+          <S.Description color={theme}>
+            או {" "}
+            <S.otherPageLink onClick={redirect} color={theme}>
+              {props.linkTitle}
+            </S.otherPageLink>
+          </S.Description>
+        )}
       </S.TextArea>
-      <S.Image src={props.image} />
-    </S.FormFields>
+    </S.ErrorWrapper>
   );
 }
