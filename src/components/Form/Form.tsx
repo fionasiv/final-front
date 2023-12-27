@@ -28,43 +28,52 @@ export default function Form(props: any) {
 
     if (didCreate) {
       setShowConfetti(true);
-      setTimeout(() => setShowConfetti(false), 5000)
+      setTimeout(() => setShowConfetti(false), 5000);
     }
   };
 
   const isFormValid = () => {
     let isValid = true;
     props.fields.forEach((field: Field) => {
-      if (!field.check(inputs[field.id])) {
+      console.log(field.check(inputs[field.id]))
+      if (!field.check(inputs[field.id]).isValid) {
         isValid = false;
       }
     });
+
     return isValid;
   };
 
   const fields = props.fields.map((field: Field) => {
+    const showError = !field.check(inputs[field.id]).isValid && inputs[field.id] !== "";
+
     return (
-      <S.Field
-        id={field.id}
-        key={field.id}
-        value={inputs[field.id]}
-        required={field.required ? true : false}
-        label={field.label}
-        type={field.type !== "string" ? field.type : ""}
-        onChange={(event) => handleChange(event, field.id)}
-        error={!field.check(inputs[field.id]) && inputs[field.id] !== ""}
-      />
+      <>
+        <S.Field
+          id={field.id}
+          key={field.id}
+          value={inputs[field.id]}
+          required={field.required ? true : false}
+          label={field.label}
+          type={field.type !== "string" ? field.type : ""}
+          onChange={(event) => handleChange(event, field.id)}
+          error={showError}
+        />
+        {showError && <S.Helper>{field.check(inputs[field.id]).invalidMsg}</S.Helper>}
+      </>
     );
   });
 
   return (
     <S.FormBox>
-      {showConfetti && <Confetti 
-            width={window.innerWidth}
-            height={window.innerHeight}
-            tweenDuration={5000}
-            recycle={false}
-          />}
+      {showConfetti && (
+        <Confetti
+          width={window.innerWidth}
+          height={window.innerHeight}
+          tweenDuration={5000}
+          recycle={false}
+        />
+      )}
       <S.FormSection>
         <S.Title>{props.title}</S.Title>
         <S.FormFields>

@@ -37,3 +37,8 @@ export interface Field {
   check: Function;
   required?: boolean | null;
 }
+
+export interface FieldCheck {
+  isValid: boolean;
+  invalidMsg: string;
+}

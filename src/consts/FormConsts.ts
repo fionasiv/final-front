@@ -1,10 +1,57 @@
+import { FieldCheck } from "../interfaces";
+
 const fieldChecks = {
-  numericCheck: (value: string) => new RegExp("^[0-9]+$").test(value),
-  idCheck: (value: string) => fieldChecks.numericCheck(value) && value.length > 8,
-  nameCheck: (value: string) => new RegExp("^[\u0590-\u05fea-zA-Z]+$").test(value),
-  onlyLettersCheck: (value: string) => new RegExp("^[\u0590-\u05fea-zA-Z\\s\\d]+$").test(value),
-  seatsAmountCheck: (value: number) => value > 0 && value <= 1000,
-  ageCheck: (value: number) => value > 0 && value <= 120,
+  numericCheck: (value: string): FieldCheck => {
+    const isValid = new RegExp("^[0-9]+$").test(value);
+    
+    return { isValid: isValid, invalidMsg: "אנא הזינו רק מספרים" };
+  },
+  idCheck: (value: string): FieldCheck => {
+    const isValid = fieldChecks.numericCheck(value).isValid && value.length > 8;
+    let message = "";
+
+    if (!fieldChecks.numericCheck(value).isValid) {
+      message = fieldChecks.numericCheck(value).invalidMsg
+    } else if (value.length < 9) {
+      message = "אנא הזינו מזהה באורך 9 תווים לפחות"
+    }
+
+    return { isValid: isValid, invalidMsg: message }
+  },
+  nameCheck: (value: string): FieldCheck => {
+    const isValid = new RegExp("^[\u0590-\u05fea-zA-Z]+$").test(value);
+
+    return { isValid: isValid, invalidMsg: "אנא הזינו רק אותיות בעברית או באנגלית" };
+  },
+  onlyLettersCheck: (value: string): FieldCheck => {
+    const isValid = new RegExp("^[\u0590-\u05fea-zA-Z\\s\\d]+$").test(value);
+
+    return { isValid: isValid, invalidMsg: "אנא הזינו רק אותיות, מספרים או רווחים" };
+  },
+  seatsAmountCheck: (value: number): FieldCheck => {
+    const isValid = value > 0 && value <= 1000;
+    let message = "";
+
+    if (value < 0) {
+      message = "כמות הכיסאות הזמינים לא יכולה להיות שלילית"
+    } else if (value > 1000) {
+      message = "כמות הכיסאות לא תקינה"
+    }
+
+    return { isValid: isValid, invalidMsg: message }
+  },
+  ageCheck: (value: number): FieldCheck => {
+    const isValid = value > 0 && value <= 120;
+    let message = "";
+
+    if (value < 0) {
+      message = "גיל לא יכול להיות שלילי"
+    } else if (value > 120) {
+      message = "גיל לא תקני"
+    }
+
+    return { isValid: isValid, invalidMsg: message }
+  },
 };
 
 export const NewClassFields = [
@@ -65,5 +112,5 @@ export const AddStudentFields = [
     type: "string",
     check: fieldChecks.onlyLettersCheck,
     required: true,
-  }
+  },
 ];
