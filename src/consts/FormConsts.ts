@@ -3,7 +3,7 @@ import { FieldCheck } from "../interfaces";
 const fieldChecks = {
   numericCheck: (value: string): FieldCheck => {
     const isValid = new RegExp("^[0-9]+$").test(value);
-    
+
     return { isValid: isValid, invalidMsg: "אנא הזינו רק מספרים" };
   },
   idCheck: (value: string): FieldCheck => {
@@ -18,12 +18,12 @@ const fieldChecks = {
 
     return { isValid: isValid, invalidMsg: message }
   },
-  nameCheck: (value: string): FieldCheck => {
+  onlyLettersCheck: (value: string): FieldCheck => {
     const isValid = new RegExp("^[\u0590-\u05fea-zA-Z]+$").test(value);
 
     return { isValid: isValid, invalidMsg: "אנא הזינו רק אותיות בעברית או באנגלית" };
   },
-  onlyLettersCheck: (value: string): FieldCheck => {
+  nameCheck: (value: string): FieldCheck => {
     const isValid = new RegExp("^[\u0590-\u05fea-zA-Z\\s\\d]+$").test(value);
 
     return { isValid: isValid, invalidMsg: "אנא הזינו רק אותיות, מספרים או רווחים" };
@@ -59,14 +59,14 @@ export const NewClassFields = [
     label: "Class ID",
     id: "_id",
     type: "string",
-    check: fieldChecks.idCheck,
+    check: fieldChecks.numericCheck,
     required: true,
   },
   {
     label: "Name",
     id: "name",
     type: "string",
-    check: fieldChecks.onlyLettersCheck,
+    check: fieldChecks.nameCheck,
     required: true,
   },
   {
@@ -90,14 +90,14 @@ export const AddStudentFields = [
     label: "First Name",
     id: "firstName",
     type: "string",
-    check: fieldChecks.nameCheck,
+    check: fieldChecks.onlyLettersCheck,
     required: true,
   },
   {
     label: "Last Name",
     id: "lastName",
     type: "string",
-    check: fieldChecks.nameCheck,
+    check: fieldChecks.onlyLettersCheck,
     required: true,
   },
   {
@@ -110,7 +110,7 @@ export const AddStudentFields = [
     label: "Profession",
     id: "profession",
     type: "string",
-    check: fieldChecks.onlyLettersCheck,
+    check: fieldChecks.nameCheck,
     required: true,
   },
 ];

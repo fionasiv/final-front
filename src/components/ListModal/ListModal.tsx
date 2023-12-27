@@ -28,8 +28,10 @@ export default function ListModal(props: any) {
   return (
     <Modal key={props.id} open={props.open} onClose={props.handleClose}>
       <S.DesignedBox>
+        <S.ListWrapper>
         <S.Title>{props.title}</S.Title>
         {props.list.length ? items : noItemsMessage}
+        </S.ListWrapper>
       </S.DesignedBox>
     </Modal>
   );
