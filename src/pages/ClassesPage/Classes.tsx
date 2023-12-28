@@ -8,11 +8,7 @@ import { useAppDispatch, useAppSelector } from "../../store/store";
 import { removeClassroomFromState } from "../../store/reducers/classesSlice";
 import Swal from "sweetalert2";
 import Error from "../../components/Error/Error";
-import { Themes, Mode } from "../../Enums";
-import NotFoundPurple from "../../assets/images/notfound-purple.jpg";
-import NotFoundRed from "../../assets/images/notfound-red.png";
-import ErrorPurple from "../../assets/images/error-purple.jpg";
-import ErrorRed from "../../assets/images/error-red.png";
+import { Mode } from "../../Enums";
 import { useContext } from "react";
 import { ThemeContext } from "../../App";
 
@@ -82,7 +78,7 @@ export default function Classes(props: any) {
       descripton="נסו שנית מאוחר יותר"
       linkTitle="צרו כיתה חדשה"
       url="/create"
-      image={theme === Themes.PURPLE_MODE ? NotFoundPurple : NotFoundRed}
+      image={`../../assets/images/notfound-${theme.name}.jpg`}
     />
   );
 
@@ -91,13 +87,13 @@ export default function Classes(props: any) {
       <Error
         title="חלה תקלה בחיבור לשרת"
         descripton="נסו שנית מאוחר יותר"
-        image={theme === Themes.PURPLE_MODE ? ErrorPurple : ErrorRed}
+        image={`../../assets/images/error-${theme.name}.jpg`}
       />
     );
   } else if (props.mode === Mode.LOADING) {
     return (
       <S.ProgressBox>
-        <S.Progress coloring={theme} size={100} />
+        <S.Progress coloring={theme.hexColor} size={100} />
       </S.ProgressBox>
     );
   } else {

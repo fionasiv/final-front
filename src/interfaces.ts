@@ -4,7 +4,7 @@ export interface PageRoute {
   path: string;
   name: string;
   Component: ReactNode;
-  props?: string;  
+  props?: string;
 }
 
 export interface displayedItem {
@@ -41,4 +41,9 @@ export interface Field {
 export interface FieldCheck {
   isValid: boolean;
   invalidMsg: string;
+}
+
+export interface ThemeData {
+  name: string;
+  hexColor: string;
 }

@@ -29,7 +29,7 @@ export const DesignedBox = styled(Box)({
 });
 
 export const ListWrapper = styled("div")({
-  height: "40vh",
+  maxHeight: "35vh",
   overflowY: "auto",
 })
 

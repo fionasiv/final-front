@@ -12,15 +12,13 @@ import Swal from "sweetalert2";
 import { useAppDispatch } from "../../store/store";
 import { addClassroomSeat } from "../../store/reducers/classesSlice";
 import Error from "../../components/Error/Error";
-import { Mode, Themes } from "../../Enums";
+import { Mode } from "../../Enums";
 import { ThemeContext } from "../../App";
-import NotFoundPurple from "../../assets/images/notfound-purple.jpg";
-import NotFoundRed from "../../assets/images/notfound-red.png";
-import ErrorPurple from "../../assets/images/error-purple.jpg";
-import ErrorRed from "../../assets/images/error-red.png";
 
 export default function Students() {
   const theme = useContext(ThemeContext);
+  const notFoundImage = `images/notfound-${theme.name}.jpg`;
+  const errorImage = `images/error-${theme.name}.jpg`;
   const [students, setStudents] = useState<Student[]>([]);
   const [mode, setMode] = useState<Mode>(Mode.LOADING);
   const dispatch = useAppDispatch();
@@ -131,7 +129,7 @@ export default function Students() {
       descripton="נסו שנית מאוחר יותר"
       linkTitle="צרו סטודנט/ית חדש/ה"
       url="/create"
-      image={theme === Themes.PURPLE_MODE? NotFoundPurple : NotFoundRed}
+      image={notFoundImage}
     />
   );
 
@@ -140,16 +138,23 @@ export default function Students() {
       <Error
         title="חלה תקלה בחיבור לשרת"
         descripton="נסו שנית מאוחר יותר"
-        image={theme === Themes.PURPLE_MODE ? ErrorPurple : ErrorRed}
+        image={errorImage}
       />
     );
   } else if (mode === Mode.LOADING) {
     return (
       <S.ProgressBox>
-        <S.Progress coloring={theme} size={100} />
+        <S.Progress coloring={theme.hexColor} size={100} />
       </S.ProgressBox>
     );
   } else {
-    return studentsPage;
+    return <Error
+    title="לא נמצאו תלמידים..."
+    descripton="נסו שנית מאוחר יותר"
+    linkTitle="צרו סטודנט/ית חדש/ה"
+    url="/create"
+    image={notFoundImage}
+  />
+    // return studentsPage;
   }
 }

@@ -76,7 +76,7 @@ export default function Class(props: any) {
             STUDENTS LIST
           </S.StudentsButton>
           <IconButton onClick={() => props.removeClass(props.id)}>
-            <S.Delete coloring={theme} />
+            <S.Delete coloring={theme.hexColor} />
           </IconButton>
         </S.Actions>
       </S.ClassCard>

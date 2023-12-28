@@ -2,8 +2,8 @@ import "./App.css";
 import Navbar from "./components/Navbar/Navbar";
 import { useState, createContext, useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
-import { ShobClass, PageRoute } from "./interfaces";
-import { Themes, Mode } from "./Enums";
+import { ShobClass } from "./interfaces";
+import { Mode } from "./Enums";
 import { useAppDispatch } from "./store/store";
 import { setClassrooms } from "./store/reducers/classesSlice";
 import { SwalToastWithoutTimer } from "./consts/SwalToast";
@@ -11,10 +11,11 @@ import { getAllClassrooms } from "./requests/ClassroomRequests";
 import Classes from "./pages/ClassesPage/Classes";
 import Students from "./pages/StudentsPage/Students";
 import Create from "./pages/CreatePage/Create";
-export const ThemeContext = createContext(Themes.PURPLE_MODE);
+import { themes } from "./consts/AppConsts";
+export const ThemeContext = createContext(themes[0]);
 
 function App() {
-  const [theme, setTheme] = useState(Themes.PURPLE_MODE);
+  const [theme, setTheme] = useState(themes[0]);
   const [mode, setMode] = useState<Mode>(Mode.LOADING);
   const dispatch = useAppDispatch();
 
@@ -37,10 +38,8 @@ function App() {
     fetchData();
   }, []);
 
-  function changeTheme(): void {
-    setTheme((prevTheme) =>
-      prevTheme === Themes.PURPLE_MODE ? Themes.RED_MODE : Themes.PURPLE_MODE
-    );
+  function changeTheme(themeName: string): void {
+    setTheme(themes.find((theme) => theme.name === themeName) || themes[0]);
   }
 
   return (

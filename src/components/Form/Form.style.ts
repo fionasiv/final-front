@@ -54,5 +54,5 @@ export const SubmitButton = styled(Button)<{ coloring: string }>(
 
 export const Helper = styled(FormHelperText)({
   margin: "-0.5vh 2vw 1vh 2vw",
-  color: "#d32f2f",
+  textAlign: "right",
 })

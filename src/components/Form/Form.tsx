@@ -35,7 +35,6 @@ export default function Form(props: any) {
   const isFormValid = () => {
     let isValid = true;
     props.fields.forEach((field: Field) => {
-      console.log(field.check(inputs[field.id]))
       if (!field.check(inputs[field.id]).isValid) {
         isValid = false;
       }
@@ -59,7 +58,7 @@ export default function Form(props: any) {
           onChange={(event) => handleChange(event, field.id)}
           error={showError}
         />
-        {showError && <S.Helper>{field.check(inputs[field.id]).invalidMsg}</S.Helper>}
+        {showError && <S.Helper error={true} dir="rtl">{field.check(inputs[field.id]).invalidMsg}</S.Helper>}
       </>
     );
   });
@@ -80,7 +79,7 @@ export default function Form(props: any) {
           {fields}
           <S.SubmitButton
             type="submit"
-            coloring={theme}
+            coloring={theme.hexColor}
             onClick={handleSubmit}
             disabled={!isFormValid()}
           >
