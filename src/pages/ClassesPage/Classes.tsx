@@ -3,35 +3,42 @@ import Class from "../../components/Class/Class";
 import { ShobClass } from "../../interfaces";
 import { deleteClassroom } from "../../requests/ClassroomRequests";
 import { getAllStudents } from "../../requests/StudentsRequests";
-import { SwalToast, SwalToastWithButtons } from "../../consts/SwalToast";
+import { SwalToast, SwalToastWithButtons } from "../../components/SwalToast/SwalToast";
 import { useAppDispatch, useAppSelector } from "../../store/store";
 import { removeClassroomFromState } from "../../store/reducers/classesSlice";
 import Swal from "sweetalert2";
-import NotFound from "../../components/NotFound/NotFound";
+import Error from "../../components/Error/Error";
+import { Mode } from "../../Enums";
+import { useContext } from "react";
+import { ThemeContext } from "../../App";
+import "../../components/SwalToast/SwalToast.css"
 
-export default function Classes() {
+export default function Classes(props: any) {
+  const theme = useContext(ThemeContext);
   const classrooms = useAppSelector((state) => state.classrooms.data);
   const dispatch = useAppDispatch();
-
   const removeClassHandler = async (classId: string) => {
     const classroomStudents = await getAllStudents(`classroom/${classId}`);
 
     if (classroomStudents.length) {
       SwalToast.fire({
         icon: "error",
+        iconColor: theme.hexColor,
         title: "לא ניתן למחוק כיתה המכילה תלמידים",
       });
     } else {
       SwalToastWithButtons.fire({
-        title: "את/ה בטוח/ה שברצונך למחוק את הכיתה?",
         icon: "warning",
+        iconColor: theme.hexColor,
+        title: "את/ה בטוח/ה שברצונך למחוק את הכיתה?",
       }).then(async (result) => {
         if (result.isConfirmed) {
           await deleteClass(classId);
         } else if (result.dismiss === Swal.DismissReason.cancel) {
           SwalToast.fire({
-            title: "המחיקה בוטלה",
             icon: "error",
+            iconColor: theme.hexColor,
+            title: "המחיקה בוטלה",
           });
         }
       });
@@ -39,17 +46,18 @@ export default function Classes() {
   };
 
   const deleteClass = async (classId: string) => {
-    const isRemoved = await deleteClassroom(classId);
-
-    if (isRemoved) {
+    try {
+      await deleteClassroom(classId);
       SwalToast.fire({
         icon: "success",
+        iconColor: theme.hexColor,
         title: "הכיתה נמחקה בהצלחה!",
       });
       dispatch(removeClassroomFromState({ classroomId: classId }));
-    } else {
+    } catch (error) {
       SwalToast.fire({
         icon: "error",
+        iconColor: theme.hexColor,
         title: "חלה תקלה בעת מחיקת הכיתה, אנא נסו שוב מאוחר יותר",
       });
     }
@@ -71,13 +79,30 @@ export default function Classes() {
   const classesPage = classrooms.length ? (
     <S.ClassesList>{shobClasses}</S.ClassesList>
   ) : (
-    <NotFound
+    <Error
       title="לא נמצאו כיתות..."
       descripton="נסו שנית מאוחר יותר"
       linkTitle="צרו כיתה חדשה"
       url="/create"
+      image={`../../assets/images/notfound-${theme.name}.jpg`}
     />
   );
 
-  return classesPage;
+  if (props.mode === Mode.ERROR) {
+    return (
+      <Error
+        title="חלה תקלה בחיבור לשרת"
+        descripton="נסו שנית מאוחר יותר"
+        image={`../../assets/images/error-${theme.name}.jpg`}
+      />
+    );
+  } else if (props.mode === Mode.LOADING) {
+    return (
+      <S.ProgressBox>
+        <S.Progress coloring={theme.hexColor} size={100} />
+      </S.ProgressBox>
+    );
+  } else {
+    return classesPage;
+  }
 }

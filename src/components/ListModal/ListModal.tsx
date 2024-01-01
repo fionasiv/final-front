@@ -13,7 +13,7 @@ export default function ListModal(props: any) {
         <props.avatarIcon />
       </S.IconAvatar>
       <S.Name>{item.name}</S.Name>
-      <S.Button coloring={theme} onClick={() => props.handleClick(item.id)}>
+      <S.Button coloring={theme.hexColor} onClick={() => props.handleClick(item.id)}>
         <props.buttonIcon />
       </S.Button>
     </S.Item>
@@ -28,8 +28,10 @@ export default function ListModal(props: any) {
   return (
     <Modal key={props.id} open={props.open} onClose={props.handleClose}>
       <S.DesignedBox>
+        <S.ListWrapper>
         <S.Title>{props.title}</S.Title>
         {props.list.length ? items : noItemsMessage}
+        </S.ListWrapper>
       </S.DesignedBox>
     </Modal>
   );

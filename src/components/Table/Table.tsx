@@ -24,7 +24,7 @@ export default function Table(props: any) {
     }
     
     return (
-      <S.TableButton coloring={theme} onClick={handleDelete}>
+      <S.TableButton coloring={theme.hexColor} onClick={handleDelete}>
         Delete
       </S.TableButton>
     );
@@ -40,7 +40,7 @@ export default function Table(props: any) {
     
     return (
       <S.TableButton
-      coloring={theme}
+      coloring={theme.hexColor}
       onClick={handleClick}
       disabled={disableButton}
       >

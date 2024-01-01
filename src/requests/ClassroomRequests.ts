@@ -14,23 +14,17 @@ export const getAllClassrooms = async () => {
 export const addClassroom = async (shobClass: ShobClass) => {
   try {
     await api.post("/classrooms", { shobClass });
-
-    return true;
   } catch (error) {
     console.error(error);
-
-    return false;
+    throw error;
   }
 };
 
 export const deleteClassroom = async (classId: string) => {
   try {
     await api.delete(`/classrooms/${classId}`);
-
-    return true;
   } catch (error) {
     console.error(error);
-
-    return false;
+    throw error;
   }
 };

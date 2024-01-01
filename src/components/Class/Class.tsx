@@ -10,7 +10,7 @@ import {
   getAllStudents,
   removeStudentFromClassroom,
 } from "../../requests/StudentsRequests";
-import { SwalToast } from "../../consts/SwalToast";
+import { SwalToast } from "../SwalToast/SwalToast";
 import { useAppDispatch } from "../../store/store";
 import { addClassroomSeat } from "../../store/reducers/classesSlice";
 
@@ -42,25 +42,22 @@ export default function Class(props: any) {
 
   const removeStudentFromClass = async (studentId: string) => {
     try {
-      const isRemovedFromClass = await removeStudentFromClassroom(studentId);
+      await removeStudentFromClassroom(studentId);
       handleClick();
-
-      if (isRemovedFromClass) {
-        setStudents((prevStudents) =>
-          prevStudents.filter((student) => student._id !== studentId)
-        );
-        dispatch(addClassroomSeat({ classroomId: props.id }));
-
-        SwalToast.fire({
-          icon: "success",
-          title: "הסטודנט/ית נמחק/ה מהכיתה בהצלחה!",
-        });
-      }
+      setStudents((prevStudents) =>
+        prevStudents.filter((student) => student._id !== studentId)
+      );
+      dispatch(addClassroomSeat({ classroomId: props.id }));
+      SwalToast.fire({
+        icon: "success",
+        iconColor: theme.hexColor,
+        title: "הסטודנט/ית נמחק/ה מהכיתה בהצלחה!",
+      });
     } catch (error) {
       SwalToast.fire({
         icon: "error",
-        title: "אופס...",
-        text: "חלה תקלה בעת מחיקת הסטודנט/ית מהכיתה, נסו שוב מאוחר יותר",
+        iconColor: theme.hexColor,
+        text: "חלה תקלה בעת מחיקת הסטודנט/ית מהכיתה",
       });
     }
   };
@@ -80,7 +77,7 @@ export default function Class(props: any) {
             STUDENTS LIST
           </S.StudentsButton>
           <IconButton onClick={() => props.removeClass(props.id)}>
-            <S.Delete coloring={theme} />
+            <S.Delete coloring={theme.hexColor} />
           </IconButton>
         </S.Actions>
       </S.ClassCard>
@@ -91,7 +88,7 @@ export default function Class(props: any) {
         handleClose={handleClick}
         list={students}
         title="Class Students"
-        emptyListMsg="No students have been registered to this classroom."
+        emptyListMsg="No students have been assigned to this classroom."
         avatarIcon={Person2Icon}
         buttonIcon={DeleteIcon}
         handleClick={removeStudentFromClass}

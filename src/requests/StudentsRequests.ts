@@ -1,4 +1,3 @@
-import { API_CONNECTION_URL } from "./api";
 import { Student } from "../interfaces";
 import api from "./api";
 
@@ -8,6 +7,7 @@ export const getAllStudents = async (path: string) => {
 
     return students;
   } catch (error) {
+    console.error(error);
     throw error;
   }
 };
@@ -15,24 +15,18 @@ export const getAllStudents = async (path: string) => {
 export const addStudent = async (student: Student) => {
   try {
     await api.post("/students", { student });
-
-    return true;
   } catch (error) {
     console.error(error);
-
-    return false;
+    throw error;
   }
 };
 
 export const deleteStudent = async (studentId: string) => {
   try {
-    await api.delete(`${API_CONNECTION_URL}/students/${studentId}`);
-
-    return true;
+    await api.delete(`/students/${studentId}`);
   } catch (error) {
     console.error(error);
-
-    return false;
+    throw error;
   }
 };
 
@@ -41,26 +35,18 @@ export const addStudentToClassroom = async (
   studentId: string
 ) => {
   try {
-    await api.patch(
-      `${API_CONNECTION_URL}/students/${studentId}/classroom/${classId}`
-    );
-
-    return true;
+    await api.patch(`/students/${studentId}/classroom/${classId}`);
   } catch (error) {
     console.error(error);
-
-    return false;
+    throw error;
   }
 };
 
 export const removeStudentFromClassroom = async (studentId: string) => {
   try {
-    await api.patch(`${API_CONNECTION_URL}/students/${studentId}/classroom`);
-
-    return true;
+    await api.patch(`/students/${studentId}/classroom`);
   } catch (error) {
     console.error(error);
-
-    return false;
+    throw error;
   }
 };

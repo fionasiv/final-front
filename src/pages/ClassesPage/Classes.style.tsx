@@ -1,5 +1,6 @@
-import { styled } from "@mui/material";
+import { Box, styled } from "@mui/material";
 import { mediaTheme } from "../../Theme"
+import { CircularProgress } from "@mui/material";
 
 export const ClassesList = styled("div") ({
     display: "grid",
@@ -27,6 +28,17 @@ export const ClassesList = styled("div") ({
     },
     [mediaTheme.breakpoints.down('xs')]: {
         gridTemplate: "auto auto / repeat(1, 1fr)",
-        margin: "7vh 5vw 7vh 18vw"
+        margin: "4vh 0vw 7vh 20vw"
     }
+})
+
+export const Progress = styled(CircularProgress)<{coloring :string}>(({coloring}) => ({
+    color: coloring,
+}))
+
+export const ProgressBox = styled(Box) ({
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    height: "80vh",
 })
