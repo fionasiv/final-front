@@ -28,7 +28,7 @@ export const ClassesList = styled("div") ({
     },
     [mediaTheme.breakpoints.down('xs')]: {
         gridTemplate: "auto auto / repeat(1, 1fr)",
-        margin: "7vh 5vw 7vh 18vw"
+        margin: "4vh 0vw 7vh 20vw"
     }
 })
 

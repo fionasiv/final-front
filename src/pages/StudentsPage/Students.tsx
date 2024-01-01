@@ -1,19 +1,20 @@
-import { useContext, useEffect, useState } from "react";
-import Table from "../../components/Table/Table";
 import * as S from "./Students.style";
+import Table from "../../components/Table/Table";
+import Error from "../../components/Error/Error";
+import Swal from "sweetalert2";
+import { useContext, useEffect, useState } from "react";
 import {
   addStudentToClassroom,
   deleteStudent,
   getAllStudents,
 } from "../../requests/StudentsRequests";
 import { Student } from "../../interfaces";
-import { SwalToast, SwalToastWithButtons } from "../../consts/SwalToast";
-import Swal from "sweetalert2";
 import { useAppDispatch } from "../../store/store";
 import { addClassroomSeat } from "../../store/reducers/classesSlice";
-import Error from "../../components/Error/Error";
 import { Mode } from "../../Enums";
 import { ThemeContext } from "../../App";
+import { SwalToast, SwalToastWithButtons } from "../../components/SwalToast/SwalToast";
+import "../../components/SwalToast/SwalToast.css"
 
 export default function Students() {
   const theme = useContext(ThemeContext);
@@ -40,6 +41,7 @@ export default function Students() {
       } catch (error) {
         SwalToast.fire({
           icon: "error",
+          iconColor: theme.hexColor,
           title: "חלה תקלה בעת קבלת הסטודנטים, נסו שוב מאוחר יותר",
         });
         setMode(Mode.ERROR);
@@ -54,6 +56,7 @@ export default function Students() {
       addStudentToClassroom(classId, studentId);
       SwalToast.fire({
         icon: "success",
+        iconColor: theme.hexColor,
         title: "הסטודנט/ית התווסף/ה לכיתה בהצלחה!",
       });
       setStudents((prevStudents) =>
@@ -66,8 +69,8 @@ export default function Students() {
     } catch (error) {
       SwalToast.fire({
         icon: "error",
-        title: "אופס...",
-        text: "חלה תקלה בעת הוספת הסטודנט/ית לכיתה, נסו שוב מאוחר יותר",
+        iconColor: theme.hexColor,
+        text: "חלה תקלה בעת הוספת הסטודנט/ית לכיתה",
       });
     }
   };
@@ -76,14 +79,16 @@ export default function Students() {
     SwalToastWithButtons.fire({
       title: "את/ה בטוח/ה שברצונך למחוק את הסטודנט/ית?",
       icon: "warning",
+      iconColor: theme.hexColor,
       reverseButtons: true,
     }).then(async (result) => {
       if (result.isConfirmed) {
         await removeStudent(studentId);
       } else if (result.dismiss === Swal.DismissReason.cancel) {
         SwalToast.fire({
-          title: "המחיקה בוטלה",
           icon: "error",
+          iconColor: theme.hexColor,
+          title: "המחיקה בוטלה",
         });
       }
     });
@@ -97,6 +102,7 @@ export default function Students() {
       await deleteStudent(studentId);
       SwalToast.fire({
         icon: "success",
+        iconColor: theme.hexColor,
         title: "הסטודנט/ית נמחק/ה בהצלחה!",
       });
       setStudents((prevStudents) =>
@@ -109,8 +115,8 @@ export default function Students() {
     } catch (error) {
       SwalToast.fire({
         icon: "error",
-        title: "אופס...",
-        text: "חלה תקלה בעת מחיקת הסטודנט/ית, נסו שוב מאוחר יותר",
+        iconColor: theme.hexColor,
+        text: "חלה תקלה בעת מחיקת הסטודנט/ית",
       });
     }
   };
@@ -148,13 +154,6 @@ export default function Students() {
       </S.ProgressBox>
     );
   } else {
-    return <Error
-    title="לא נמצאו תלמידים..."
-    descripton="נסו שנית מאוחר יותר"
-    linkTitle="צרו סטודנט/ית חדש/ה"
-    url="/create"
-    image={notFoundImage}
-  />
-    // return studentsPage;
+    return studentsPage;
   }
 }

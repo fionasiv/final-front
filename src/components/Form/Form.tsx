@@ -7,7 +7,7 @@ import Confetti from "react-confetti";
 export default function Form(props: any) {
   const theme = useContext(ThemeContext);
   const fieldNames = props.fields.map((field: Field) => field.id);
-  const fieldObjects: any = {};
+  const fieldObjects: Record<string, string> = {};
   fieldNames.forEach((field: string) => (fieldObjects[field] = ""));
 
   const [inputs, setInputs] = useState(fieldObjects);
@@ -44,7 +44,8 @@ export default function Form(props: any) {
   };
 
   const fields = props.fields.map((field: Field) => {
-    const showError = !field.check(inputs[field.id]).isValid && inputs[field.id] !== "";
+    const showError =
+      !field.check(inputs[field.id]).isValid && inputs[field.id] !== "";
 
     return (
       <>
@@ -54,11 +55,15 @@ export default function Form(props: any) {
           value={inputs[field.id]}
           required={field.required ? true : false}
           label={field.label}
-          type={field.type !== "string" ? field.type : ""}
           onChange={(event) => handleChange(event, field.id)}
           error={showError}
+
         />
-        {showError && <S.Helper error={true} dir="rtl">{field.check(inputs[field.id]).invalidMsg}</S.Helper>}
+        {showError && (
+          <S.Helper error={true} dir="rtl">
+            {field.check(inputs[field.id]).invalidMsg}
+          </S.Helper>
+        )}
       </>
     );
   });

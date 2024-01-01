@@ -40,7 +40,7 @@ export const Title = styled("h3")({
 export const Item = styled("div")({
   display: "flex",
   justifyContent: "space-between",
-  padding: "0vh 0.5vw 2vh 1vw",
+  padding: "0vh 0.5vw 2vh 0.5vw",
 });
 
 export const IconAvatar = styled(Avatar)({

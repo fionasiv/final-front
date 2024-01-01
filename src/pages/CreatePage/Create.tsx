@@ -1,14 +1,18 @@
+import * as S from "./Create.style";
 import Form from "../../components/Form/Form";
 import { NewClassFields, AddStudentFields } from "../../consts/FormConsts";
 import { addClassroom } from "../../requests/ClassroomRequests";
 import { addStudent } from "../../requests/StudentsRequests";
-import { SwalToast } from "../../consts/SwalToast";
 import { ShobClass, Student } from "../../interfaces";
-import * as S from "./Create.style";
 import { useAppDispatch } from "../../store/store";
 import { addClassroomToState } from "../../store/reducers/classesSlice";
+import { useContext } from "react";
+import { ThemeContext } from "../../App";
+import { SwalToast } from "../../components/SwalToast/SwalToast";
+import "../../components/SwalToast/SwalToast.css"
 
 export default function Create() {
+  const theme = useContext(ThemeContext);
   const dispatch = useAppDispatch();
 
   const addNewClassroom = async (newClass: ShobClass) => {
@@ -22,14 +26,16 @@ export default function Create() {
       dispatch(addClassroomToState({ classroom: newClassroom }));
       SwalToast.fire({
         icon: "success",
-        text: "הכיתה נוספה לרשימה בהצלחה!",
+        iconColor: theme.hexColor,
+        title: "הכיתה נוספה לרשימה בהצלחה!",
       });
 
       return true;
     } catch (error) {
       SwalToast.fire({
         icon: "error",
-        text: "חלה תקלה בעת הוספת הכיתה, נסו שוב מאוחר יותר",
+        iconColor: theme.hexColor,
+        title: "חלה תקלה בעת הוספת הכיתה, נסו שוב מאוחר יותר",
       });
 
       return false;
@@ -42,14 +48,16 @@ export default function Create() {
 
       SwalToast.fire({
         icon: "success",
-        text: "הסטודנט/ית נוסף/ה לרשימה בהצלחה!",
+        iconColor: theme.hexColor,
+        title: "הסטודנט/ית נוסף/ה לרשימה בהצלחה!",
       });
 
       return true;
     } catch (error) {
       SwalToast.fire({
         icon: "error",
-        text: "חלה תקלה בעת הוספת הסטודנט/ית",
+        iconColor: theme.hexColor,
+        title: "חלה תקלה בעת הוספת הסטודנט/ית",
       });
 
       return false;

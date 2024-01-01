@@ -3,7 +3,7 @@ import Class from "../../components/Class/Class";
 import { ShobClass } from "../../interfaces";
 import { deleteClassroom } from "../../requests/ClassroomRequests";
 import { getAllStudents } from "../../requests/StudentsRequests";
-import { SwalToast, SwalToastWithButtons } from "../../consts/SwalToast";
+import { SwalToast, SwalToastWithButtons } from "../../components/SwalToast/SwalToast";
 import { useAppDispatch, useAppSelector } from "../../store/store";
 import { removeClassroomFromState } from "../../store/reducers/classesSlice";
 import Swal from "sweetalert2";
@@ -11,6 +11,7 @@ import Error from "../../components/Error/Error";
 import { Mode } from "../../Enums";
 import { useContext } from "react";
 import { ThemeContext } from "../../App";
+import "../../components/SwalToast/SwalToast.css"
 
 export default function Classes(props: any) {
   const theme = useContext(ThemeContext);
@@ -22,19 +23,22 @@ export default function Classes(props: any) {
     if (classroomStudents.length) {
       SwalToast.fire({
         icon: "error",
+        iconColor: theme.hexColor,
         title: "לא ניתן למחוק כיתה המכילה תלמידים",
       });
     } else {
       SwalToastWithButtons.fire({
-        title: "את/ה בטוח/ה שברצונך למחוק את הכיתה?",
         icon: "warning",
+        iconColor: theme.hexColor,
+        title: "את/ה בטוח/ה שברצונך למחוק את הכיתה?",
       }).then(async (result) => {
         if (result.isConfirmed) {
           await deleteClass(classId);
         } else if (result.dismiss === Swal.DismissReason.cancel) {
           SwalToast.fire({
-            title: "המחיקה בוטלה",
             icon: "error",
+            iconColor: theme.hexColor,
+            title: "המחיקה בוטלה",
           });
         }
       });
@@ -46,12 +50,14 @@ export default function Classes(props: any) {
       await deleteClassroom(classId);
       SwalToast.fire({
         icon: "success",
+        iconColor: theme.hexColor,
         title: "הכיתה נמחקה בהצלחה!",
       });
       dispatch(removeClassroomFromState({ classroomId: classId }));
     } catch (error) {
       SwalToast.fire({
         icon: "error",
+        iconColor: theme.hexColor,
         title: "חלה תקלה בעת מחיקת הכיתה, אנא נסו שוב מאוחר יותר",
       });
     }

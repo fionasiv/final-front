@@ -6,12 +6,13 @@ import { ShobClass } from "./interfaces";
 import { Mode } from "./Enums";
 import { useAppDispatch } from "./store/store";
 import { setClassrooms } from "./store/reducers/classesSlice";
-import { SwalToastWithoutTimer } from "./consts/SwalToast";
+import { SwalToastWithoutTimer } from "./components/SwalToast/SwalToast";
 import { getAllClassrooms } from "./requests/ClassroomRequests";
 import Classes from "./pages/ClassesPage/Classes";
 import Students from "./pages/StudentsPage/Students";
 import Create from "./pages/CreatePage/Create";
 import { themes } from "./consts/AppConsts";
+
 export const ThemeContext = createContext(themes[0]);
 
 function App() {
@@ -30,6 +31,7 @@ function App() {
         setMode(Mode.ERROR);
         SwalToastWithoutTimer.fire({
           icon: "error",
+          iconColor: theme.hexColor,
           title: "חלה תקלה בעת קבלת הכיתות, נסו שוב מאוחר יותר",
         });
       }

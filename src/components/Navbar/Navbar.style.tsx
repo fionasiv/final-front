@@ -6,7 +6,8 @@ export const DesignedNavbar = styled(AppBar)<{coloring :string}>(({coloring}) =>
     backgroundColor: coloring,
     position: "static",
     justifyContent: "start",
-    padding: "1vh 1vw"
+    padding: "1vh 1vw",
+    boxShadow: "none",
 }))
 
 export const Button = styled(IconButton) ({

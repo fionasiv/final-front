@@ -6,13 +6,16 @@ export const SwalToast = Swal.mixin({
   customClass: {
     popup: "colored-toast",
   },
-  timer: 3000,
+  timer: 4000,
   timerProgressBar: true,
+  showConfirmButton: false
 });
 
 export const SwalToastWithButtons = Swal.mixin({
-  toast: true,
-  position: "top-end",
+  position: "center",
+  customClass: {
+    popup: "colored-toast",
+  },
   reverseButtons: true,
   showConfirmButton: true,
   showCancelButton: true,
