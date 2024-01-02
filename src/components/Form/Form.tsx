@@ -35,7 +35,7 @@ export default function Form(props: any) {
   const isFormValid = () => {
     let isValid = true;
     props.fields.forEach((field: Field) => {
-      if (!field.check(inputs[field.id]).isValid) {
+      if (!field.check(inputs[field.id]).isValid && field.required) {
         isValid = false;
       }
     });
