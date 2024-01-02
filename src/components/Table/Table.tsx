@@ -37,14 +37,15 @@ export default function Table(props: any) {
       handleOpen();
       setCurrStudent(props.row._id);
     };
-    
+    const buttonText = disableButton ? "Assigned" : "Assign to class";
+
     return (
       <S.TableButton
       coloring={theme.hexColor}
       onClick={handleClick}
       disabled={disableButton}
       >
-        Assign to class
+        {buttonText}
       </S.TableButton>
     );
   };

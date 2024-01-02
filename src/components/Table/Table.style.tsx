@@ -18,6 +18,10 @@ export const Table = styled(DataGrid)({
 export const TableButton = styled(Button)<{coloring: string}>(({coloring}) => ({
     color: coloring,
     border: `1px solid ${coloring}`,
+    "&:disabled": {
+      border: `1px solid #C0C0C0`,
+      padding: "0.5vh 4vw"
+    },
     fontWeight: "400", 
     padding: "0.5vh 2vw"
 }))
