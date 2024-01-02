@@ -40,7 +40,7 @@ function App() {
     fetchData();
   }, []);
 
-  function changeTheme(themeName: string): void {
+  function changeTheme(themeName: string): void {  
     setTheme(themes.find((theme) => theme.name === themeName) || themes[0]);
   }
 

@@ -10,6 +10,7 @@ import { useContext } from "react";
 import { ThemeContext } from "../../App";
 import { SwalToast } from "../../components/SwalToast/SwalToast";
 import "../../components/SwalToast/SwalToast.css"
+import { AxiosError } from "axios";
 
 export default function Create() {
   const theme = useContext(ThemeContext);
@@ -31,12 +32,20 @@ export default function Create() {
       });
 
       return true;
-    } catch (error) {
+    } catch (error: any) { 
+      if (error.response.status === 409) {
+        SwalToast.fire({
+          icon: "error",
+          iconColor: theme.hexColor,
+          title: "מזהה הכיתה קיים במערכת, נסו מזהה אחר",
+        });
+      } else {
       SwalToast.fire({
         icon: "error",
         iconColor: theme.hexColor,
         title: "חלה תקלה בעת הוספת הכיתה, נסו שוב מאוחר יותר",
       });
+    }
 
       return false;
     }
@@ -53,12 +62,20 @@ export default function Create() {
       });
 
       return true;
-    } catch (error) {
+    } catch (error: any) { 
+      if (error.response.status === 409) {
+        SwalToast.fire({
+          icon: "error",
+          iconColor: theme.hexColor,
+          title: "מזהה התלמיד קיים במערכת, נסו מזהה אחר",
+        });
+      } else {
       SwalToast.fire({
         icon: "error",
         iconColor: theme.hexColor,
         title: "חלה תקלה בעת הוספת הסטודנט/ית",
       });
+    }
 
       return false;
     }

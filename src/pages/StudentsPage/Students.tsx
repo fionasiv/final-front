@@ -53,12 +53,7 @@ export default function Students() {
 
   const addStudentToClass = async (classId: string, studentId: string) => {
     try {
-      addStudentToClassroom(classId, studentId);
-      SwalToast.fire({
-        icon: "success",
-        iconColor: theme.hexColor,
-        title: "הסטודנט/ית התווסף/ה לכיתה בהצלחה!",
-      });
+      await addStudentToClassroom(classId, studentId);
       setStudents((prevStudents) =>
         prevStudents.map((student) =>
           student._id === studentId
@@ -66,6 +61,11 @@ export default function Students() {
             : student
         )
       );
+      SwalToast.fire({
+        icon: "success",
+        iconColor: theme.hexColor,
+        title: "הסטודנט/ית התווסף/ה לכיתה בהצלחה!",
+      });
     } catch (error) {
       SwalToast.fire({
         icon: "error",
@@ -96,7 +96,7 @@ export default function Students() {
 
   const removeStudent = async (studentId: string) => {
     const student = students.find((student) => student._id === studentId);
-    const classId = student ? student.classroom : null;
+    const classId = student?.classroom;
 
     try {
       await deleteStudent(studentId);
