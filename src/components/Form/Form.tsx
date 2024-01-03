@@ -6,7 +6,6 @@ import Confetti from "react-confetti";
 import { FormProps } from "./FormInterfaces";
 
 export default function Form({
-  id,
   fields,
   handleCreate,
   title,
@@ -40,14 +39,9 @@ export default function Form({
   };
 
   const isFormValid = () => {
-    let isValid = true;
-    fields.forEach((field: Field) => {
-      if (!field.check(inputs[field.id]).isValid && field.required) {
-        isValid = false;
-      }
+    return !fields.some((field: Field) => {
+      return !field.check(inputs[field.id]).isValid && field.required;
     });
-
-    return isValid;
   };
 
   const fieldsList = fields.map((field: Field) => {

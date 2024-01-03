@@ -6,5 +6,4 @@ export default interface Student {
   age?: number;
   profession: string;
   classroom: string;
-  __v?: number;
 }

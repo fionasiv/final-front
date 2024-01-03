@@ -11,7 +11,6 @@ import { useContext } from "react";
 import { ThemeContext } from "../../App";
 import { SwalToast } from "../../components/SwalToast/SwalToast";
 import "../../components/SwalToast/SwalToast.css"
-import { AxiosError } from "axios";
 
 export default function Create() {
   const theme = useContext(ThemeContext);

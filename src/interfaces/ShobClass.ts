@@ -3,5 +3,4 @@ export default interface ShobClass {
   name: string;
   capacity: number;
   seatsLeft: number;
-  __v?: number;
 }
