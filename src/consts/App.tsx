@@ -1,7 +1,8 @@
-import { PageRoute, ThemeData } from "../interfaces";
+import ThemeData from "../interfaces/ThemeData";
 import Classes from "../pages/ClassesPage/Classes";
 import Students from "../pages/StudentsPage/Students";
 import Create from "../pages/CreatePage/Create";
+import PageRoute from "../interfaces/PageRoute";
 
 export const routes: PageRoute[] = [
   { path: "/", name: "Classes", Component: <Classes /> },

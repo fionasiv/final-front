@@ -1,4 +1,5 @@
-import { FieldCheck } from "../interfaces";
+import { FieldCheck } from "../components/Form/FormInterfaces";
+import Field from "../interfaces/Field";
 
 const fieldChecks = {
   numericCheck: (value: string): FieldCheck => {
@@ -58,7 +59,7 @@ const fieldChecks = {
   },
 };
 
-export const NewClassFields = [
+export const NewClassFields: Field[] = [
   {
     label: "Class ID",
     id: "_id",

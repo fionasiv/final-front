@@ -1,9 +1,10 @@
 import * as S from "./Create.style";
 import Form from "../../components/Form/Form";
-import { NewClassFields, AddStudentFields } from "../../consts/FormConsts";
+import { NewClassFields, AddStudentFields } from "../../consts/Form";
 import { addClassroom } from "../../requests/ClassroomRequests";
 import { addStudent } from "../../requests/StudentsRequests";
-import { ShobClass, Student } from "../../interfaces";
+import ShobClass from "../../interfaces/ShobClass";
+import Student from "../../interfaces/Student";
 import { useAppDispatch } from "../../store/store";
 import { addClassroomToState } from "../../store/reducers/classesSlice";
 import { useContext } from "react";

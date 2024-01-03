@@ -8,7 +8,7 @@ import {
   deleteStudent,
   getAllStudents,
 } from "../../requests/StudentsRequests";
-import { Student } from "../../interfaces";
+import Student from "../../interfaces/Student";
 import { useAppDispatch } from "../../store/store";
 import { addClassroomSeat } from "../../store/reducers/classesSlice";
 import { Mode } from "../../Enums";
@@ -124,15 +124,15 @@ export default function Students() {
   const studentsPage = students.length ? (
     <S.TablesSection>
       <Table
-        students={students}
-        addStudent={addStudentToClass}
-        deleteStudent={removeStudentHandler}
+        dataList={students}
+        addItem={addStudentToClass}
+        deleteItem={removeStudentHandler}
       />
     </S.TablesSection>
   ) : (
     <Error
       title="לא נמצאו תלמידים..."
-      descripton="נסו שנית מאוחר יותר"
+      description="נסו שנית מאוחר יותר"
       linkTitle="צרו סטודנט/ית חדש/ה"
       url="/create"
       image={notFoundImage}
@@ -143,7 +143,7 @@ export default function Students() {
     return (
       <Error
         title="חלה תקלה בחיבור לשרת"
-        descripton="נסו שנית מאוחר יותר"
+        description="נסו שנית מאוחר יותר"
         image={errorImage}
       />
     );

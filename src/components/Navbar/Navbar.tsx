@@ -9,10 +9,12 @@ import {
 import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
 import { ThemeContext } from "../../App";
-import { routes, themes } from "../../consts/AppConsts";
-import { PageRoute, ThemeData } from "../../interfaces";
+import { routes, themes } from "../../consts/App";
+import ThemeData from "../../interfaces/ThemeData";
+import { NavbarProps } from "./NavbarInterfaces";
+import PageRoute from "../../interfaces/PageRoute";
 
-export default function Navbar(props: any) {
+export default function Navbar({ handleChangeTheme } : NavbarProps) {
   const theme = React.useContext(ThemeContext);
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -27,7 +29,7 @@ export default function Navbar(props: any) {
   };
 
   const handleThemeChange = (themeName: string) => {
-    props.handleThemeChange(themeName);
+    handleChangeTheme(themeName);
     handleClose();
   };
 

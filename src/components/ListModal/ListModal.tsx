@@ -2,35 +2,49 @@ import React from "react";
 import * as S from "./ListModal.style";
 import { Modal } from "@mui/material";
 import { ThemeContext } from "../../App";
-import { displayedItem } from "../../interfaces";
+import DisplayedItem from "../../interfaces/DisplayedItem";
+import { ListModalProps } from "./ListModalInterfaces";
 
-export default function ListModal(props: any) {
+export default function ListModal({
+  list,
+  avatarIcon,
+  handleClick,
+  buttonIcon,
+  emptyListMsg,
+  id,
+  open,
+  handleClose,
+  title,
+}: ListModalProps) {
   const theme = React.useContext(ThemeContext);
 
-  const items = props.list.map((item: displayedItem) => (
+  const items = list.map((item: DisplayedItem) => (
     <S.Item key={item.id}>
       <S.IconAvatar>
-        <props.avatarIcon />
+        {avatarIcon}
       </S.IconAvatar>
       <S.Name>{item.name}</S.Name>
-      <S.Button coloring={theme.hexColor} onClick={() => props.handleClick(item.id)}>
-        <props.buttonIcon />
+      <S.Button
+        coloring={theme.hexColor}
+        onClick={() => handleClick(item.id)}
+      >
+        {buttonIcon}
       </S.Button>
     </S.Item>
   ));
 
   const noItemsMessage = (
     <S.Item>
-      <S.Name>{props.emptyListMsg}</S.Name>
+      <S.Name>{emptyListMsg}</S.Name>
     </S.Item>
   );
 
   return (
-    <Modal key={props.id} open={props.open} onClose={props.handleClose}>
+    <Modal key={id} open={open} onClose={() => handleClose()}>
       <S.DesignedBox>
         <S.ListWrapper>
-        <S.Title>{props.title}</S.Title>
-        {props.list.length ? items : noItemsMessage}
+          <S.Title>{title}</S.Title>
+          {list.length ? items : noItemsMessage}
         </S.ListWrapper>
       </S.DesignedBox>
     </Modal>

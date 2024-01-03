@@ -1,6 +1,6 @@
 import * as S from "./Classes.style";
 import Class from "../../components/Class/Class";
-import { ShobClass } from "../../interfaces";
+import ShobClass from "../../interfaces/ShobClass";
 import { deleteClassroom } from "../../requests/ClassroomRequests";
 import { getAllStudents } from "../../requests/StudentsRequests";
 import { SwalToast, SwalToastWithButtons } from "../../components/SwalToast/SwalToast";
@@ -81,7 +81,7 @@ export default function Classes(props: any) {
   ) : (
     <Error
       title="לא נמצאו כיתות..."
-      descripton="נסו שנית מאוחר יותר"
+      description="נסו שנית מאוחר יותר"
       linkTitle="צרו כיתה חדשה"
       url="/create"
       image={`../../assets/images/notfound-${theme.name}.jpg`}
@@ -92,7 +92,7 @@ export default function Classes(props: any) {
     return (
       <Error
         title="חלה תקלה בחיבור לשרת"
-        descripton="נסו שנית מאוחר יותר"
+        description="נסו שנית מאוחר יותר"
         image={`../../assets/images/error-${theme.name}.jpg`}
       />
     );

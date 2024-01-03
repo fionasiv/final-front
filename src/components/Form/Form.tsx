@@ -1,12 +1,19 @@
 import * as S from "./Form.style";
 import { ThemeContext } from "../../App";
 import { useState, useContext } from "react";
-import { Field } from "../../interfaces";
+import Field from "../../interfaces/Field";
 import Confetti from "react-confetti";
+import { FormProps } from "./FormInterfaces";
 
-export default function Form(props: any) {
+export default function Form({
+  id,
+  fields,
+  handleCreate,
+  title,
+  createMessage,
+}: FormProps) {
   const theme = useContext(ThemeContext);
-  const fieldNames = props.fields.map((field: Field) => field.id);
+  const fieldNames = fields.map((field: Field) => field.id);
   const fieldObjects: Record<string, string> = {};
   fieldNames.forEach((field: string) => (fieldObjects[field] = ""));
 
@@ -23,7 +30,7 @@ export default function Form(props: any) {
 
   const handleSubmit = async (event: React.SyntheticEvent) => {
     event.preventDefault();
-    const didCreate = await props.handleCreate(inputs);
+    const didCreate = await handleCreate(inputs);
     setInputs(fieldObjects);
 
     if (didCreate) {
@@ -34,7 +41,7 @@ export default function Form(props: any) {
 
   const isFormValid = () => {
     let isValid = true;
-    props.fields.forEach((field: Field) => {
+    fields.forEach((field: Field) => {
       if (!field.check(inputs[field.id]).isValid && field.required) {
         isValid = false;
       }
@@ -43,7 +50,7 @@ export default function Form(props: any) {
     return isValid;
   };
 
-  const fields = props.fields.map((field: Field) => {
+  const fieldsList = fields.map((field: Field) => {
     const showError =
       !field.check(inputs[field.id]).isValid && inputs[field.id] !== "";
 
@@ -57,7 +64,6 @@ export default function Form(props: any) {
           label={field.label}
           onChange={(event) => handleChange(event, field.id)}
           error={showError}
-
         />
         {showError && (
           <S.Helper error={true} dir="rtl">
@@ -79,16 +85,16 @@ export default function Form(props: any) {
         />
       )}
       <S.FormSection>
-        <S.Title>{props.title}</S.Title>
+        <S.Title>{title}</S.Title>
         <S.FormFields>
-          {fields}
+          {fieldsList}
           <S.SubmitButton
             type="submit"
             coloring={theme.hexColor}
             onClick={handleSubmit}
             disabled={!isFormValid()}
           >
-            {props.createMessage}
+            {createMessage}
           </S.SubmitButton>
         </S.FormFields>
       </S.FormSection>

@@ -2,26 +2,35 @@ import { useContext } from "react";
 import { ThemeContext } from "../../App";
 import * as S from "./Error.style";
 import { useNavigate } from "react-router-dom";
+import { ErrorProps } from "./ErrorInterfaces";
 
-export default function NotFound(props: any) {
+export default function NotFound({
+  url,
+  image,
+  title,
+  description,
+  linkTitle,
+}: ErrorProps) {
   const theme = useContext(ThemeContext);
   const navigate = useNavigate();
 
   const redirect = () => {
-    navigate(props.url);
+    if (url) {
+      navigate(url);
+    }
   };
 
   return (
     <S.ErrorWrapper>
-        <S.Image src={props.image} />
+      <S.Image src={image} />
       <S.TextArea>
-        <S.Title coloring={theme.hexColor}>{props.title}</S.Title>
-        <S.Description color={theme.hexColor}>{props.descripton}</S.Description>
-        {props.linkTitle && (
+        <S.Title coloring={theme.hexColor}>{title}</S.Title>
+        <S.Description color={theme.hexColor}>{description}</S.Description>
+        {linkTitle && (
           <S.Description color={theme.hexColor}>
-            או {" "}
+            או{" "}
             <S.otherPageLink onClick={redirect} color={theme.hexColor}>
-              {props.linkTitle}
+              {linkTitle}
             </S.otherPageLink>
           </S.Description>
         )}

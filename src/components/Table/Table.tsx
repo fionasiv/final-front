@@ -1,19 +1,24 @@
 import { useState, useContext } from "react";
 import * as S from "./Table.style";
-import { columns } from "../../consts/TableConsts";
+import { columns } from "../../consts/Table";
 import { ThemeContext } from "../../App";
 import ListModal from "../ListModal/ListModal";
 import SchoolIcon from "@mui/icons-material/School";
 import AddIcon from "@mui/icons-material/Add";
 import { useAppDispatch, useAppSelector } from "../../store/store";
-import { displayedItem } from "../../interfaces";
+import DisplayedItem from "../../interfaces/DisplayedItem";
 import { subtructClassroomSeat } from "../../store/reducers/classesSlice";
+import { TableProps } from "./TableInterfaces";
 
-export default function Table(props: any) {
+export default function Table({
+  addItem,
+  deleteItem,
+  dataList,
+}: TableProps) {
   const theme = useContext(ThemeContext);
   const [open, setOpen] = useState<boolean>(false);
   const [currStudent, setCurrStudent] = useState<string>("");
-  const [availableClasses, setAvailableClasses] = useState<displayedItem[]>([]);
+  const [availableClasses, setAvailableClasses] = useState<DisplayedItem[]>([]);
   const classrooms = useAppSelector((state) => state.classrooms.data);
   const dispatch = useAppDispatch();
 
@@ -22,14 +27,14 @@ export default function Table(props: any) {
       const studentId = props.row.id;
       await removeStudent(studentId);
     }
-    
+
     return (
       <S.TableButton coloring={theme.hexColor} onClick={handleDelete}>
         Delete
       </S.TableButton>
     );
   };
-  
+
   const assignButton = (props: any) => {
     const disableButton = props.row.classroom !== "";
     const handleClick = async () => {
@@ -41,47 +46,47 @@ export default function Table(props: any) {
 
     return (
       <S.TableButton
-      coloring={theme.hexColor}
-      onClick={handleClick}
-      disabled={disableButton}
+        coloring={theme.hexColor}
+        onClick={handleClick}
+        disabled={disableButton}
       >
         {buttonText}
       </S.TableButton>
     );
   };
-  
+
   const addStudentToClass = async (classId: string) => {
-    await props.addStudent(classId, currStudent);
+    await addItem(classId, currStudent);
     handleOpen();
-    dispatch(subtructClassroomSeat({classroomId: classId}))
+    dispatch(subtructClassroomSeat({ classroomId: classId }));
   };
 
   const removeStudent = async (studentId: string) => {
-    await props.deleteStudent(studentId);
+    await deleteItem(studentId);
   };
-  
+
   const handleOpen = () => {
     setOpen((prevOpen) => !prevOpen);
   };
-  
+
   const updateAvilabillity = () => {
     const available = classrooms
-    .filter((classroom) => classroom.seatsLeft > 0)
-    .map((classroom) => {
-      return {
-        id: classroom._id,
-        name: classroom.name,
-      };
-    });
+      .filter((classroom) => classroom.seatsLeft > 0)
+      .map((classroom) => {
+        return {
+          id: classroom._id,
+          name: classroom.name,
+        };
+      });
 
     setAvailableClasses(available);
-  }
-  
+  };
+
   return (
     <>
       <S.DesignedBox>
         <S.Table
-          rows={props.students}
+          rows={dataList}
           columns={[
             ...columns,
             {
@@ -118,8 +123,8 @@ export default function Table(props: any) {
         list={availableClasses}
         title="Available Classes"
         emptyListMsg="There are no classes available at the moment"
-        avatarIcon={SchoolIcon}
-        buttonIcon={AddIcon}
+        avatarIcon={<SchoolIcon />}
+        buttonIcon={<AddIcon />}
         handleClick={addStudentToClass}
       />
     </>

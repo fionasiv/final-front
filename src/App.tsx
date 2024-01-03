@@ -2,7 +2,7 @@ import "./App.css";
 import Navbar from "./components/Navbar/Navbar";
 import { useState, createContext, useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
-import { ShobClass } from "./interfaces";
+import ShobClass from "./interfaces/ShobClass";
 import { Mode } from "./Enums";
 import { useAppDispatch } from "./store/store";
 import { setClassrooms } from "./store/reducers/classesSlice";
@@ -11,7 +11,7 @@ import { getAllClassrooms } from "./requests/ClassroomRequests";
 import Classes from "./pages/ClassesPage/Classes";
 import Students from "./pages/StudentsPage/Students";
 import Create from "./pages/CreatePage/Create";
-import { themes } from "./consts/AppConsts";
+import { themes } from "./consts/App";
 
 export const ThemeContext = createContext(themes[0]);
 
@@ -47,7 +47,7 @@ function App() {
   return (
     <ThemeContext.Provider value={theme}>
       <div className="App">
-        <Navbar handleThemeChange={changeTheme} />
+        <Navbar handleChangeTheme={changeTheme} />
         <Routes>
           <Route path="/" element={<Classes mode={mode} />} key="Classes" />
           <Route path="/students" element={<Students />} key="Students" />

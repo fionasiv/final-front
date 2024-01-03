@@ -5,7 +5,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { ThemeContext } from "../../App";
 import { useState, useContext, useEffect } from "react";
 import ListModal from "../ListModal/ListModal";
-import { Student } from "../../interfaces";
+import DisplayedItem from "../../interfaces/DisplayedItem";
 import {
   getAllStudents,
   removeStudentFromClassroom,
@@ -13,17 +13,19 @@ import {
 import { SwalToast } from "../SwalToast/SwalToast";
 import { useAppDispatch } from "../../store/store";
 import { addClassroomSeat } from "../../store/reducers/classesSlice";
+import { classProps } from "./ClassInterfaces";
+import Student from "../../interfaces/Student";
 
-export default function Class(props: any) {
+export default function Class({id, name, avilableSeats, totalSeats, removeClass}: classProps) {
   const [open, setOpen] = useState(false);
-  const [students, setStudents] = useState<Student[]>([]);
+  const [students, setStudents] = useState<DisplayedItem[]>([]);
   const theme = useContext(ThemeContext);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     if (open) {
       const fetchData = async () => {
-        const classStudents = await getAllStudents(`classroom/${props.id}`);
+        const classStudents = await getAllStudents(`classroom/${id}`);
         setStudents(
           classStudents.map((student: Student) => {
             return {
@@ -45,9 +47,9 @@ export default function Class(props: any) {
       await removeStudentFromClassroom(studentId);
       handleClick();
       setStudents((prevStudents) =>
-        prevStudents.filter((student) => student._id !== studentId)
+        prevStudents.filter((student) => student.id !== studentId)
       );
-      dispatch(addClassroomSeat({ classroomId: props.id }));
+      dispatch(addClassroomSeat({ classroomId: id }));
       SwalToast.fire({
         icon: "success",
         iconColor: theme.hexColor,
@@ -66,31 +68,31 @@ export default function Class(props: any) {
     <>
       <S.ClassCard>
         <CardContent>
-          <S.ClassName>{props.name}</S.ClassName>
+          <S.ClassName>{name}</S.ClassName>
           <S.SeatsLeft>
-            there are <b>{props.avilableSeats}</b> seats left
+            there are <b>{avilableSeats}</b> seats left
           </S.SeatsLeft>
-          <S.SeatsTotal>out of {props.totalSeats}</S.SeatsTotal>
+          <S.SeatsTotal>out of {totalSeats}</S.SeatsTotal>
         </CardContent>
         <S.Actions>
           <S.StudentsButton onClick={handleClick}>
             STUDENTS LIST
           </S.StudentsButton>
-          <IconButton onClick={() => props.removeClass(props.id)}>
+          <IconButton onClick={() => removeClass(id)}>
             <S.Delete coloring={theme.hexColor} />
           </IconButton>
         </S.Actions>
       </S.ClassCard>
       <ListModal
-        id={props.id}
-        key={props.id}
+        id={id}
+        key={id}
         open={open}
         handleClose={handleClick}
         list={students}
         title="Class Students"
         emptyListMsg="No students have been assigned to this classroom."
-        avatarIcon={Person2Icon}
-        buttonIcon={DeleteIcon}
+        avatarIcon={<Person2Icon />}
+        buttonIcon={<DeleteIcon />}
         handleClick={removeStudentFromClass}
       />
     </>

@@ -1,4 +1,4 @@
-import { Student } from "../interfaces";
+import Student from "../interfaces/Student";
 import api from "./api";
 
 export const getAllStudents = async (path: string) => {

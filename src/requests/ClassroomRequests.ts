@@ -1,4 +1,4 @@
-import { ShobClass } from "../interfaces";
+import ShobClass from "../interfaces/ShobClass";
 import api from "./api";
 
 export const getAllClassrooms = async () => {
