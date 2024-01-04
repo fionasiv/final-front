@@ -4,7 +4,7 @@ import { deleteClassroom } from "../../requests/ClassroomRequests";
 import { getAllStudents } from "../../requests/StudentsRequests";
 import { SwalToast, SwalToastWithButtons } from "../../components/SwalToast/SwalToast";
 import { useAppDispatch, useAppSelector } from "../../store/store";
-import { removeClassroomFromState } from "../../store/reducers/classesSlice";
+import { getClassrooms, getClassroomsStatus, removeClassroomFromState } from "../../store/reducers/classesSlice";
 import Swal from "sweetalert2";
 import Error from "../../components/Error/Error";
 import { Mode } from "../../Enums";
@@ -12,9 +12,10 @@ import { useContext } from "react";
 import { ThemeContext } from "../../App";
 import "../../components/SwalToast/SwalToast.css"
 
-export default function Classes(props: any) {
+export default function Classes() {
   const theme = useContext(ThemeContext);
-  const classrooms = useAppSelector((state) => state.classrooms.data);
+  const classrooms = useAppSelector(getClassrooms);
+  const mode = useAppSelector(getClassroomsStatus);
   const dispatch = useAppDispatch();
   const removeClassHandler = async (classId: string) => {
     const classroomStudents = await getAllStudents(`classroom/${classId}`);
@@ -88,7 +89,7 @@ export default function Classes(props: any) {
     />
   );
 
-  if (props.mode === Mode.ERROR) {
+  if (mode === Mode.ERROR) {
     return (
       <Error
         title="חלה תקלה בחיבור לשרת"
@@ -96,7 +97,7 @@ export default function Classes(props: any) {
         image={`../../assets/images/error-${theme.name}.jpg`}
       />
     );
-  } else if (props.mode === Mode.LOADING) {
+  } else if (mode === Mode.LOADING) {
     return (
       <S.ProgressBox>
         <S.Progress coloring={theme.hexColor} size={100} />
