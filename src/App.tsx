@@ -2,12 +2,9 @@ import "./App.css";
 import Navbar from "./components/Navbar/Navbar";
 import { useState, createContext, useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
-import ShobClass from "./interfaces/ShobClass";
-import { Mode } from "./Enums";
-import { useAppDispatch } from "./store/store";
-import { setClassrooms } from "./store/reducers/classesSlice";
-import { SwalToastWithoutTimer } from "./components/SwalToast/SwalToast";
-import { getAllClassrooms } from "./requests/ClassroomRequests";
+import { useAppDispatch, useAppSelector } from "./store/store";
+import { fetchClassrooms, getClassroomsStatus } from "./store/reducers/classesSlice";
+import { fetchStudents, getStudentsStatus } from "./store/reducers/studentsSlice";
 import Classes from "./pages/ClassesPage/Classes";
 import Students from "./pages/StudentsPage/Students";
 import Create from "./pages/CreatePage/Create";
@@ -17,27 +14,13 @@ export const ThemeContext = createContext(themes[0]);
 
 function App() {
   const [theme, setTheme] = useState(themes[0]);
-  const [mode, setMode] = useState<Mode>(Mode.LOADING);
+  const mode = useAppSelector(getClassroomsStatus)
+  // const studentsMode = useAppSelector(getStudentsStatus);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const classes: ShobClass[] = await getAllClassrooms();
-        dispatch(setClassrooms({ classrooms: classes }));
-        setMode(Mode.SUCCESS);
-      } catch (error) {
-        console.error(error);
-        setMode(Mode.ERROR);
-        SwalToastWithoutTimer.fire({
-          icon: "error",
-          iconColor: theme.hexColor,
-          title: "חלה תקלה בעת קבלת הכיתות, נסו שוב מאוחר יותר",
-        });
-      }
-    };
-
-    fetchData();
+    dispatch(fetchClassrooms())
+    dispatch(fetchStudents())
   }, []);
 
   function changeTheme(themeName: string): void {  

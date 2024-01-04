@@ -1,9 +1,14 @@
 import ShobClass from "../interfaces/ShobClass";
-import api from "./api";
+import axios from "axios";
+import { API_CONNECTION_URL } from "./api";
+
+const api = axios.create({
+  baseURL: `${API_CONNECTION_URL}/classrooms/`,
+});
 
 export const getAllClassrooms = async () => {
   try {
-    const classrooms = (await api.get("/classrooms")).data;
+    const classrooms = (await api.get("")).data;
 
     return classrooms;
   } catch (error) {
@@ -13,7 +18,7 @@ export const getAllClassrooms = async () => {
 
 export const addClassroom = async (shobClass: ShobClass) => {
   try {
-    await api.post("/classrooms", { shobClass });
+    await api.post("", { shobClass });
   } catch (error) {
     console.error(error);
     throw error;
@@ -22,7 +27,7 @@ export const addClassroom = async (shobClass: ShobClass) => {
 
 export const deleteClassroom = async (classId: string) => {
   try {
-    await api.delete(`/classrooms/${classId}`);
+    await api.delete(classId);
   } catch (error) {
     console.error(error);
     throw error;

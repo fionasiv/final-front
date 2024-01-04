@@ -6,11 +6,12 @@ import { addStudent } from "../../requests/StudentsRequests";
 import ShobClass from "../../interfaces/ShobClass";
 import Student from "../../interfaces/Student";
 import { useAppDispatch } from "../../store/store";
-import { addClassroomToState } from "../../store/reducers/classesSlice";
 import { useContext } from "react";
 import { ThemeContext } from "../../App";
 import { SwalToast } from "../../components/SwalToast/SwalToast";
 import "../../components/SwalToast/SwalToast.css"
+import { addClassroomToState } from "../../store/reducers/classesSlice";
+import { addStudentToState } from "../../store/reducers/studentsSlice";
 
 export default function Create() {
   const theme = useContext(ThemeContext);
@@ -54,6 +55,11 @@ export default function Create() {
   const addNewStudent = async (newStudent: Student) => {
     try {
       await addStudent(newStudent);
+      const student = {
+        ...newStudent,
+        classroom: ""
+      }
+      dispatch(addStudentToState({ student: student }))
 
       SwalToast.fire({
         icon: "success",

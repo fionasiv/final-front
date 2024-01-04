@@ -2,65 +2,38 @@ import * as S from "./Students.style";
 import Table from "../../components/Table/Table";
 import Error from "../../components/Error/Error";
 import Swal from "sweetalert2";
-import { useContext, useEffect, useState } from "react";
+import { useContext } from "react";
 import {
   addStudentToClassroom,
   deleteStudent,
-  getAllStudents,
 } from "../../requests/StudentsRequests";
-import Student from "../../interfaces/Student";
-import { useAppDispatch } from "../../store/store";
+import { useAppDispatch, useAppSelector } from "../../store/store";
 import { addClassroomSeat } from "../../store/reducers/classesSlice";
 import { Mode } from "../../Enums";
 import { ThemeContext } from "../../App";
 import { SwalToast, SwalToastWithButtons } from "../../components/SwalToast/SwalToast";
 import "../../components/SwalToast/SwalToast.css"
+import { getStudentsStatus, addStudentClass, removeStudentFromState } from "../../store/reducers/studentsSlice";
 
 export default function Students() {
   const theme = useContext(ThemeContext);
   const notFoundImage = `images/notfound-${theme.name}.jpg`;
   const errorImage = `images/error-${theme.name}.jpg`;
-  const [students, setStudents] = useState<Student[]>([]);
-  const [mode, setMode] = useState<Mode>(Mode.LOADING);
+  const students = useAppSelector((state) => state.students.data);
+  const formattedStudents = Object.keys(students).map((studentId) => {
+    const student = students[studentId];
+     return {
+      ...student,
+      id: student._id,
+     }
+  })
+  const mode = useAppSelector(getStudentsStatus);
   const dispatch = useAppDispatch();
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const studentsList = await getAllStudents("");
-
-        setStudents(
-          studentsList.map((student: Student) => {
-            return {
-              ...student,
-              id: student._id,
-            };
-          })
-        );
-        setMode(Mode.SUCCESS);
-      } catch (error) {
-        SwalToast.fire({
-          icon: "error",
-          iconColor: theme.hexColor,
-          title: "חלה תקלה בעת קבלת הסטודנטים, נסו שוב מאוחר יותר",
-        });
-        setMode(Mode.ERROR);
-        console.error(error);
-      }
-    };
-    fetchData();
-  }, []);
 
   const addStudentToClass = async (classId: string, studentId: string) => {
     try {
       await addStudentToClassroom(classId, studentId);
-      setStudents((prevStudents) =>
-        prevStudents.map((student) =>
-          student._id === studentId
-            ? { ...student, classroom: classId }
-            : student
-        )
-      );
+      dispatch(addStudentClass({ classroomId: classId, studentId: studentId }));
       SwalToast.fire({
         icon: "success",
         iconColor: theme.hexColor,
@@ -95,19 +68,17 @@ export default function Students() {
   };
 
   const removeStudent = async (studentId: string) => {
-    const student = students.find((student) => student._id === studentId);
+    const student = students[studentId];
     const classId = student?.classroom;
 
     try {
       await deleteStudent(studentId);
+      dispatch(removeStudentFromState({ studentId: studentId }));
       SwalToast.fire({
         icon: "success",
         iconColor: theme.hexColor,
         title: "הסטודנט/ית נמחק/ה בהצלחה!",
       });
-      setStudents((prevStudents) =>
-        prevStudents.filter((student) => student._id !== studentId)
-      );
 
       if (classId) {
         dispatch(addClassroomSeat({ classroomId: classId }));
@@ -121,10 +92,10 @@ export default function Students() {
     }
   };
 
-  const studentsPage = students.length ? (
+  const studentsPage = Object.keys(students).length ? (
     <S.TablesSection>
       <Table
-        dataList={students}
+        dataList={formattedStudents}
         addItem={addStudentToClass}
         deleteItem={removeStudentHandler}
       />

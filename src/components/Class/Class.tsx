@@ -15,8 +15,15 @@ import { useAppDispatch } from "../../store/store";
 import { addClassroomSeat } from "../../store/reducers/classesSlice";
 import { classProps } from "./ClassInterfaces";
 import Student from "../../interfaces/Student";
+import { removeStudentClass } from "../../store/reducers/studentsSlice";
 
-export default function Class({id, name, avilableSeats, totalSeats, removeClass}: classProps) {
+export default function Class({
+  id,
+  name,
+  avilableSeats,
+  totalSeats,
+  removeClass,
+}: classProps) {
   const [open, setOpen] = useState(false);
   const [students, setStudents] = useState<DisplayedItem[]>([]);
   const theme = useContext(ThemeContext);
@@ -49,6 +56,7 @@ export default function Class({id, name, avilableSeats, totalSeats, removeClass}
       setStudents((prevStudents) =>
         prevStudents.filter((student) => student.id !== studentId)
       );
+      dispatch(removeStudentClass({ studentId: studentId }));
       dispatch(addClassroomSeat({ classroomId: id }));
       SwalToast.fire({
         icon: "success",

@@ -9,6 +9,7 @@ import { useAppDispatch, useAppSelector } from "../../store/store";
 import DisplayedItem from "../../interfaces/DisplayedItem";
 import { subtructClassroomSeat } from "../../store/reducers/classesSlice";
 import { TableProps } from "./TableInterfaces";
+import ShobClass from "../../interfaces/ShobClass";
 
 export default function Table({
   addItem,
@@ -70,9 +71,9 @@ export default function Table({
   };
 
   const updateAvilabillity = () => {
-    const available = classrooms
-      .filter((classroom) => classroom.seatsLeft > 0)
-      .map((classroom) => {
+    const available = Object.values(classrooms)
+      .filter((classroom: ShobClass) => classroom.seatsLeft > 0)
+      .map((classroom: ShobClass) => {
         return {
           id: classroom._id,
           name: classroom.name,

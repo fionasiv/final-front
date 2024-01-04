@@ -1,6 +1,5 @@
 import * as S from "./Classes.style";
 import Class from "../../components/Class/Class";
-import ShobClass from "../../interfaces/ShobClass";
 import { deleteClassroom } from "../../requests/ClassroomRequests";
 import { getAllStudents } from "../../requests/StudentsRequests";
 import { SwalToast, SwalToastWithButtons } from "../../components/SwalToast/SwalToast";
@@ -63,20 +62,21 @@ export default function Classes(props: any) {
     }
   };
 
-  const shobClasses = classrooms
-    ? classrooms.map((shobClass: ShobClass) => (
+  const shobClasses = Object.keys(classrooms).length
+    ? Object.keys(classrooms).map((shobClass) => {
+      return (
         <Class
-          key={shobClass._id}
-          id={shobClass._id}
-          name={shobClass.name}
-          avilableSeats={shobClass.seatsLeft}
-          totalSeats={shobClass.capacity}
+          key={classrooms[shobClass]._id}
+          id={classrooms[shobClass]._id}
+          name={classrooms[shobClass].name}
+          avilableSeats={classrooms[shobClass].seatsLeft}
+          totalSeats={classrooms[shobClass].capacity}
           removeClass={removeClassHandler}
         />
-      ))
+      )})
     : [];
 
-  const classesPage = classrooms.length ? (
+  const classesPage = Object.keys(classrooms).length ? (
     <S.ClassesList>{shobClasses}</S.ClassesList>
   ) : (
     <Error
