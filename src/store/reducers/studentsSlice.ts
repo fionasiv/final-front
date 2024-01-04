@@ -19,7 +19,7 @@ const initialState: StudentState = {
 
 export const fetchStudents = createAsyncThunk("fetch-students", async () => {
   try {
-    const students = await getAllStudents("");
+    const students = await getAllStudents();
     let studentsMap = Object.fromEntries(
       students.map((student: Student) => [student._id, student])
     );

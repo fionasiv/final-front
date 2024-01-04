@@ -1,14 +1,24 @@
 import * as S from "./Classes.style";
 import Class from "../../components/Class/Class";
 import { deleteClassroom } from "../../requests/ClassroomRequests";
-import { getAllStudents } from "../../requests/StudentsRequests";
-import { SwalToast, SwalToastWithButtons } from "../../components/SwalToast/SwalToast";
+import {
+  getAllStudents,
+  getClassroomStudents,
+} from "../../requests/StudentsRequests";
+import {
+  SwalToast,
+  SwalToastWithButtons,
+} from "../../components/SwalToast/SwalToast";
 import { useAppDispatch, useAppSelector } from "../../store/store";
-import { getClassrooms, getClassroomsStatus, removeClassroomFromState } from "../../store/reducers/classesSlice";
+import {
+  getClassrooms,
+  getClassroomsStatus,
+  removeClassroomFromState,
+} from "../../store/reducers/classesSlice";
 import Swal from "sweetalert2";
 import Error from "../../components/Error/Error";
 import { Mode } from "../../Enums";
-import "../../components/SwalToast/SwalToast.css"
+import "../../components/SwalToast/SwalToast.css";
 import { useTheme } from "../../contexts/Theme";
 
 export default function Classes() {
@@ -17,7 +27,7 @@ export default function Classes() {
   const mode = useAppSelector(getClassroomsStatus);
   const dispatch = useAppDispatch();
   const removeClassHandler = async (classId: string) => {
-    const classroomStudents = await getAllStudents(`classroom/${classId}`);
+    const classroomStudents = await getClassroomStudents(classId);
 
     if (classroomStudents.length) {
       SwalToast.fire({
@@ -64,16 +74,17 @@ export default function Classes() {
 
   const shobClasses = Object.keys(classrooms).length
     ? Object.keys(classrooms).map((shobClass) => {
-      return (
-        <Class
-          key={classrooms[shobClass]._id}
-          id={classrooms[shobClass]._id}
-          name={classrooms[shobClass].name}
-          avilableSeats={classrooms[shobClass].seatsLeft}
-          totalSeats={classrooms[shobClass].capacity}
-          removeClass={removeClassHandler}
-        />
-      )})
+        return (
+          <Class
+            key={classrooms[shobClass]._id}
+            id={classrooms[shobClass]._id}
+            name={classrooms[shobClass].name}
+            avilableSeats={classrooms[shobClass].seatsLeft}
+            totalSeats={classrooms[shobClass].capacity}
+            removeClass={removeClassHandler}
+          />
+        );
+      })
     : [];
 
   const classesPage = Object.keys(classrooms).length ? (

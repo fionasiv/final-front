@@ -7,6 +7,7 @@ import ListModal from "../ListModal/ListModal";
 import DisplayedItem from "../../interfaces/DisplayedItem";
 import {
   getAllStudents,
+  getClassroomStudents,
   removeStudentFromClassroom,
 } from "../../requests/StudentsRequests";
 import { SwalToast } from "../SwalToast/SwalToast";
@@ -32,7 +33,7 @@ export default function Class({
   useEffect(() => {
     if (open) {
       const fetchData = async () => {
-        const classStudents = await getAllStudents(`classroom/${id}`);
+        const classStudents = await getClassroomStudents(id);
         setStudents(
           classStudents.map((student: Student) => {
             return {

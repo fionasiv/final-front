@@ -6,9 +6,9 @@ const api = axios.create({
   baseURL: `${API_CONNECTION_URL}/students/`,
 });
 
-export const getAllStudents = async (path: string) => {
+export const getAllStudents = async () => {
   try {
-    const students = (await api.get(path)).data;
+    const students = (await api.get('')).data;
 
     return students;
   } catch (error) {
@@ -16,6 +16,17 @@ export const getAllStudents = async (path: string) => {
     throw error;
   }
 };
+
+export const getClassroomStudents = async (classroomId: string) => {
+  try {
+    const students = (await api.get(`classroom/${classroomId}`)).data;
+
+    return students;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
 
 export const addStudent = async (student: Student) => {
   try {
