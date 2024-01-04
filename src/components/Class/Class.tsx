@@ -2,8 +2,7 @@ import * as S from "./Class.style";
 import { CardContent, IconButton } from "@mui/material";
 import Person2Icon from "@mui/icons-material/Person2";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { ThemeContext } from "../../App";
-import { useState, useContext, useEffect } from "react";
+import { useState, useEffect } from "react";
 import ListModal from "../ListModal/ListModal";
 import DisplayedItem from "../../interfaces/DisplayedItem";
 import {
@@ -16,6 +15,7 @@ import { addClassroomSeat } from "../../store/reducers/classesSlice";
 import { classProps } from "./ClassInterfaces";
 import Student from "../../interfaces/Student";
 import { removeStudentClass } from "../../store/reducers/studentsSlice";
+import { useTheme } from "../../ThemeContext";
 
 export default function Class({
   id,
@@ -26,7 +26,7 @@ export default function Class({
 }: classProps) {
   const [open, setOpen] = useState(false);
   const [students, setStudents] = useState<DisplayedItem[]>([]);
-  const theme = useContext(ThemeContext);
+  const theme = useTheme();
   const dispatch = useAppDispatch();
 
   useEffect(() => {

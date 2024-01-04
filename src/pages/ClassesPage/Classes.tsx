@@ -8,12 +8,11 @@ import { getClassrooms, getClassroomsStatus, removeClassroomFromState } from "..
 import Swal from "sweetalert2";
 import Error from "../../components/Error/Error";
 import { Mode } from "../../Enums";
-import { useContext } from "react";
-import { ThemeContext } from "../../App";
 import "../../components/SwalToast/SwalToast.css"
+import { useTheme } from "../../ThemeContext";
 
 export default function Classes() {
-  const theme = useContext(ThemeContext);
+  const theme = useTheme();
   const classrooms = useAppSelector(getClassrooms);
   const mode = useAppSelector(getClassroomsStatus);
   const dispatch = useAppDispatch();

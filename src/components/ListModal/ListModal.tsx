@@ -1,9 +1,8 @@
-import React from "react";
 import * as S from "./ListModal.style";
 import { Modal } from "@mui/material";
-import { ThemeContext } from "../../App";
 import DisplayedItem from "../../interfaces/DisplayedItem";
 import { ListModalProps } from "./ListModalInterfaces";
+import { useTheme } from "../../ThemeContext";
 
 export default function ListModal({
   list,
@@ -16,7 +15,7 @@ export default function ListModal({
   handleClose,
   title,
 }: ListModalProps) {
-  const theme = React.useContext(ThemeContext);
+  const theme = useTheme();
 
   const items = list.map((item: DisplayedItem) => (
     <S.Item key={item.id}>

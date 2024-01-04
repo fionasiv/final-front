@@ -2,7 +2,6 @@ import * as S from "./Students.style";
 import Table from "../../components/Table/Table";
 import Error from "../../components/Error/Error";
 import Swal from "sweetalert2";
-import { useContext } from "react";
 import {
   addStudentToClassroom,
   deleteStudent,
@@ -10,13 +9,13 @@ import {
 import { useAppDispatch, useAppSelector } from "../../store/store";
 import { addClassroomSeat } from "../../store/reducers/classesSlice";
 import { Mode } from "../../Enums";
-import { ThemeContext } from "../../App";
 import { SwalToast, SwalToastWithButtons } from "../../components/SwalToast/SwalToast";
 import "../../components/SwalToast/SwalToast.css"
 import { getStudentsStatus, addStudentClass, removeStudentFromState } from "../../store/reducers/studentsSlice";
+import { useTheme } from "../../ThemeContext";
 
 export default function Students() {
-  const theme = useContext(ThemeContext);
+  const theme = useTheme();
   const notFoundImage = `images/notfound-${theme.name}.jpg`;
   const errorImage = `images/error-${theme.name}.jpg`;
   const students = useAppSelector((state) => state.students.data);

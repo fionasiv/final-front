@@ -1,9 +1,9 @@
 import * as S from "./Form.style";
-import { ThemeContext } from "../../App";
-import { useState, useContext } from "react";
+import { useState } from "react";
 import Field from "../../interfaces/Field";
 import Confetti from "react-confetti";
 import { FormProps } from "./FormInterfaces";
+import { useTheme } from "../../ThemeContext";
 
 export default function Form({
   fields,
@@ -11,7 +11,7 @@ export default function Form({
   title,
   createMessage,
 }: FormProps) {
-  const theme = useContext(ThemeContext);
+  const theme = useTheme()
   const fieldNames = fields.map((field: Field) => field.id);
   const fieldObjects: Record<string, string> = {};
   fieldNames.forEach((field: string) => (fieldObjects[field] = ""));

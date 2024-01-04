@@ -1,8 +1,7 @@
-import { useContext } from "react";
-import { ThemeContext } from "../../App";
 import * as S from "./Error.style";
 import { useNavigate } from "react-router-dom";
 import { ErrorProps } from "./ErrorInterfaces";
+import { useTheme } from "../../ThemeContext";
 
 export default function NotFound({
   url,
@@ -11,7 +10,7 @@ export default function NotFound({
   description,
   linkTitle,
 }: ErrorProps) {
-  const theme = useContext(ThemeContext);
+  const theme = useTheme();
   const navigate = useNavigate();
 
   const redirect = () => {

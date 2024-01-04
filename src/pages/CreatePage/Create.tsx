@@ -6,15 +6,14 @@ import { addStudent } from "../../requests/StudentsRequests";
 import ShobClass from "../../interfaces/ShobClass";
 import Student from "../../interfaces/Student";
 import { useAppDispatch } from "../../store/store";
-import { useContext } from "react";
-import { ThemeContext } from "../../App";
 import { SwalToast } from "../../components/SwalToast/SwalToast";
 import "../../components/SwalToast/SwalToast.css"
 import { addClassroomToState } from "../../store/reducers/classesSlice";
 import { addStudentToState } from "../../store/reducers/studentsSlice";
+import { useTheme } from "../../ThemeContext";
 
 export default function Create() {
-  const theme = useContext(ThemeContext);
+  const theme = useTheme();
   const dispatch = useAppDispatch();
 
   const addNewClassroom = async (newClass: ShobClass) => {

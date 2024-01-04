@@ -1,7 +1,6 @@
-import { useState, useContext } from "react";
+import { useState } from "react";
 import * as S from "./Table.style";
 import { columns } from "../../consts/Table";
-import { ThemeContext } from "../../App";
 import ListModal from "../ListModal/ListModal";
 import SchoolIcon from "@mui/icons-material/School";
 import AddIcon from "@mui/icons-material/Add";
@@ -10,13 +9,14 @@ import DisplayedItem from "../../interfaces/DisplayedItem";
 import { subtructClassroomSeat } from "../../store/reducers/classesSlice";
 import { TableProps } from "./TableInterfaces";
 import ShobClass from "../../interfaces/ShobClass";
+import { useTheme } from "../../ThemeContext";
 
 export default function Table({
   addItem,
   deleteItem,
   dataList,
 }: TableProps) {
-  const theme = useContext(ThemeContext);
+  const theme = useTheme();
   const [open, setOpen] = useState<boolean>(false);
   const [currStudent, setCurrStudent] = useState<string>("");
   const [availableClasses, setAvailableClasses] = useState<DisplayedItem[]>([]);
