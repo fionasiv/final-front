@@ -3,7 +3,7 @@ import { useState } from "react";
 import Field from "../../interfaces/Field";
 import Confetti from "react-confetti";
 import { FormProps } from "./FormInterfaces";
-import { useTheme } from "../../ThemeContext";
+import { useTheme } from "../../contexts/Theme";
 
 export default function Form({
   fields,
@@ -46,7 +46,7 @@ export default function Form({
 
   const fieldsList = fields.map((field: Field) => {
     const showError =
-      !field.check(inputs[field.id]).isValid && inputs[field.id] !== "";
+      !field.check(inputs[field.id]).isValid && (inputs[field.id] !== "" || field.isTouched);
 
     return (
       <>
@@ -57,6 +57,7 @@ export default function Form({
           required={field.required ? true : false}
           label={field.label}
           onChange={(event) => handleChange(event, field.id)}
+          onFocus={() => field.isTouched = true}
           error={showError}
         />
         {showError && (

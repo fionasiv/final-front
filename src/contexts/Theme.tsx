@@ -1,6 +1,6 @@
 import { useState, createContext, ReactNode, useContext } from "react";
-import { themes } from "./consts/App";
-import ThemeData from "./interfaces/ThemeData";
+import { themes } from "../consts/App";
+import ThemeData from "../interfaces/ThemeData";
 
 const defaultTheme: ThemeData = {
   name: "blue",

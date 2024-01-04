@@ -11,11 +11,10 @@ import Toolbar from "@mui/material/Toolbar";
 import { routes, themes } from "../../consts/App";
 import ThemeData from "../../interfaces/ThemeData";
 import PageRoute from "../../interfaces/PageRoute";
-import { useTheme, useUpdateTheme } from "../../ThemeContext";
+import { useTheme, useUpdateTheme } from "../../contexts/Theme";
 
 export default function Navbar() {
   const theme = useTheme();
-  console.log(theme);
   const changeTheme = useUpdateTheme()
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);

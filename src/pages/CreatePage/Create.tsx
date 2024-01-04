@@ -10,7 +10,7 @@ import { SwalToast } from "../../components/SwalToast/SwalToast";
 import "../../components/SwalToast/SwalToast.css"
 import { addClassroomToState } from "../../store/reducers/classesSlice";
 import { addStudentToState } from "../../store/reducers/studentsSlice";
-import { useTheme } from "../../ThemeContext";
+import { useTheme } from "../../contexts/Theme";
 
 export default function Create() {
   const theme = useTheme();

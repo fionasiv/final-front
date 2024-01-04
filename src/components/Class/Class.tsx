@@ -15,7 +15,7 @@ import { addClassroomSeat } from "../../store/reducers/classesSlice";
 import { classProps } from "./ClassInterfaces";
 import Student from "../../interfaces/Student";
 import { removeStudentClass } from "../../store/reducers/studentsSlice";
-import { useTheme } from "../../ThemeContext";
+import { useTheme } from "../../contexts/Theme";
 
 export default function Class({
   id,

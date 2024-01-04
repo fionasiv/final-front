@@ -9,7 +9,7 @@ import DisplayedItem from "../../interfaces/DisplayedItem";
 import { subtructClassroomSeat } from "../../store/reducers/classesSlice";
 import { TableProps } from "./TableInterfaces";
 import ShobClass from "../../interfaces/ShobClass";
-import { useTheme } from "../../ThemeContext";
+import { useTheme } from "../../contexts/Theme";
 
 export default function Table({
   addItem,

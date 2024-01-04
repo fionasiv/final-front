@@ -3,5 +3,5 @@ export interface classProps {
   name: string;
   avilableSeats: number;
   totalSeats: number;
-  removeClass: Function;
+  removeClass: (classId: string) => Promise<void>;
 }

@@ -9,7 +9,7 @@ import Swal from "sweetalert2";
 import Error from "../../components/Error/Error";
 import { Mode } from "../../Enums";
 import "../../components/SwalToast/SwalToast.css"
-import { useTheme } from "../../ThemeContext";
+import { useTheme } from "../../contexts/Theme";
 
 export default function Classes() {
   const theme = useTheme();

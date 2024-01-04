@@ -1,7 +1,7 @@
 import * as S from "./Error.style";
 import { useNavigate } from "react-router-dom";
 import { ErrorProps } from "./ErrorInterfaces";
-import { useTheme } from "../../ThemeContext";
+import { useTheme } from "../../contexts/Theme";
 
 export default function NotFound({
   url,

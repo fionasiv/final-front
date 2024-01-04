@@ -6,7 +6,7 @@ import { useAppDispatch } from "./store/store";
 import { fetchClassrooms } from "./store/reducers/classesSlice";
 import { fetchStudents } from "./store/reducers/studentsSlice";
 import { routes } from "./consts/App";
-import { ThemeProvider } from "./ThemeContext";
+import { ThemeProvider } from "./contexts/Theme";
 
 function App() {
   const dispatch = useAppDispatch();

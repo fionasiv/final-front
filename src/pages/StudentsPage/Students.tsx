@@ -12,7 +12,7 @@ import { Mode } from "../../Enums";
 import { SwalToast, SwalToastWithButtons } from "../../components/SwalToast/SwalToast";
 import "../../components/SwalToast/SwalToast.css"
 import { getStudentsStatus, addStudentClass, removeStudentFromState } from "../../store/reducers/studentsSlice";
-import { useTheme } from "../../ThemeContext";
+import { useTheme } from "../../contexts/Theme";
 
 export default function Students() {
   const theme = useTheme();

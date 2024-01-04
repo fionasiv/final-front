@@ -2,7 +2,7 @@ import * as S from "./ListModal.style";
 import { Modal } from "@mui/material";
 import DisplayedItem from "../../interfaces/DisplayedItem";
 import { ListModalProps } from "./ListModalInterfaces";
-import { useTheme } from "../../ThemeContext";
+import { useTheme } from "../../contexts/Theme";
 
 export default function ListModal({
   list,
