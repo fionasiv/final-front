@@ -48,6 +48,12 @@ export default function Form({
     }
   };
 
+  const handleFocus = (field: Field) => {
+    if (field.required) {
+      field.isTouched = true;
+    }
+  };
+
   const isFormValid = () => {
     return !formFields.some((field: Field) => {
       return !field.check(inputs[field.id]).isValid && field.required;
@@ -68,7 +74,7 @@ export default function Form({
           required={field.required ? true : false}
           label={field.label}
           onChange={(event) => handleChange(event, field.id)}
-          onFocus={() => (field.isTouched = true)}
+          onFocus={() => handleFocus(field)}
           error={showError}
         />
         {showError && (

@@ -11,4 +11,4 @@ export interface FormProps {
 export interface FieldCheck {
   isValid: boolean;
   invalidMsg: string;
-}
+}                                                       
