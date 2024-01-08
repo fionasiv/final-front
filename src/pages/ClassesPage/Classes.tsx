@@ -2,7 +2,6 @@ import * as S from "./Classes.style";
 import Class from "../../components/Class/Class";
 import { deleteClassroom } from "../../requests/ClassroomRequests";
 import {
-  getAllStudents,
   getClassroomStudents,
 } from "../../requests/StudentsRequests";
 import {
@@ -11,8 +10,6 @@ import {
 } from "../../components/SwalToast/SwalToast";
 import { useAppDispatch, useAppSelector } from "../../store/store";
 import {
-  getClassrooms,
-  getClassroomsStatus,
   removeClassroomFromState,
 } from "../../store/reducers/classesSlice";
 import Swal from "sweetalert2";
@@ -21,12 +18,13 @@ import { Mode } from "../../Enums";
 import "../../components/SwalToast/SwalToast.css";
 import { useTheme } from "../../contexts/Theme";
 
+
 export default function Classes() {
   const theme = useTheme();
-  const classrooms = useAppSelector(getClassrooms);
-  const mode = useAppSelector(getClassroomsStatus);
+  const classrooms = useAppSelector((state) => state.classrooms.data);
+  const mode = useAppSelector((state) => state.classrooms.status);
   const dispatch = useAppDispatch();
-  const removeClassHandler = async (classId: string) => {
+  const removeClassHandler = async (classId: string) => { 
     const classroomStudents = await getClassroomStudents(classId);
 
     if (classroomStudents.length) {

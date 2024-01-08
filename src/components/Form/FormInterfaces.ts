@@ -1,6 +1,6 @@
 import Field from "../../interfaces/Field";
 
-export interface FormProps {
+export interface FormProps{
   id: string;
   fields: Field[];
   handleCreate: (newItem: any) => Promise<boolean>;

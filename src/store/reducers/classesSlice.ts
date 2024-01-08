@@ -1,6 +1,6 @@
-import { PayloadAction, createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import ShobClass from "../../interfaces/ShobClass";
-import { getAllClassrooms } from "../../requests/ClassroomRequests";
+import { PayloadAction, createSlice, Dispatch } from "@reduxjs/toolkit";
+import ShobClass from "interfaces/ShobClass";
+import { getAllClassrooms } from "requests/ClassroomRequests";
 import { Mode } from "../../Enums";
 
 interface ClassroomState {
@@ -8,16 +8,12 @@ interface ClassroomState {
   status: Mode;
 }
 
-interface State {
-  classrooms: ClassroomState;
-}
-
 const initialState: ClassroomState = {
   data: {},
   status: Mode.LOADING,
 };
 
-export const fetchClassrooms = createAsyncThunk("fetch-classes", async () => {
+export const fetchClassrooms = () => async (dispatch:Dispatch) => {
   try {
     const classrooms = await getAllClassrooms();
     let classroomsMap = Object.fromEntries(
@@ -26,16 +22,24 @@ export const fetchClassrooms = createAsyncThunk("fetch-classes", async () => {
         classroom,
       ])
     );
-    return classroomsMap;
+    dispatch(setClassrooms(classroomsMap));
   } catch (error) {
+    dispatch(setError());
     throw error;
   }
-});
+};
 
 export const classroomSlice = createSlice({
   name: "classrooms",
   initialState,
   reducers: {
+    setClassrooms: (state, action: PayloadAction<Record<string, ShobClass>>) => {
+      state.data = action.payload;
+      state.status = Mode.SUCCESS;
+    },
+    setError: (state, action: PayloadAction) => {
+      state.status = Mode.ERROR;
+    },
     addClassroomToState: (
       state,
       action: PayloadAction<{ classroom: ShobClass }>
@@ -75,22 +79,11 @@ export const classroomSlice = createSlice({
       }
     },
   },
-  extraReducers(builder) {
-    builder
-      .addCase(fetchClassrooms.fulfilled, (state, action) => {
-        state.data = action.payload;
-        state.status = Mode.SUCCESS;
-      })
-      .addCase(fetchClassrooms.rejected, (state, action) => {
-        state.status = Mode.ERROR;
-      })
-  },
 });
 
-export const getClassrooms = (state: State) => state.classrooms.data;
-export const getClassroomsStatus = (state: State) => state.classrooms.status;
-
 export const {
+  setClassrooms,
+  setError,
   addClassroomToState,
   removeClassroomFromState,
   subtructClassroomSeat,

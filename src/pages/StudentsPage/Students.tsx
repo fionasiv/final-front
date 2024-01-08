@@ -11,13 +11,13 @@ import { addClassroomSeat } from "../../store/reducers/classesSlice";
 import { Mode } from "../../Enums";
 import { SwalToast, SwalToastWithButtons } from "../../components/SwalToast/SwalToast";
 import "../../components/SwalToast/SwalToast.css"
-import { getStudentsStatus, updateStudentClass, removeStudentFromState } from "../../store/reducers/studentsSlice";
+import { updateStudentClass, removeStudentFromState } from "../../store/reducers/studentsSlice";
 import { useTheme } from "../../contexts/Theme";
 
 export default function Students() {
   const theme = useTheme();
   const notFoundImage = `images/notfound-${theme.name}.jpg`;
-  const errorImage = `images/error-${theme.name}.jpg`;
+  const errorImage = `images/error-${theme.name}.jpg`;  // change to img component
   const students = useAppSelector((state) => state.students.data);
   const formattedStudents = Object.keys(students).map((studentId) => {
     const student = students[studentId];
@@ -26,13 +26,13 @@ export default function Students() {
       id: student._id,
      }
   })
-  const mode = useAppSelector(getStudentsStatus);
+  const mode = useAppSelector((state) => state.students.status);
   const dispatch = useAppDispatch();
 
   const addStudentToClass = async (classId: string, studentId: string) => {
     try {
       await addStudentToClassroom(classId, studentId);
-      dispatch(updateStudentClass({ classroomId: classId, studentId: studentId }));
+      dispatch(updateStudentClass({ classroomId: classId, studentId }));
       SwalToast.fire({
         icon: "success",
         iconColor: theme.hexColor,

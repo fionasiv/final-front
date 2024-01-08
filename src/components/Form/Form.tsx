@@ -14,7 +14,7 @@ export default function Form({
   const theme = useTheme();
   const fieldNames = fields.map((field: Field) => field.id);
   const fieldObjects: Record<string, string> = {};
-  fieldNames.forEach((field: string) => (fieldObjects[field] = ""));
+  fieldNames.forEach((field: string) => (fieldObjects[field] = "")); 
 
   const [inputs, setInputs] = useState(fieldObjects);
   const [showConfetti, setShowConfetti] = useState(false);
@@ -49,9 +49,7 @@ export default function Form({
   };
 
   const handleFocus = (field: Field) => {
-    if (field.required) {
-      field.isTouched = true;
-    }
+    field.isTouched = true;
   };
 
   const isFormValid = () => {
@@ -63,7 +61,7 @@ export default function Form({
   const fieldsList = formFields.map((field: Field) => {
     const showError =
       !field.check(inputs[field.id]).isValid &&
-      (inputs[field.id] !== "" || field.isTouched);
+      (inputs[field.id] !== "" || (field.required && field.isTouched));
 
     return (
       <>
@@ -71,7 +69,7 @@ export default function Form({
           id={field.id}
           key={field.id}
           value={inputs[field.id]}
-          required={field.required ? true : false}
+          required={!!field.required}
           label={field.label}
           onChange={(event) => handleChange(event, field.id)}
           onFocus={() => handleFocus(field)}

@@ -57,7 +57,7 @@ export default function Table({
   };
 
   const addStudentToClass = async (classId: string) => {
-    await addItem(classId, currStudent);
+    await addItem(classId, currStudent);//subtractClassroomSeat should be in the logic of the send function not hendled in table
     handleOpen();
     dispatch(subtructClassroomSeat({ classroomId: classId }));
   };
@@ -80,7 +80,7 @@ export default function Table({
         };
       });
 
-    setAvailableClasses(available);
+    setAvailableClasses(available); //TODO- fix this
   };
 
   return (

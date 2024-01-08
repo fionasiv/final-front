@@ -8,7 +8,7 @@ const api = axios.create({
 
 export const getAllClassrooms = async () => {
   try {
-    const classrooms = (await api.get("")).data;
+    const classrooms = (await api.get<ShobClass[]>("")).data;
 
     return classrooms;
   } catch (error) {

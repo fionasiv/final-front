@@ -1,16 +1,16 @@
 import * as S from "./Create.style";
-import Form from "../../components/Form/Form";
-import { NewClassFields, AddStudentFields } from "../../consts/Form";
-import { addClassroom } from "../../requests/ClassroomRequests";
-import { addStudent } from "../../requests/StudentsRequests";
-import ShobClass from "../../interfaces/ShobClass";
-import Student from "../../interfaces/Student";
-import { useAppDispatch } from "../../store/store";
-import { SwalToast } from "../../components/SwalToast/SwalToast";
-import "../../components/SwalToast/SwalToast.css"
-import { addClassroomToState } from "../../store/reducers/classesSlice";
-import { addStudentToState } from "../../store/reducers/studentsSlice";
-import { useTheme } from "../../contexts/Theme";
+import Form from "components/Form/Form";
+import { NewClassFields, AddStudentFields } from "consts/Form";
+import { addClassroom } from "requests/ClassroomRequests";
+import { addStudent } from "requests/StudentsRequests";
+import ShobClass from "interfaces/ShobClass";
+import Student from "interfaces/Student";
+import { useAppDispatch } from "store/store";
+import { SwalToast } from "components/SwalToast/SwalToast";
+import "components/SwalToast/SwalToast.css"
+import { addClassroomToState } from "store/reducers/classesSlice";
+import { addStudentToState } from "store/reducers/studentsSlice";
+import { useTheme } from "contexts/Theme";
 
 export default function Create() {
   const theme = useTheme();
@@ -82,7 +82,7 @@ export default function Create() {
       });
     }
 
-      return false;
+      return false;//use try catch for check over boolean return
     }
   };
 

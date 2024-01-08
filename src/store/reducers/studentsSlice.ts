@@ -1,4 +1,4 @@
-import { PayloadAction, createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { PayloadAction, createSlice, Dispatch } from "@reduxjs/toolkit";
 import Student from "../../interfaces/Student";
 import { getAllStudents } from "../../requests/StudentsRequests";
 import { Mode } from "../../Enums";
@@ -8,31 +8,35 @@ interface StudentState {
   status: Mode;
 }
 
-interface State {
-  students: StudentState;
-}
-
 const initialState: StudentState = {
   data: {},
   status: Mode.LOADING,
 };
 
-export const fetchStudents = createAsyncThunk("fetch-students", async () => {
+export const fetchStudents = () => async (dispatch:Dispatch) => {
   try {
     const students = await getAllStudents();
     let studentsMap = Object.fromEntries(
       students.map((student: Student) => [student._id, student])
     );
-    return studentsMap;
+    dispatch(setStudents(studentsMap));
   } catch (error) {
+    dispatch(setError());
     throw error;
   }
-});
+};
 
 export const studentsSlice = createSlice({
   name: "students",
   initialState,
   reducers: {
+    setStudents: (state, action: PayloadAction<Record<string, Student>>) => {
+      state.data = action.payload;
+      state.status = Mode.SUCCESS;
+    },
+    setError: (state, action: PayloadAction) => {
+      state.status = Mode.ERROR;
+    },
     addStudentToState: (state, action: PayloadAction<{ student: Student }>) => {
       state.data[action.payload.student._id] = action.payload.student;
     },
@@ -56,22 +60,11 @@ export const studentsSlice = createSlice({
       }
     },
   },
-  extraReducers(builder) {
-    builder
-      .addCase(fetchStudents.fulfilled, (state, action) => {
-        state.data = action.payload;
-        state.status = Mode.SUCCESS;
-      })
-      .addCase(fetchStudents.rejected, (state, action) => {
-        state.status = Mode.ERROR;
-      });
-  },
 });
 
-export const getStudents = (state: State) => state.students.data;
-export const getStudentsStatus = (state: State) => state.students.status;
-
 export const {
+  setStudents,
+  setError,
   addStudentToState,
   removeStudentFromState,
   updateStudentClass,

@@ -6,7 +6,6 @@ import { useState, useEffect } from "react";
 import ListModal from "../ListModal/ListModal";
 import DisplayedItem from "../../interfaces/DisplayedItem";
 import {
-  getAllStudents,
   getClassroomStudents,
   removeStudentFromClassroom,
 } from "../../requests/StudentsRequests";

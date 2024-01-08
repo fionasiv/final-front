@@ -19,7 +19,7 @@ export const getAllStudents = async () => {
 
 export const getClassroomStudents = async (classroomId: string) => {
   try {
-    const students = (await api.get("classroom", { data: { id: classroomId } }))
+    const students = (await api.get("classroom", { data: { id: classroomId } })) // post req instead
       .data;
 
     return students;
