@@ -15,7 +15,7 @@ import { useAppDispatch } from "../../store/store";
 import { addClassroomSeat } from "../../store/reducers/classesSlice";
 import { classProps } from "./ClassInterfaces";
 import Student from "../../interfaces/Student";
-import { removeStudentClass } from "../../store/reducers/studentsSlice";
+import { updateStudentClass } from "../../store/reducers/studentsSlice";
 import { useTheme } from "../../contexts/Theme";
 
 export default function Class({
@@ -57,7 +57,7 @@ export default function Class({
       setStudents((prevStudents) =>
         prevStudents.filter((student) => student.id !== studentId)
       );
-      dispatch(removeStudentClass({ studentId: studentId }));
+      dispatch(updateStudentClass({ studentId: studentId }));
       dispatch(addClassroomSeat({ classroomId: id }));
       SwalToast.fire({
         icon: "success",

@@ -11,7 +11,7 @@ import { addClassroomSeat } from "../../store/reducers/classesSlice";
 import { Mode } from "../../Enums";
 import { SwalToast, SwalToastWithButtons } from "../../components/SwalToast/SwalToast";
 import "../../components/SwalToast/SwalToast.css"
-import { getStudentsStatus, addStudentClass, removeStudentFromState } from "../../store/reducers/studentsSlice";
+import { getStudentsStatus, updateStudentClass, removeStudentFromState } from "../../store/reducers/studentsSlice";
 import { useTheme } from "../../contexts/Theme";
 
 export default function Students() {
@@ -32,7 +32,7 @@ export default function Students() {
   const addStudentToClass = async (classId: string, studentId: string) => {
     try {
       await addStudentToClassroom(classId, studentId);
-      dispatch(addStudentClass({ classroomId: classId, studentId: studentId }));
+      dispatch(updateStudentClass({ classroomId: classId, studentId: studentId }));
       SwalToast.fire({
         icon: "success",
         iconColor: theme.hexColor,

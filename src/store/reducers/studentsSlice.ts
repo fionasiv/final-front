@@ -42,29 +42,16 @@ export const studentsSlice = createSlice({
     ) => {
       delete state.data[action.payload.studentId];
     },
-    addStudentClass: (
+    updateStudentClass: (
       state,
-      action: PayloadAction<{ classroomId: string; studentId: string }>
+      action: PayloadAction<{ classroomId?: string; studentId: string }>
     ) => {
-      let student = state.data[action.payload.studentId];
+      const student = state.data[action.payload.studentId];
 
       if (student) {
         state.data[action.payload.studentId] = {
           ...student,
-          classroom: action.payload.classroomId,
-        };
-      }
-    },
-    removeStudentClass: (
-      state,
-      action: PayloadAction<{ studentId: string }>
-    ) => {
-      let student = state.data[action.payload.studentId];
-
-      if (student) {
-        state.data[action.payload.studentId] = {
-          ...student,
-          classroom: "",
+          classroom: action.payload.classroomId ? action.payload.classroomId : "",
         };
       }
     },
@@ -87,7 +74,6 @@ export const getStudentsStatus = (state: State) => state.students.status;
 export const {
   addStudentToState,
   removeStudentFromState,
-  addStudentClass,
-  removeStudentClass,
+  updateStudentClass,
 } = studentsSlice.actions;
 export default studentsSlice.reducer;
