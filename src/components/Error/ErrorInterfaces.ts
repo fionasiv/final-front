@@ -1,6 +1,8 @@
+import { ReactNode } from "react";
+
 export interface ErrorProps {
   url?: string;
-  image: string;
+  image: ReactNode;
   title: string;
   description: string;
   linkTitle?: string;

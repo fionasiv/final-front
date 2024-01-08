@@ -1,2 +1,1 @@
-export const API_CONNECTION_URL = `http://localhost:3000`;
-// Use env
+export const API_CONNECTION_URL = `http://${process.env.SERVER_HOST || "localhost"}:${process.env.SERVER_PORT || 3000}`;

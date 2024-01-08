@@ -23,6 +23,8 @@ export default function Classes() {
   const theme = useTheme()[0];
   const classrooms = useAppSelector((state) => state.classrooms.data);
   const mode = useAppSelector((state) => state.classrooms.status);
+  const notFoundImage = <img src={`images/notfound-${theme.name}.jpg`} alt="" />;
+  const errorImage = <img src={`images/error-${theme.name}.jpg`} alt="" />;
   const dispatch = useAppDispatch();
   const removeClassHandler = async (classId: string) => { 
     const classroomStudents = await getClassroomStudents(classId);
@@ -93,7 +95,7 @@ export default function Classes() {
       description="נסו שנית מאוחר יותר"
       linkTitle="צרו כיתה חדשה"
       url="/create"
-      image={`../../assets/images/notfound-${theme.name}.jpg`}
+      image={notFoundImage}
     />
   );
 
@@ -102,7 +104,7 @@ export default function Classes() {
       <Error
         title="חלה תקלה בחיבור לשרת"
         description="נסו שנית מאוחר יותר"
-        image={`../../assets/images/error-${theme.name}.jpg`}
+        image={errorImage}
       />
     );
   } else if (mode === Mode.LOADING) {

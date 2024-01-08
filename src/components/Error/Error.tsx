@@ -21,7 +21,7 @@ export default function NotFound({
 
   return (
     <S.ErrorWrapper>
-      <S.Image src={image} />
+      {image}
       <S.TextArea>
         <S.Title coloring={theme.hexColor}>{title}</S.Title>
         <S.Description color={theme.hexColor}>{description}</S.Description>

@@ -16,8 +16,8 @@ import { useTheme } from "../../contexts/Theme";
 
 export default function Students() {
   const theme = useTheme()[0];
-  const notFoundImage = `images/notfound-${theme.name}.jpg`;
-  const errorImage = `images/error-${theme.name}.jpg`;  // change to img component
+  const notFoundImage = <img src={`images/notfound-${theme.name}.jpg`} alt="" />;
+  const errorImage = <img src={`images/error-${theme.name}.jpg`} alt="" />;
   const students = useAppSelector((state) => state.students.data);
   const formattedStudents = Object.keys(students).map((studentId) => {
     const student = students[studentId];
