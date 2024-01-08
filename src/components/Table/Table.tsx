@@ -4,24 +4,18 @@ import { columns } from "../../consts/Table";
 import ListModal from "../ListModal/ListModal";
 import SchoolIcon from "@mui/icons-material/School";
 import AddIcon from "@mui/icons-material/Add";
-import { useAppDispatch, useAppSelector } from "../../store/store";
+import { useAppSelector } from "../../store/store";
 import DisplayedItem from "../../interfaces/DisplayedItem";
-import { subtructClassroomSeat } from "../../store/reducers/classesSlice";
 import { TableProps } from "./TableInterfaces";
 import ShobClass from "../../interfaces/ShobClass";
 import { useTheme } from "../../contexts/Theme";
 
-export default function Table({
-  addItem,
-  deleteItem,
-  dataList,
-}: TableProps) {
-  const theme = useTheme();
+export default function Table({ addItem, deleteItem, dataList }: TableProps) {
+  const theme = useTheme()[0];
   const [open, setOpen] = useState<boolean>(false);
   const [currStudent, setCurrStudent] = useState<string>("");
   const [availableClasses, setAvailableClasses] = useState<DisplayedItem[]>([]);
   const classrooms = useAppSelector((state) => state.classrooms.data);
-  const dispatch = useAppDispatch();
 
   const deleteButton = (props: any) => {
     async function handleDelete() {
@@ -57,9 +51,8 @@ export default function Table({
   };
 
   const addStudentToClass = async (classId: string) => {
-    await addItem(classId, currStudent);//subtractClassroomSeat should be in the logic of the send function not hendled in table
+    await addItem(classId, currStudent);
     handleOpen();
-    dispatch(subtructClassroomSeat({ classroomId: classId }));
   };
 
   const removeStudent = async (studentId: string) => {
@@ -71,16 +64,16 @@ export default function Table({
   };
 
   const updateAvilabillity = () => {
-    const available = Object.values(classrooms)
-      .filter((classroom: ShobClass) => classroom.seatsLeft > 0)
-      .map((classroom: ShobClass) => {
-        return {
-          id: classroom._id,
-          name: classroom.name,
-        };
-      });
-
-    setAvailableClasses(available); //TODO- fix this
+    setAvailableClasses((prevAvailable) =>
+      Object.values(classrooms)
+        .filter((classroom: ShobClass) => classroom.seatsLeft > 0)
+        .map((classroom: ShobClass) => {
+          return {
+            id: classroom._id,
+            name: classroom.name,
+          };
+        })
+    );
   };
 
   return (

@@ -10,7 +10,7 @@ export default function NotFound({
   description,
   linkTitle,
 }: ErrorProps) {
-  const theme = useTheme();
+  const theme = useTheme()[0];
   const navigate = useNavigate();
 
   const redirect = () => {

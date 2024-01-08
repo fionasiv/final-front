@@ -11,7 +11,7 @@ export default function Form({
   title,
   createMessage,
 }: FormProps) {
-  const theme = useTheme();
+  const theme = useTheme()[0];
   const fieldNames = fields.map((field: Field) => field.id);
   const fieldObjects: Record<string, string> = {};
   fieldNames.forEach((field: string) => (fieldObjects[field] = "")); 

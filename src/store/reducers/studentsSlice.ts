@@ -13,7 +13,7 @@ const initialState: StudentState = {
   status: Mode.LOADING,
 };
 
-export const fetchStudents = () => async (dispatch:Dispatch) => {
+export const fetchStudents = () => async (dispatch: Dispatch) => {
   try {
     const students = await getAllStudents();
     let studentsMap = Object.fromEntries(
@@ -55,7 +55,9 @@ export const studentsSlice = createSlice({
       if (student) {
         state.data[action.payload.studentId] = {
           ...student,
-          classroom: action.payload.classroomId ? action.payload.classroomId : "",
+          classroom: action.payload.classroomId
+            ? action.payload.classroomId
+            : "",
         };
       }
     },

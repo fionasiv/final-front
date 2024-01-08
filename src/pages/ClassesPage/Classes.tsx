@@ -20,7 +20,7 @@ import { useTheme } from "../../contexts/Theme";
 
 
 export default function Classes() {
-  const theme = useTheme();
+  const theme = useTheme()[0];
   const classrooms = useAppSelector((state) => state.classrooms.data);
   const mode = useAppSelector((state) => state.classrooms.status);
   const dispatch = useAppDispatch();

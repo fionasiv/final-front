@@ -13,7 +13,7 @@ import { addStudentToState } from "store/reducers/studentsSlice";
 import { useTheme } from "contexts/Theme";
 
 export default function Create() {
-  const theme = useTheme();
+  const theme = useTheme()[0];
   const dispatch = useAppDispatch();
 
   const addNewClassroom = async (newClass: ShobClass) => {

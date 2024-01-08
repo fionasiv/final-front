@@ -26,13 +26,14 @@ export default function Class({
 }: classProps) {
   const [open, setOpen] = useState(false);
   const [students, setStudents] = useState<DisplayedItem[]>([]);
-  const theme = useTheme();
+  const theme = useTheme()[0];
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     if (open) {
       const fetchData = async () => {
         const classStudents = await getClassroomStudents(id);
+        console.log(classStudents)
         setStudents(
           classStudents.map((student: Student) => {
             return {

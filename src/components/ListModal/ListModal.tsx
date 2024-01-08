@@ -15,7 +15,7 @@ export default function ListModal({
   handleClose,
   title,
 }: ListModalProps) {
-  const theme = useTheme();
+  const theme = useTheme()[0];
 
   const items = list.map((item: DisplayedItem) => (
     <S.Item key={item.id}>

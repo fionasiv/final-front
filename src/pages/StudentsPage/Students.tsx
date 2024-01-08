@@ -7,7 +7,7 @@ import {
   deleteStudent,
 } from "../../requests/StudentsRequests";
 import { useAppDispatch, useAppSelector } from "../../store/store";
-import { addClassroomSeat } from "../../store/reducers/classesSlice";
+import { addClassroomSeat, subtructClassroomSeat } from "../../store/reducers/classesSlice";
 import { Mode } from "../../Enums";
 import { SwalToast, SwalToastWithButtons } from "../../components/SwalToast/SwalToast";
 import "../../components/SwalToast/SwalToast.css"
@@ -15,7 +15,7 @@ import { updateStudentClass, removeStudentFromState } from "../../store/reducers
 import { useTheme } from "../../contexts/Theme";
 
 export default function Students() {
-  const theme = useTheme();
+  const theme = useTheme()[0];
   const notFoundImage = `images/notfound-${theme.name}.jpg`;
   const errorImage = `images/error-${theme.name}.jpg`;  // change to img component
   const students = useAppSelector((state) => state.students.data);
@@ -32,7 +32,8 @@ export default function Students() {
   const addStudentToClass = async (classId: string, studentId: string) => {
     try {
       await addStudentToClassroom(classId, studentId);
-      dispatch(updateStudentClass({ classroomId: classId, studentId }));
+      dispatch(updateStudentClass({ classroomId: classId, studentId: studentId }));
+      dispatch(subtructClassroomSeat({ classroomId: classId }));
       SwalToast.fire({
         icon: "success",
         iconColor: theme.hexColor,
