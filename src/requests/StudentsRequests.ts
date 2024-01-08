@@ -8,7 +8,7 @@ const api = axios.create({
 
 export const getAllStudents = async () => {
   try {
-    const students = (await api.get('')).data;
+    const students = (await api.get("")).data;
 
     return students;
   } catch (error) {
@@ -19,14 +19,15 @@ export const getAllStudents = async () => {
 
 export const getClassroomStudents = async (classroomId: string) => {
   try {
-    const students = (await api.get(`classroom/${classroomId}`)).data;
+    const students = (await api.get("classroom", { data: { id: classroomId } }))
+      .data;
 
     return students;
   } catch (error) {
     console.error(error);
     throw error;
   }
-}
+};
 
 export const addStudent = async (student: Student) => {
   try {
@@ -39,7 +40,7 @@ export const addStudent = async (student: Student) => {
 
 export const deleteStudent = async (studentId: string) => {
   try {
-    await api.delete(studentId);
+    await api.delete("", {data: {id: studentId}});
   } catch (error) {
     console.error(error);
     throw error;
@@ -51,7 +52,7 @@ export const addStudentToClassroom = async (
   studentId: string
 ) => {
   try {
-    await api.patch(`${studentId}/classroom/${classId}`);
+    await api.patch("classroom/new", { id: studentId, classId: classId });
   } catch (error) {
     console.error(error);
     throw error;
@@ -60,7 +61,7 @@ export const addStudentToClassroom = async (
 
 export const removeStudentFromClassroom = async (studentId: string) => {
   try {
-    await api.patch(`${studentId}/classroom`);
+    await api.patch("classroom", { id: studentId });
   } catch (error) {
     console.error(error);
     throw error;

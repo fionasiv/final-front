@@ -27,7 +27,7 @@ export const addClassroom = async (shobClass: ShobClass) => {
 
 export const deleteClassroom = async (classId: string) => {
   try {
-    await api.delete(classId);
+    await api.delete("", {data: { id: classId} });
   } catch (error) {
     console.error(error);
     throw error;
